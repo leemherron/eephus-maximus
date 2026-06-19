@@ -1,0 +1,52 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #0f1a0f;
+  --surface: #162116;
+  --green: #2d5a27;
+  --cream: #f5f0e8;
+  --muted: #8a9e85;
+  --accent: #c8a84b;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--cream);
+  font-family: 'Georgia', serif;
+  min-height: 100vh;
+}
+
+header {
+  border-bottom: 1px solid var(--green);
+  padding: 2.5rem 2rem 2rem;
+  text-align: center;
+}
+
+header h1 {
+  font-size: clamp(2.4rem, 6vw, 4.5rem);
+  letter-spacing: 0.03em;
+  color: var(--cream);
+  font-weight: normal;
+}
+
+header h1 span {
+  color: var(--accent);
+}
+
+.tagline {
+  margin-top: 0.5rem;
+  color: var(--muted);
+  font-style: italic;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+}
+
+main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
