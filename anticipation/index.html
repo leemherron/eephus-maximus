@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Read the Swing — Eephus Maximus</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- START -->
+  <div id="start-screen" class="screen">
+    <a href="/" class="back-link">← Eephus Maximus</a>
+    <h1>Read the Swing</h1>
+    <p class="subtitle">
+      The pitch is in. The swing is happening.<br>
+      Where does it go?
+    </p>
+    <div class="criteria">
+      Exit velo 90–100 mph &nbsp;·&nbsp; Launch angle 10–30°
+    </div>
+    <button id="start-btn">Start</button>
+  </div>
+
+  <!-- GAME -->
+  <div id="game-screen" class="screen hidden">
+    <header class="game-header">
+      <a href="/" class="back-link">← Eephus Maximus</a>
+      <div class="progress-wrap">
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+        <span id="progress-text">1 / 25</span>
+      </div>
+      <div id="score-display">0 / 0</div>
+    </header>
+
+    <div class="video-wrap">
+      <video id="play-video" playsinline></video>
+      <button id="tap-to-play" class="tap-overlay hidden">▶ Tap to play</button>
+    </div>
+
+    <div class="batter-bar">
+      <span id="batter-name"></span>
+      <span id="game-date" class="muted"></span>
+    </div>
+
+    <div id="action-area">
+      <div id="guess-section">
+        <p class="prompt">Where will it go?</p>
+        <div class="guess-buttons">
+          <button class="guess-btn" data-dir="pull">Pull</button>
+          <button class="guess-btn" data-dir="center">Center</button>
+          <button class="guess-btn" data-dir="oppo">Oppo</button>
+        </div>
+      </div>
+
+      <div id="reveal-section" class="hidden">
+        <div id="result-line"></div>
+        <div id="detail-line" class="muted"></div>
+        <button id="next-btn">Next →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPLETE -->
+  <div id="complete-screen" class="screen hidden">
+    <a href="/" class="back-link">← Eephus Maximus</a>
+    <h2>Final Score</h2>
+    <div id="final-score-display"></div>
+    <div id="breakdown-table"></div>
+    <button id="replay-btn">Play Again</button>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

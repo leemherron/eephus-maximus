@@ -50,3 +50,32 @@ main {
   margin: 0 auto;
   padding: 3rem 2rem;
 }
+
+.projects {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--green);
+  border-radius: 2px;
+  text-decoration: none;
+  transition: background 0.12s;
+}
+.project-card:hover { background: var(--surface); }
+
+.project-title {
+  color: var(--cream);
+  font-size: 1.1rem;
+  letter-spacing: 0.03em;
+}
+.project-desc {
+  color: var(--muted);
+  font-style: italic;
+  font-size: 0.875rem;
+}
