@@ -212,6 +212,23 @@ body {
   color: var(--correct);
 }
 
+#watch-again-btn {
+  margin-top: 0.75rem;
+  background: none;
+  border: 1px solid var(--muted);
+  color: var(--muted);
+  padding: 0.45rem 1.25rem;
+  font-family: inherit;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: border-color 0.12s, color 0.12s;
+}
+#watch-again-btn:hover { border-color: var(--cream); color: var(--cream); }
+#watch-again-btn:disabled { opacity: 0.25; cursor: default; }
+#watch-again-btn:disabled:hover { border-color: var(--muted); color: var(--muted); }
+
 /* ── reveal ── */
 #reveal-section {
   text-align: center;
@@ -256,7 +273,7 @@ body {
 #breakdown-table {
   width: 100%;
   max-width: 300px;
-  margin: 1.5rem 0 2.5rem;
+  margin: 1.5rem 0 1.5rem;
   border-top: 1px solid var(--green);
 }
 .breakdown-row {
@@ -272,4 +289,105 @@ body {
 @media (max-width: 480px) {
   .guess-btn { font-size: 0.9rem; padding: 0.85rem 0; }
   #final-score-display { font-size: 2.5rem; }
+}
+
+/* ── start: how-to ── */
+.howto {
+  max-width: 30rem;
+  text-align: center;
+  font-size: 0.85rem;
+  line-height: 1.7;
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+.howto b { color: var(--cream); font-weight: normal; }
+.howto .keys { display: block; margin-top: 0.5rem; font-size: 0.75rem; }
+kbd {
+  background: var(--surface);
+  border: 1px solid var(--green);
+  border-radius: 2px;
+  padding: 0 4px;
+  font-family: monospace;
+  color: var(--cream);
+}
+
+/* ── freeze tag ── */
+#guess-section { width: 100%; display: flex; flex-direction: column; align-items: center; }
+#freeze-tag {
+  position: absolute;
+  z-index: 2;
+  top: 0.6rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(15, 26, 15, 0.85);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.8rem;
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+/* ── batter bar extras ── */
+.hand {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 2px;
+  padding: 0 0.3rem;
+  margin-left: 0.35rem;
+  vertical-align: 2px;
+}
+.batter-bar { gap: 1rem; }
+#matchup { text-align: right; font-size: 0.8rem; }
+
+/* ── guess buttons: field-side sublabel ── */
+.guess-btn .side {
+  display: block;
+  font-size: 0.68rem;
+  color: var(--muted);
+  font-style: italic;
+  letter-spacing: 0.04em;
+  margin-top: 0.2rem;
+}
+.guess-btn.correct .side,
+.guess-btn.wrong .side { color: rgba(255,255,255,0.8); }
+
+/* ── reveal: spray chart ── */
+.reveal-grid {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  text-align: left;
+}
+#spray { width: 180px; flex-shrink: 0; }
+#spray .field      { fill: var(--surface); stroke: var(--green); stroke-width: 1; }
+#spray .infield    { fill: none; stroke: var(--muted); stroke-width: 0.8; opacity: 0.5; }
+#spray .divider    { stroke: var(--muted); stroke-width: 0.6; stroke-dasharray: 3 3; }
+#spray .zone-right { fill: var(--correct); opacity: 0.22; }
+#spray .zone-wrong { fill: var(--wrong); opacity: 0.18; }
+#spray .flight     { stroke: var(--accent); stroke-width: 1.2; stroke-dasharray: 2 2; }
+#spray .ball       { fill: var(--accent); stroke: var(--bg); stroke-width: 1.5; }
+#spray .zone-label { fill: var(--muted); font-size: 11px; text-anchor: middle; font-family: Georgia, serif; }
+.reveal-text { flex: 1; }
+.reveal-text #next-btn { margin-top: 0.25rem; }
+#detail-line { color: var(--cream); margin-bottom: 0.4rem; }
+#desc-line { font-size: 0.8rem; line-height: 1.5; margin-bottom: 1rem; }
+
+/* ── complete: baseline + history ── */
+#baseline-line { text-align: center; font-size: 0.85rem; max-width: 26rem; line-height: 1.6; }
+#emoji-line { margin-top: 1rem; font-size: 0.9rem; letter-spacing: 1px; text-align: center; word-break: break-all; }
+#history-list { width: 100%; max-width: 360px; margin-bottom: 2.5rem; font-size: 0.82rem; }
+.history-row { display: flex; justify-content: space-between; padding: 0.3rem 0; border-bottom: 1px solid var(--surface); }
+.history-row.ok span:first-child   { color: var(--correct); }
+.history-row.miss span:first-child { color: var(--wrong); }
+
+@media (max-width: 480px) {
+  .reveal-grid { flex-direction: column; text-align: center; gap: 0.75rem; }
+  #spray { width: 160px; }
+  .batter-bar { flex-direction: column; gap: 0.15rem; }
+  #matchup { text-align: left; }
 }

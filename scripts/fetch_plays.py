@@ -1,13 +1,20 @@
 #!/usr/bin/env python3
 """
-Fetches 25 Statcast plays matching the anticipation game criteria:
-  exit velocity 90-100 mph, launch angle 10-30 degrees
-Saves metadata to anticipation/data.json.
+Fetches a direction-balanced set of Statcast plays (EV 90-100, LA 10-30;
+default 8 pull / 8 center / 8 oppo, none within 3° of a boundary) from Baseball Savant,
+then resolves each to a UUID playId via the MLB Stats API so videos can
+be downloaded from sporty-videos.
+Saves to anticipation/data.json.
 """
 import sys
 import os
 import json
+import time
+import requests
 import pandas as pd
+import io
+import math
+import argparse
 
 try:
     from pybaseball import statcast
@@ -22,31 +29,38 @@ except ImportError:
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUTPUT = os.path.join(HERE, '..', 'anticipation', 'data.json')
+HEADERS = {"User-Agent": "Mozilla/5.0"}
 
 
-def classify_direction(hc_x, stand):
-    """Pull/Center/Oppo from hit coordinate and batter handedness."""
-    if pd.isna(hc_x):
+# ── direction ──────────────────────────────────────────────────────────────────
+
+HOME_X, HOME_Y = 125.42, 198.27   # home plate in Statcast hc_x/hc_y space
+CENTER_HALF_WIDTH = 15.0          # ±15° = straightaway; splits fair territory into thirds (Savant convention)
+BORDERLINE = 3.0                  # within this many degrees of a boundary → ambiguous
+
+
+def spray_angle(hc_x, hc_y):
+    """Degrees from straightaway center: negative = 3B/LF side, positive = 1B/RF side."""
+    if pd.isna(hc_x) or pd.isna(hc_y):
         return None
-    # hc_x ~0=far left, ~250=far right (catcher's view)
-    # RHB: pull=left field (low x), oppo=right field (high x)
-    # LHB: pull=right field (high x), oppo=left field (low x)
-    if hc_x < 100:
-        return 'pull' if stand == 'R' else 'oppo'
-    elif hc_x > 150:
-        return 'oppo' if stand == 'R' else 'pull'
-    else:
+    return math.degrees(math.atan2(float(hc_x) - HOME_X, HOME_Y - float(hc_y)))
+
+
+def classify_direction(angle, stand):
+    if angle is None:
+        return None
+    if abs(angle) <= CENTER_HALF_WIDTH:
         return 'center'
+    to_left = angle < 0
+    return 'pull' if to_left == (stand == 'R') else 'oppo'
 
 
-def fmt_name(raw):
-    """'Alvarez, Yordan' → 'Yordan Alvarez'"""
-    raw = str(raw)
-    if ', ' in raw:
-        last, first = raw.split(', ', 1)
-        return f"{first} {last}"
-    return raw
+def is_borderline(angle):
+    return angle is not None and abs(abs(angle) - CENTER_HALF_WIDTH) < BORDERLINE
 
+
+
+# ── statcast fetch ─────────────────────────────────────────────────────────────
 
 def fetch_window(start, end):
     print(f"  Fetching {start} → {end} ...")
@@ -55,63 +69,220 @@ def fetch_window(start, end):
         df['launch_speed'].between(90, 100) &
         df['launch_angle'].between(10, 30) &
         df['type'].eq('X') &
-        df['sv_id'].notna() &
         df['hc_x'].notna() &
-        df['hc_y'].notna()
+        df['hc_y'].notna() &
+        df['game_pk'].notna()
     )
     return df[mask].copy()
 
 
-def main():
-    print("Fetching Statcast data from Baseball Savant...")
+# ── MLB Stats API UUID lookup ──────────────────────────────────────────────────
 
-    filtered = fetch_window('2024-07-01', '2024-07-14')
-    print(f"  Found {len(filtered)} matching plays so far.")
+_game_cache = {}
 
-    if len(filtered) < 25:
-        more = fetch_window('2024-07-15', '2024-07-31')
-        filtered = pd.concat([filtered, more])
-        print(f"  Extended to full July: {len(filtered)} plays.")
+def load_game(game_pk):
+    gk = int(game_pk)
+    if gk not in _game_cache:
+        url = f"https://statsapi.mlb.com/api/v1.1/game/{gk}/feed/live"
+        try:
+            r = requests.get(url, headers=HEADERS, timeout=15)
+            _game_cache[gk] = r.json()['liveData']['plays']['allPlays']
+        except Exception as e:
+            print(f"    Stats API error for game {gk}: {e}")
+            _game_cache[gk] = []
+    return _game_cache[int(game_pk)]
 
-    if len(filtered) < 25:
-        more = fetch_window('2024-06-01', '2024-06-30')
-        filtered = pd.concat([filtered, more])
-        print(f"  Extended to June: {len(filtered)} plays.")
+def get_play_id(game_pk, at_bat_number, pitch_number, launch_speed, launch_angle):
+    """
+    Uniquely identify a pitch by at_bat_number + pitch_number.
+    at_bat_number in the CSV is 1-indexed; atBatIndex in Stats API is 0-indexed.
+    Falls back to EV+LA matching if the index lookup fails.
+    """
+    all_plays = load_game(game_pk)
 
-    if len(filtered) < 25:
-        sys.exit(f"Only {len(filtered)} plays found. Widen the date range.")
+    # Primary: use at_bat position + pitch number (guaranteed unique)
+    ab_idx = int(at_bat_number) - 1
+    if 0 <= ab_idx < len(all_plays):
+        for event in all_plays[ab_idx].get('playEvents', []):
+            if event.get('pitchNumber') == int(pitch_number):
+                hd = event.get('hitData') or {}
+                ev = hd.get('launchSpeed')
+                pid = event.get('playId')
+                if pid and ev and abs(float(ev) - float(launch_speed)) < 1.0:
+                    return pid, all_plays[ab_idx], event
 
-    sample = filtered.sample(25, random_state=42).reset_index(drop=True)
+    # Fallback: EV + LA (much safer than EV alone)
+    for play in all_plays:
+        for event in play.get('playEvents', []):
+            hd = event.get('hitData') or {}
+            ev  = hd.get('launchSpeed')
+            la  = hd.get('launchAngle')
+            pid = event.get('playId')
+            if (pid and ev and la and
+                    abs(float(ev) - float(launch_speed)) < 0.2 and
+                    abs(float(la) - float(launch_angle)) < 1.0):
+                return pid, play, event
 
-    plays = []
-    for _, row in sample.iterrows():
-        direction = classify_direction(row['hc_x'], row['stand'])
-        if direction is None:
-            continue
-        plays.append({
-            "sv_id": str(row['sv_id']),
-            "batter": fmt_name(row.get('player_name', row['batter'])),
-            "stand": str(row['stand']),
-            "events": str(row.get('events', '')),
-            "launch_speed": round(float(row['launch_speed']), 1),
-            "launch_angle": round(float(row['launch_angle']), 1),
-            "hc_x": round(float(row['hc_x']), 1),
-            "direction": direction,
-            "game_date": str(row.get('game_date', ''))[:10],
-            "clip_file": None,
-            "duration": None,
-            "pause_time": None,
-        })
+    return None
 
-    with open(OUTPUT, 'w') as f:
-        json.dump(plays, f, indent=2)
 
-    print(f"\nSaved {len(plays)} plays → anticipation/data.json\n")
+def find_by_play_id(game_pk, play_id):
+    for play in load_game(game_pk):
+        for event in play.get('playEvents', []):
+            if event.get('playId') == play_id:
+                return play, event
+    return None, None
+
+
+def feed_fields(play, event, fallback_stand=None):
+    """Batter/pitcher/context straight from the Stats API feed.
+    (Statcast's `player_name` column is the *pitcher*, so never use it for the batter.)"""
+    hd = event.get('hitData') or {}
+    coords = hd.get('coordinates') or {}
+    matchup = play.get('matchup', {})
+    stand = (matchup.get('batSide') or {}).get('code') or fallback_stand
+    angle = spray_angle(coords.get('coordX', float('nan')), coords.get('coordY', float('nan')))
+    about = play.get('about', {})
+    return {
+        "batter": matchup.get('batter', {}).get('fullName'),
+        "batter_id": matchup.get('batter', {}).get('id'),
+        "pitcher": matchup.get('pitcher', {}).get('fullName'),
+        "stand": stand,
+        "p_throws": (matchup.get('pitchHand') or {}).get('code'),
+        "pitch_type": (event.get('details', {}).get('type') or {}).get('description'),
+        "pitch_speed": (event.get('pitchData') or {}).get('startSpeed'),
+        "trajectory": hd.get('trajectory'),
+        "hc_x": coords.get('coordX'),
+        "hc_y": coords.get('coordY'),
+        "spray_angle": round(angle, 1) if angle is not None else None,
+        "direction": classify_direction(angle, stand),
+        "borderline": is_borderline(angle),
+        "description": play.get('result', {}).get('description'),
+        "inning": f"{'Top' if about.get('isTopInning') else 'Bot'} {about.get('inning')}",
+    }
+
+
+def repair():
+    """Re-derive batter + direction for an existing data.json without touching clip timings."""
+    with open(OUTPUT) as f:
+        plays = json.load(f)
     for p in plays:
-        print(f"  {p['batter']:25s} ({p['stand']})  {p['direction']:6s}  "
-              f"EV {p['launch_speed']} mph  LA {p['launch_angle']}°  {p['game_date']}")
-    print("\nNext: run  python scripts/download_clips.py")
+        play, event = find_by_play_id(p['game_pk'], p['play_id'])
+        if play is None:
+            print(f"  ! {p['play_id']} not found in game {p['game_pk']}")
+            continue
+        old_dir = p.get('direction')
+        p.update(feed_fields(play, event, p.get('stand')))
+        flag = '  (was ' + old_dir + ')' if old_dir != p['direction'] else ''
+        print(f"  {p['batter']:25s} ({p['stand']}) vs {p['pitcher']:20s} "
+              f"{p['spray_angle']:6.1f}°  {p['direction']}{flag}{'  borderline' if p['borderline'] else ''}")
+        time.sleep(0.1)
+    with open(OUTPUT, 'w') as f:
+        json.dump(plays, f, indent=2, ensure_ascii=False)
+    print(f"\nRepaired {len(plays)} plays → anticipation/data.json")
+
+
+# ── main ───────────────────────────────────────────────────────────────────────
+
+DIRECTIONS = ('pull', 'center', 'oppo')
+
+
+def keepable(p):
+    """An existing play worth keeping: playable, not excluded, not on a direction boundary."""
+    return not p.get('exclude') and not p.get('borderline') and p.get('direction') in DIRECTIONS
+
+
+def main(per_dir, fresh):
+    # Equal counts per direction, so no single always-guess strategy beats 1/3.
+    old = []
+    if os.path.exists(OUTPUT) and not fresh:
+        with open(OUTPUT) as f:
+            old = json.load(f)
+
+    # Keep already-downloaded, already-timed plays where we can (up to per_dir each).
+    kept = {d: [] for d in DIRECTIONS}
+    for p in old:
+        if keepable(p) and len(kept[p['direction']]) < per_dir:
+            kept[p['direction']].append(p)
+    dropped = [p for p in old if not any(p is k for ks in kept.values() for k in ks)]
+    need = {d: per_dir - len(kept[d]) for d in DIRECTIONS}
+    print(f"Keeping {sum(map(len, kept.values()))} existing plays; need "
+          + ', '.join(f"{n} {d}" for d, n in need.items()))
+
+    new = {d: [] for d in DIRECTIONS}
+    if any(need.values()):
+        print("\nFetching Statcast data from Baseball Savant...")
+        filtered = fetch_window('2024-07-01', '2024-07-14')
+        print(f"  Found {len(filtered)} matching plays.")
+        pool = filtered.sample(frac=1, random_state=42).reset_index(drop=True)
+        have_ids = {p['play_id'] for ks in kept.values() for p in ks} | {p['play_id'] for p in dropped}
+
+        print("\nResolving UUID playIds from MLB Stats API...")
+        for _, row in pool.iterrows():
+            if all(len(new[d]) >= need[d] for d in DIRECTIONS):
+                break
+            angle = spray_angle(row['hc_x'], row['hc_y'])
+            direction = classify_direction(angle, str(row['stand']))
+            if direction is None or is_borderline(angle) or len(new[direction]) >= need[direction]:
+                continue
+            if pd.isna(row.get('at_bat_number')) or pd.isna(row.get('pitch_number')):
+                continue
+
+            gk = int(row['game_pk'])
+            ev = float(row['launch_speed'])
+            la = float(row['launch_angle'])
+            found = get_play_id(gk, int(row['at_bat_number']), int(row['pitch_number']), ev, la)
+            if found is None:
+                continue
+            play_id, feed_play, feed_event = found
+            if play_id in have_ids:
+                continue
+            fields = feed_fields(feed_play, feed_event, str(row['stand']))
+            if fields['direction'] != direction or fields['borderline']:
+                continue  # feed coordinates disagree with Statcast's; skip rather than guess
+            have_ids.add(play_id)
+
+            new[direction].append({
+                "play_id": play_id,
+                "events": str(row.get('events', '')),
+                "launch_speed": round(ev, 1),
+                "launch_angle": round(la, 1),
+                "game_date": str(row.get('game_date', ''))[:10],
+                "game_pk": gk,
+                **fields,
+                "clip_file": None,
+                "duration": None,
+                "pause_time": None,
+            })
+            print(f"  + {fields['batter']:25s} ({fields['stand']})  {direction:6s}  {fields['spray_angle']:6.1f}°")
+            time.sleep(0.1)
+
+        short = {d: need[d] - len(new[d]) for d in DIRECTIONS if len(new[d]) < need[d]}
+        if short:
+            print(f"Warning: pool ran out — still short {short}. Widen the date window.")
+
+    plays = [p for d in DIRECTIONS for p in kept[d] + new[d]]
+    os.makedirs(os.path.dirname(OUTPUT), exist_ok=True)
+    with open(OUTPUT, 'w') as f:
+        json.dump(plays, f, indent=2, ensure_ascii=False)
+
+    print(f"\nSaved {len(plays)} plays → anticipation/data.json  "
+          + ' / '.join(f"{sum(p['direction'] == d for p in plays)} {d}" for d in DIRECTIONS))
+    if dropped:
+        print("Dropped (clips left on disk):")
+        for p in dropped:
+            why = p.get('exclude_reason') or ('borderline' if p.get('borderline') else 'over quota')
+            print(f"  - {p.get('batter')}  {p.get('direction')}  ({why})")
+    print("\nNext: python download_clips.py, then time new clips in the editor (Auto-detect contact).")
 
 
 if __name__ == '__main__':
-    main()
+    ap = argparse.ArgumentParser()
+    ap.add_argument('--repair', action='store_true',
+                    help='fix batter names + spray-angle direction in the existing data.json')
+    ap.add_argument('--per-dir', type=int, default=8,
+                    help='plays per direction (pull/center/oppo); default 8')
+    ap.add_argument('--fresh', action='store_true',
+                    help='ignore the existing data.json instead of topping it up')
+    args = ap.parse_args()
+    repair() if args.repair else main(args.per_dir, args.fresh)

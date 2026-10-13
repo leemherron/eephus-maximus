@@ -19,6 +19,11 @@
     <div class="criteria">
       Exit velo 90–100 mph &nbsp;·&nbsp; Launch angle 10–30°
     </div>
+    <p class="howto">
+      The clip freezes just before contact. Call the ball <b>pull</b>, <b>center</b> or <b>oppo</b>.
+      Buttons are laid out like a spray chart — left field on the left — so they flip for lefties.
+      <span class="keys">Keys: <kbd>←</kbd> <kbd>↓</kbd> <kbd>→</kbd> to guess · <kbd>R</kbd> replay · <kbd>Enter</kbd> next</span>
+    </p>
     <button id="start-btn">Start</button>
   </div>
 
@@ -36,29 +41,33 @@
     </header>
 
     <div class="video-wrap">
-      <video id="play-video" playsinline></video>
+      <video id="play-video" playsinline preload="auto"></video>
       <button id="tap-to-play" class="tap-overlay hidden">▶ Tap to play</button>
+      <div id="freeze-tag" class="hidden">Frozen · make your call</div>
     </div>
 
     <div class="batter-bar">
-      <span id="batter-name"></span>
-      <span id="game-date" class="muted"></span>
+      <span><span id="batter-name"></span> <span id="batter-hand" class="hand"></span></span>
+      <span id="matchup" class="muted"></span>
     </div>
 
     <div id="action-area">
       <div id="guess-section">
         <p class="prompt">Where will it go?</p>
-        <div class="guess-buttons">
-          <button class="guess-btn" data-dir="pull">Pull</button>
-          <button class="guess-btn" data-dir="center">Center</button>
-          <button class="guess-btn" data-dir="oppo">Oppo</button>
-        </div>
+        <div class="guess-buttons" id="guess-buttons"></div>
+        <button id="watch-again-btn">↺ Watch again at ½ speed</button>
       </div>
 
       <div id="reveal-section" class="hidden">
-        <div id="result-line"></div>
-        <div id="detail-line" class="muted"></div>
-        <button id="next-btn">Next →</button>
+        <div class="reveal-grid">
+          <svg id="spray" viewBox="0 0 250 200" aria-label="Spray chart"></svg>
+          <div class="reveal-text">
+            <div id="result-line"></div>
+            <div id="detail-line"></div>
+            <div id="desc-line" class="muted"></div>
+            <button id="next-btn">Next →</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -68,7 +77,10 @@
     <a href="/" class="back-link">← Eephus Maximus</a>
     <h2>Final Score</h2>
     <div id="final-score-display"></div>
+    <div id="baseline-line" class="muted"></div>
+    <div id="emoji-line"></div>
     <div id="breakdown-table"></div>
+    <div id="history-list"></div>
     <button id="replay-btn">Play Again</button>
   </div>
 

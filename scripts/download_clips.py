@@ -4,8 +4,10 @@ Downloads and trims video clips for each play in anticipation/data.json.
 Requires yt-dlp (pip install yt-dlp).
 Optional: ffprobe (part of ffmpeg) for accurate video duration.
 
-Updates data.json with clip_file, duration, and pause_time for each play.
-pause_time is where the video will freeze in the game (just before contact).
+Updates data.json with clip_file and duration for each play.
+pause_time (where the game freezes, just before contact) is NOT set here: Savant
+clips put contact ~3.3-3.6s in, nowhere near a fixed offset from the end.
+Set it with the editor's "Auto-detect contact" button, then eyeball each clip.
 """
 import sys
 import os
@@ -24,8 +26,6 @@ except ImportError:
 HERE = os.path.dirname(os.path.abspath(__file__))
 DATA_FILE = os.path.join(HERE, '..', 'anticipation', 'data.json')
 CLIPS_DIR = os.path.join(HERE, '..', 'anticipation', 'clips')
-
-PAUSE_OFFSET = 0.5  # seconds before end of clip to freeze
 
 
 def get_duration_ffprobe(path):
@@ -53,8 +53,8 @@ def get_duration_ytdlp(url):
         return None
 
 
-def download(url, sv_id):
-    outtmpl = os.path.join(CLIPS_DIR, f'{sv_id}.%(ext)s')
+def download(url, file_id):
+    outtmpl = os.path.join(CLIPS_DIR, f'{file_id}.%(ext)s')
     opts = {
         'outtmpl': outtmpl,
         'quiet': True,
@@ -65,9 +65,9 @@ def download(url, sv_id):
         ydl.download([url])
 
     for ext in ('mp4', 'webm', 'mkv', 'mov'):
-        candidate = os.path.join(CLIPS_DIR, f'{sv_id}.{ext}')
+        candidate = os.path.join(CLIPS_DIR, f'{file_id}.{ext}')
         if os.path.exists(candidate):
-            return candidate, f'clips/{sv_id}.{ext}'
+            return candidate, f'clips/{file_id}.{ext}'
     return None, None
 
 
@@ -79,14 +79,30 @@ def main():
 
     failed = []
     for i, play in enumerate(plays):
-        sv_id = play['sv_id']
-        url = f'https://baseballsavant.mlb.com/sporty-videos?playId={sv_id}'
-        label = f"[{i+1:02d}/25] {play['batter']} ({sv_id})"
+        play_id = play.get('play_id') or play.get('sv_id')
+        if not play_id:
+            print(f"[{i+1:02d}/{len(plays)}] {play['batter']} — no play_id, skipping")
+            continue
 
-        # Skip if already downloaded
-        existing = glob.glob(os.path.join(CLIPS_DIR, f'{sv_id}.*'))
-        if existing and play.get('clip_file'):
-            print(f"{label} — already done, skipping")
+        url = f'https://baseballsavant.mlb.com/sporty-videos?playId={play_id}'
+        safe_id = play_id.replace('/', '_')
+        label = f"[{i+1:02d}/{len(plays)}] {play['batter']}"
+
+        # Skip if already downloaded (check by file existence, not clip_file field)
+        existing_file = None
+        for ext in ('mp4', 'webm', 'mkv', 'mov'):
+            candidate = os.path.join(CLIPS_DIR, f'{safe_id}.{ext}')
+            if os.path.exists(candidate):
+                existing_file = (candidate, f'clips/{safe_id}.{ext}')
+                break
+
+        if existing_file:
+            abs_path, rel_path = existing_file
+            play['clip_file'] = rel_path
+            if not play.get('duration'):
+                dur = get_duration_ffprobe(abs_path) or 4.0
+                play['duration'] = round(dur, 2)
+            print(f"{label} — already on disk, skipping")
             continue
 
         print(f"{label} ...", end=' ', flush=True)
@@ -94,41 +110,41 @@ def main():
         duration = get_duration_ytdlp(url)
 
         try:
-            abs_path, rel_path = download(url, sv_id)
+            abs_path, rel_path = download(url, safe_id)
         except Exception as e:
             print(f"FAILED ({e})")
-            failed.append(sv_id)
+            failed.append(play_id)
             continue
 
         if abs_path is None:
             print("FAILED (file not found after download)")
-            failed.append(sv_id)
+            failed.append(play_id)
             continue
 
-        # Prefer ffprobe duration; fall back to yt-dlp info
         file_duration = get_duration_ffprobe(abs_path) or duration or 4.0
-        pause_time = round(max(1.0, file_duration - PAUSE_OFFSET), 2)
 
-        play['clip_file'] = rel_path
-        play['duration'] = round(file_duration, 2)
-        play['pause_time'] = pause_time
+        play['clip_file']  = rel_path
+        play['duration']   = round(file_duration, 2)
 
-        print(f"OK  ({file_duration:.1f}s → pause at {pause_time:.1f}s)")
+        print(f"OK  ({file_duration:.1f}s)")
 
         # Save after each clip so partial progress isn't lost
         with open(DATA_FILE, 'w') as f:
-            json.dump(plays, f, indent=2)
+            json.dump(plays, f, indent=2, ensure_ascii=False)
 
         time.sleep(0.75)
 
+    with open(DATA_FILE, 'w') as f:
+        json.dump(plays, f, indent=2, ensure_ascii=False)
+
     ready = sum(1 for p in plays if p.get('clip_file'))
-    print(f"\n{ready}/25 clips ready.")
+    print(f"\n{ready}/{len(plays)} clips ready.")
     if failed:
         print(f"Failed sv_ids: {failed}")
-    print(f"\nTo play:")
-    print(f"  cd {os.path.normpath(os.path.join(HERE, '..'))}")
-    print(f"  python -m http.server 8080")
-    print(f"  open http://localhost:8080/anticipation/")
+    print("\nNext, set pause times:")
+    print("  python scripts/editor_server.py")
+    print("  open http://localhost:8080/anticipation/editor.html  → Auto-detect contact, then review each clip")
+    print("Then play at http://localhost:8080/anticipation/")
 
 
 if __name__ == '__main__':

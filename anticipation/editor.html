@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Clip Editor — Eephus Maximus</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:      #0f1a0f;
+      --surface: #162116;
+      --green:   #2d5a27;
+      --cream:   #f5f0e8;
+      --muted:   #8a9e85;
+      --accent:  #c8a84b;
+      --set:     #4caf50;
+      --unset:   #555;
+    }
+    body {
+      background: var(--bg);
+      color: var(--cream);
+      font-family: 'Georgia', serif;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ── sidebar ── */
+    #sidebar {
+      width: 220px;
+      min-width: 220px;
+      border-right: 1px solid var(--green);
+      overflow-y: auto;
+      padding: 0.5rem 0;
+    }
+    #sidebar h2 {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0.5rem 1rem 0.75rem;
+    }
+    .clip-item {
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      transition: background 0.1s;
+      font-size: 0.82rem;
+      line-height: 1.4;
+    }
+    .clip-item:hover { background: var(--surface); }
+    .clip-item.active {
+      background: var(--surface);
+      border-left-color: var(--accent);
+    }
+    .clip-item .name { color: var(--cream); }
+    .clip-item .meta { color: var(--muted); font-size: 0.75rem; }
+    .clip-item .timing {
+      font-size: 0.75rem;
+      font-family: monospace;
+      margin-top: 2px;
+    }
+    .clip-item .timing.has-time { color: var(--set); }
+    .clip-item .timing.no-time  { color: var(--unset); }
+    .clip-item .timing.excluded { color: #e53935; }
+
+    /* ── main ── */
+    #main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    #top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 1.25rem;
+      border-bottom: 1px solid var(--green);
+      gap: 1rem;
+    }
+    #clip-title { font-size: 1rem; }
+    #clip-title .dir {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-style: italic;
+      margin-left: 0.5rem;
+    }
+    #progress-count { font-size: 0.8rem; color: var(--muted); white-space: nowrap; }
+
+    #video-area {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      position: relative;
+      overflow: hidden;
+    }
+    #v {
+      max-width: 100%;
+      max-height: 100%;
+      outline: none;
+    }
+    #pause-marker {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--accent);
+      pointer-events: none;
+      display: none;
+    }
+
+    #bottom-bar {
+      border-top: 1px solid var(--green);
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem 1.5rem;
+    }
+
+    #time-display {
+      font-family: monospace;
+      font-size: 2rem;
+      color: var(--accent);
+      min-width: 7ch;
+      letter-spacing: 0.02em;
+    }
+
+    #pause-display {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    #pause-display .val { color: var(--set); font-family: monospace; }
+
+    .btn {
+      background: var(--surface);
+      color: var(--cream);
+      border: 1px solid var(--green);
+      padding: 0.55rem 1.1rem;
+      font-family: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border-radius: 2px;
+      white-space: nowrap;
+      transition: background 0.1s;
+    }
+    .btn:hover { background: var(--green); }
+
+    #set-btn {
+      background: var(--green);
+      border-color: var(--set);
+      font-size: 1rem;
+      padding: 0.65rem 1.5rem;
+    }
+    #set-btn:hover { background: var(--set); border-color: var(--set); color: #fff; }
+
+    #status {
+      font-size: 0.8rem;
+      color: var(--set);
+      min-width: 10ch;
+      transition: opacity 0.3s;
+    }
+    #status.fade { opacity: 0; }
+
+    .frame-group { display: flex; gap: 4px; }
+    .frame-btn { padding: 0.55rem 0.75rem; letter-spacing: 0; }
+
+    .spacer { flex: 1; }
+
+    #shortcuts {
+      font-size: 0.72rem;
+      color: var(--unset);
+      line-height: 1.8;
+      text-align: right;
+    }
+    #shortcuts kbd {
+      background: var(--surface);
+      border: 1px solid var(--green);
+      border-radius: 2px;
+      padding: 0 4px;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+
+<div id="sidebar">
+  <h2>Clips <span id="done-count"></span></h2>
+  <div id="clip-list"></div>
+</div>
+
+<div id="main">
+  <div id="top-bar">
+    <div id="clip-title">Loading…<span class="dir"></span></div>
+    <div id="progress-count"></div>
+  </div>
+
+  <div id="video-area">
+    <video id="v" controls></video>
+  </div>
+
+  <div id="bottom-bar">
+    <div id="time-display">0.000</div>
+
+    <div id="pause-display">
+      Current pause<br>
+      <span class="val" id="pause-val">—</span>
+    </div>
+
+    <button class="btn" id="prev-btn">← Prev</button>
+    <button class="btn" id="jump-btn">Jump to pause</button>
+
+    <div class="frame-group">
+      <button class="btn frame-btn" id="frame-back">&laquo; Frame</button>
+      <button class="btn frame-btn" id="frame-fwd">Frame &raquo;</button>
+    </div>
+
+    <button id="set-btn">Set pause here &nbsp;<kbd>S</kbd></button>
+    <button class="btn" id="next-btn">Next →</button>
+    <button class="btn" id="exclude-btn">Exclude <kbd>X</kbd></button>
+    <button class="btn" id="detect-btn" title="Find the crack of the bat in each untimed clip's audio">Auto-detect contact</button>
+
+    <div id="status"></div>
+    <div class="spacer"></div>
+    <div id="shortcuts">
+      <kbd>S</kbd> set &nbsp; <kbd>[</kbd> prev clip &nbsp; <kbd>]</kbd> next clip<br>
+      <kbd>,</kbd> frame back &nbsp; <kbd>.</kbd> frame fwd &nbsp; <kbd>J</kbd> jump &nbsp; <kbd>X</kbd> exclude
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  let plays = [];
+  let current = 0;
+  const v = document.getElementById('v');
+
+  // ── load ──────────────────────────────────────────────────────────────────
+  fetch('data.json')
+    .then(r => r.json())
+    .then(data => { plays = data; buildSidebar(); loadClip(0); });
+
+  // ── sidebar ───────────────────────────────────────────────────────────────
+  function buildSidebar() {
+    const list = document.getElementById('clip-list');
+    list.innerHTML = plays.map((p, i) => `
+      <div class="clip-item" id="item-${i}" onclick="gotoClip(${i})">
+        <div class="name">${i+1}. ${p.batter}</div>
+        <div class="meta">${p.direction} · ${p.launch_speed} mph</div>
+        <div class="timing ${timingClass(p)}" id="timing-${i}">${timingText(p)}</div>
+      </div>
+    `).join('');
+    updateDoneCount();
+  }
+
+  function updateSidebarItem(i) {
+    const p = plays[i];
+    const t = document.getElementById(`timing-${i}`);
+    if (!t) return;
+    t.className = `timing ${timingClass(p)}`;
+    t.textContent = timingText(p);
+    updateDoneCount();
+  }
+
+  function timingClass(p) {
+    return p.exclude ? 'excluded' : p.pause_time ? 'has-time' : 'no-time';
+  }
+  function timingText(p) {
+    if (p.exclude) return 'excluded';
+    return p.pause_time ? p.pause_time.toFixed(3) + 's' : 'not set';
+  }
+
+  function updateDoneCount() {
+    const done = plays.filter(p => p.pause_time || p.exclude).length;
+    document.getElementById('done-count').textContent = `${done}/${plays.length}`;
+    document.getElementById('progress-count').textContent = `${done} of ${plays.length} timed`;
+  }
+
+  // ── clip loading ──────────────────────────────────────────────────────────
+  function loadClip(i) {
+    if (i < 0 || i >= plays.length) return;
+    current = i;
+
+    document.querySelectorAll('.clip-item').forEach(el => el.classList.remove('active'));
+    const item = document.getElementById(`item-${i}`);
+    if (item) { item.classList.add('active'); item.scrollIntoView({block: 'nearest'}); }
+
+    const p = plays[i];
+    const title = document.getElementById('clip-title');
+    title.innerHTML = `${i+1}. ${p.batter} (${p.stand}) <span class="dir">${p.direction}` +
+      `${p.spray_angle != null ? ` · ${p.spray_angle}°` : ''} · ${p.events.replace(/_/g,' ')}` +
+      `${p.contact_time ? ` · contact ≈ ${p.contact_time.toFixed(3)}s` : ''}</span>`;
+
+    document.getElementById('pause-val').textContent =
+      p.pause_time ? p.pause_time.toFixed(3) + 's' : '—';
+
+    v.src = p.clip_file;
+    v.load();
+    v.play().catch(() => {});
+  }
+
+  window.gotoClip = i => loadClip(i);
+
+  // ── time display ──────────────────────────────────────────────────────────
+  v.addEventListener('timeupdate', () => {
+    document.getElementById('time-display').textContent = v.currentTime.toFixed(3);
+  });
+
+  // ── jump to current pause ─────────────────────────────────────────────────
+  function jumpToPause() {
+    const p = plays[current];
+    if (p && p.pause_time) {
+      v.currentTime = p.pause_time;
+      v.pause();
+    }
+  }
+
+  // ── save ──────────────────────────────────────────────────────────────────
+  async function savePause() {
+    const t = v.currentTime;
+    const status = document.getElementById('status');
+
+    const res = await fetch('/api/save-pause', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({index: current, pause_time: t}),
+    });
+    const data = await res.json();
+
+    plays[current].pause_time = data.pause_time;
+    document.getElementById('pause-val').textContent = data.pause_time.toFixed(3) + 's';
+    updateSidebarItem(current);
+
+    status.textContent = `✓ saved ${data.pause_time.toFixed(3)}s`;
+    status.classList.remove('fade');
+    clearTimeout(status._timer);
+    status._timer = setTimeout(() => status.classList.add('fade'), 1500);
+  }
+
+  // ── frame stepping ────────────────────────────────────────────────────────
+  const FRAME = 1 / 29.97;  // ~33.37ms — standard broadcast frame
+
+  function stepFrame(dir) {
+    v.pause();
+    v.currentTime = Math.max(0, v.currentTime + dir * FRAME);
+  }
+
+  // ── generic save ──────────────────────────────────────────────────────────
+  async function saveFields(updates) {
+    await fetch('/api/save-fields', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({updates}),
+    });
+    updates.forEach(u => { Object.assign(plays[u.index], u.fields); updateSidebarItem(u.index); });
+  }
+
+  function flash(msg) {
+    const status = document.getElementById('status');
+    status.textContent = msg;
+    status.classList.remove('fade');
+    clearTimeout(status._timer);
+    status._timer = setTimeout(() => status.classList.add('fade'), 2500);
+  }
+
+  // ── exclude ───────────────────────────────────────────────────────────────
+  async function toggleExclude() {
+    const p = plays[current];
+    const fields = p.exclude
+      ? {exclude: null, exclude_reason: null}
+      : {exclude: true, exclude_reason: prompt('Why exclude this clip?', 'bad camera angle') || 'excluded in editor'};
+    await saveFields([{index: current, fields}]);
+    if (fields.exclude === null) delete p.exclude, delete p.exclude_reason;
+    updateSidebarItem(current);
+    flash(p.exclude ? '✓ excluded' : '✓ restored');
+  }
+
+  // ── auto-detect contact from audio ────────────────────────────────────────
+  // The crack of the bat is the sharpest transient in the clip. Savant clips put
+  // contact ~3.3–3.6s in, so only search 2.5–4.5s (crowd noise / PA later on).
+  // Weak peaks are unreliable — always eyeball the result before trusting it.
+  const SEARCH = [2.5, 4.5];
+  const LEAD = 0.07;  // freeze ~2 frames before contact: swing started, ball not yet off the bat
+
+  async function detectContact(file) {
+    const ctx = new OfflineAudioContext(1, 44100, 44100);
+    const audio = await ctx.decodeAudioData(await fetch(file).then(r => r.arrayBuffer()));
+    const d = audio.getChannelData(0), win = Math.round(audio.sampleRate * 0.005), e = [];
+    for (let i = 0; i + win < d.length; i += win) {
+      let s = 0;
+      for (let j = 1; j < win; j++) { const x = d[i + j] - d[i + j - 1]; s += x * x; }  // high-passed energy
+      e.push(s);
+    }
+    const median = [...e].sort((a, b) => a - b)[e.length >> 1];
+    let peak = -1;
+    for (let i = Math.ceil(SEARCH[0] / 0.005); i < Math.min(e.length, SEARCH[1] / 0.005); i++)
+      if (peak < 0 || e[i] > e[peak]) peak = i;
+    let onset = peak;
+    while (onset > 0 && e[onset - 1] > e[peak] * 0.25) onset--;
+    return {contact: +(onset * 0.005).toFixed(3), strength: Math.round(e[peak] / median)};
+  }
+
+  async function detectAll() {
+    const todo = plays.map((p, i) => ({p, i})).filter(({p}) => p.clip_file && !p.pause_time && !p.exclude);
+    if (!todo.length) return flash('nothing untimed');
+    const updates = [], weak = [];
+    for (const {p, i} of todo) {
+      flash(`detecting ${updates.length + 1}/${todo.length}…`);
+      const {contact, strength} = await detectContact(p.clip_file);
+      updates.push({index: i, fields: {contact_time: contact, pause_time: +(contact - LEAD).toFixed(3)}});
+      if (strength < 150) weak.push(i + 1);
+    }
+    await saveFields(updates);
+    flash(`✓ timed ${updates.length}` + (weak.length ? ` — check #${weak.join(', #')} (weak peak)` : ''));
+    loadClip(current);
+  }
+
+  // ── nav ───────────────────────────────────────────────────────────────────
+  document.getElementById('set-btn').addEventListener('click', savePause);
+  document.getElementById('prev-btn').addEventListener('click', () => loadClip(current - 1));
+  document.getElementById('next-btn').addEventListener('click', () => loadClip(current + 1));
+  document.getElementById('jump-btn').addEventListener('click', jumpToPause);
+  document.getElementById('frame-back').addEventListener('click', () => stepFrame(-1));
+  document.getElementById('frame-fwd').addEventListener('click',  () => stepFrame(+1));
+  document.getElementById('exclude-btn').addEventListener('click', toggleExclude);
+  document.getElementById('detect-btn').addEventListener('click', detectAll);
+
+  document.addEventListener('keydown', e => {
+    if (e.target.tagName === 'INPUT') return;
+    if (e.key === 's' || e.key === 'S') { e.preventDefault(); savePause(); }
+    if (e.key === '[') loadClip(current - 1);
+    if (e.key === ']') loadClip(current + 1);
+    if (e.key === 'j' || e.key === 'J') { e.preventDefault(); jumpToPause(); }
+    if (e.key === ',') { e.preventDefault(); stepFrame(-1); }
+    if (e.key === '.') { e.preventDefault(); stepFrame(+1); }
+    if (e.key === 'x' || e.key === 'X') { e.preventDefault(); toggleExclude(); }
+  });
+})();
+</script>
+</body>
+</html>
