@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Long Haul — Eephus Maximus</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="page">
+    <a href="/" class="back-link">← Eephus Maximus</a>
+
+    <h1>The Long Haul</h1>
+    <p class="subtitle">Boston Red Sox · 2026 · 90 games to go</p>
+
+    <div class="record-band">
+      <span class="record">29–43</span>
+      <span class="through">through game 72 of 162 &nbsp;·&nbsp; .403</span>
+    </div>
+
+    <div class="chart-wrap">
+      <canvas id="chart"></canvas>
+    </div>
+
+    <div class="controls">
+      <p class="control-label">How do you think the next 90 games go?</p>
+      <div class="slider-row">
+        <span class="slider-cap muted">0 W</span>
+        <input type="range" id="proj-slider" min="0" max="90" value="45" step="1" />
+        <span class="slider-cap muted">90 W</span>
+      </div>
+      <div class="proj-readout">
+        <span class="proj-wl" id="proj-wl">45–45</span>
+        <span class="proj-meta">· <span id="proj-wpct">.500</span> win rate</span>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-label">Final record</div>
+        <div class="stat-value" id="stat-final">74–88</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Final win %</div>
+        <div class="stat-value" id="stat-wpct">.457</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">vs .500</div>
+        <div class="stat-value" id="stat-vs500">−7</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">vs 90-win pace</div>
+        <div class="stat-value" id="stat-vs90">−16</div>
+      </div>
+    </div>
+
+    <p class="footnote" id="footnote"></p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
