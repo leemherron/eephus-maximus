@@ -13,18 +13,29 @@
     <a href="/" class="back-link">← Eephus Maximus</a>
     <h1>Read the Swing</h1>
     <p class="subtitle">
-      The pitch is in. The swing is happening.<br>
+      The clip freezes before the ball is hit.<br>
       Where does it go?
     </p>
     <div class="criteria">
       Exit velo 90–100 mph &nbsp;·&nbsp; Launch angle 10–30°
     </div>
     <p class="howto">
-      The clip freezes just before contact. Call the ball <b>pull</b>, <b>center</b> or <b>oppo</b>.
-      Buttons are laid out like a spray chart — left field on the left — so they flip for lefties.
-      <span class="keys">Keys: <kbd>←</kbd> <kbd>↓</kbd> <kbd>→</kbd> to guess · <kbd>R</kbd> replay · <kbd>Enter</kbd> next</span>
+      Some clips freeze as the pitch leaves the hand, some mid-flight, some mid-swing.
+      Call <b>pull</b>, <b>center</b> or <b>oppo</b>. Every round has the same number of each,
+      so guessing blindly scores exactly one in three. You get one look, and the sound stays off
+      until you answer.
+      <span class="keys">Keys: <kbd>←</kbd> <kbd>↓</kbd> <kbd>→</kbd> to guess · <kbd>Enter</kbd> next</span>
     </p>
+
+    <fieldset id="intake" class="intake hidden">
+      <legend>One question first: how much baseball have you played?</legend>
+      <label><input type="radio" name="exp" value="none"> Never / casual</label>
+      <label><input type="radio" name="exp" value="youth"> Youth or high school</label>
+      <label><input type="radio" name="exp" value="college"> College, pro or coaching</label>
+    </fieldset>
+
     <button id="start-btn">Start</button>
+    <a href="results.html" class="results-link">See everyone's results →</a>
   </div>
 
   <!-- GAME -->
@@ -35,15 +46,15 @@
         <div class="progress-bar-track">
           <div class="progress-bar-fill" id="progress-fill"></div>
         </div>
-        <span id="progress-text">1 / 25</span>
+        <span id="progress-text"></span>
       </div>
       <div id="score-display">0 / 0</div>
     </header>
 
     <div class="video-wrap">
-      <video id="play-video" playsinline preload="auto"></video>
+      <video id="play-video" playsinline muted preload="auto"></video>
       <button id="tap-to-play" class="tap-overlay hidden">▶ Tap to play</button>
-      <div id="freeze-tag" class="hidden">Frozen · make your call</div>
+      <div id="freeze-tag" class="hidden"></div>
     </div>
 
     <div class="batter-bar">
@@ -53,9 +64,8 @@
 
     <div id="action-area">
       <div id="guess-section">
-        <p class="prompt">Where will it go?</p>
+        <p class="prompt" id="prompt">Watch…</p>
         <div class="guess-buttons" id="guess-buttons"></div>
-        <button id="watch-again-btn">↺ Watch again at ½ speed</button>
       </div>
 
       <div id="reveal-section" class="hidden">
@@ -77,13 +87,17 @@
     <a href="/" class="back-link">← Eephus Maximus</a>
     <h2>Final Score</h2>
     <div id="final-score-display"></div>
-    <div id="baseline-line" class="muted"></div>
+    <div id="verdict-line" class="muted"></div>
     <div id="emoji-line"></div>
     <div id="breakdown-table"></div>
     <div id="history-list"></div>
-    <button id="replay-btn">Play Again</button>
+    <div class="complete-actions">
+      <button id="replay-btn">Play Again</button>
+      <a href="results.html" class="results-link">See everyone's results →</a>
+    </div>
   </div>
 
+  <script src="stats.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

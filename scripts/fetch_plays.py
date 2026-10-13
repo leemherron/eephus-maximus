@@ -185,6 +185,20 @@ def repair():
 # ── main ───────────────────────────────────────────────────────────────────────
 
 DIRECTIONS = ('pull', 'center', 'oppo')
+MAX_PER_BATTER = 2   # spread clips across hitters so no one swing dominates
+
+# Two-week windows spread over the 2024 regular season
+# (pybaseball caches each window locally, so re-runs are fast).
+WINDOWS = [('2024-07-01', '2024-07-14'), ('2024-04-15', '2024-04-28'), ('2024-05-13', '2024-05-26'),
+           ('2024-06-10', '2024-06-23'), ('2024-08-05', '2024-08-18'), ('2024-09-02', '2024-09-15')]
+
+
+def candidate_pool():
+    """Shuffled Statcast rows from every window, so clips span the season (parks, weather, matchups)."""
+    pool = pd.concat([fetch_window(start, end) for start, end in WINDOWS])
+    print(f"  Pool: {len(pool)} batted balls")
+    return pool.sample(frac=1, random_state=42).reset_index(drop=True)
+
 
 
 def keepable(p):
@@ -204,7 +218,9 @@ def main(per_dir, fresh):
     for p in old:
         if keepable(p) and len(kept[p['direction']]) < per_dir:
             kept[p['direction']].append(p)
-    dropped = [p for p in old if not any(p is k for ks in kept.values() for k in ks)]
+    excluded = [p for p in old if p.get('exclude')]   # kept forever so they're never re-fetched
+    dropped = [p for p in old if not p.get('exclude')
+               and not any(p is k for ks in kept.values() for k in ks)]
     need = {d: per_dir - len(kept[d]) for d in DIRECTIONS}
     print(f"Keeping {sum(map(len, kept.values()))} existing plays; need "
           + ', '.join(f"{n} {d}" for d, n in need.items()))
@@ -212,10 +228,11 @@ def main(per_dir, fresh):
     new = {d: [] for d in DIRECTIONS}
     if any(need.values()):
         print("\nFetching Statcast data from Baseball Savant...")
-        filtered = fetch_window('2024-07-01', '2024-07-14')
-        print(f"  Found {len(filtered)} matching plays.")
-        pool = filtered.sample(frac=1, random_state=42).reset_index(drop=True)
-        have_ids = {p['play_id'] for ks in kept.values() for p in ks} | {p['play_id'] for p in dropped}
+        pool = candidate_pool()
+        have_ids = {p['play_id'] for p in old}
+        per_batter = {}
+        for p in (p for ks in kept.values() for p in ks):
+            per_batter[p.get('batter_id')] = per_batter.get(p.get('batter_id'), 0) + 1
 
         print("\nResolving UUID playIds from MLB Stats API...")
         for _, row in pool.iterrows():
@@ -226,6 +243,8 @@ def main(per_dir, fresh):
             if direction is None or is_borderline(angle) or len(new[direction]) >= need[direction]:
                 continue
             if pd.isna(row.get('at_bat_number')) or pd.isna(row.get('pitch_number')):
+                continue
+            if per_batter.get(int(row['batter']), 0) >= MAX_PER_BATTER:
                 continue
 
             gk = int(row['game_pk'])
@@ -241,6 +260,7 @@ def main(per_dir, fresh):
             if fields['direction'] != direction or fields['borderline']:
                 continue  # feed coordinates disagree with Statcast's; skip rather than guess
             have_ids.add(play_id)
+            per_batter[fields['batter_id']] = per_batter.get(fields['batter_id'], 0) + 1
 
             new[direction].append({
                 "play_id": play_id,
@@ -250,9 +270,7 @@ def main(per_dir, fresh):
                 "game_date": str(row.get('game_date', ''))[:10],
                 "game_pk": gk,
                 **fields,
-                "clip_file": None,
-                "duration": None,
-                "pause_time": None,
+                "raw_file": None,
             })
             print(f"  + {fields['batter']:25s} ({fields['stand']})  {direction:6s}  {fields['spray_angle']:6.1f}°")
             time.sleep(0.1)
@@ -261,19 +279,20 @@ def main(per_dir, fresh):
         if short:
             print(f"Warning: pool ran out — still short {short}. Widen the date window.")
 
-    plays = [p for d in DIRECTIONS for p in kept[d] + new[d]]
+    plays = [p for d in DIRECTIONS for p in kept[d] + new[d]] + excluded
     os.makedirs(os.path.dirname(OUTPUT), exist_ok=True)
     with open(OUTPUT, 'w') as f:
         json.dump(plays, f, indent=2, ensure_ascii=False)
 
     print(f"\nSaved {len(plays)} plays → anticipation/data.json  "
-          + ' / '.join(f"{sum(p['direction'] == d for p in plays)} {d}" for d in DIRECTIONS))
+          + ' / '.join(f"{sum(p['direction'] == d and not p.get('exclude') for p in plays)} {d}"
+                       for d in DIRECTIONS) + f"  (+{len(excluded)} excluded, kept as a blocklist)")
     if dropped:
-        print("Dropped (clips left on disk):")
+        print("Dropped:")
         for p in dropped:
-            why = p.get('exclude_reason') or ('borderline' if p.get('borderline') else 'over quota')
-            print(f"  - {p.get('batter')}  {p.get('direction')}  ({why})")
-    print("\nNext: python download_clips.py, then time new clips in the editor (Auto-detect contact).")
+            print(f"  - {p.get('batter')}  {p.get('direction')}  "
+                  f"({'borderline' if p.get('borderline') else 'over quota'})")
+    print("\nNext: python scripts/download_clips.py && python scripts/process_clips.py, then review.")
 
 
 if __name__ == '__main__':

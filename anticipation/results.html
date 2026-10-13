@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Read the Swing — Results</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .results { max-width: 760px; align-items: stretch; }
+    .results h1 { font-size: clamp(1.8rem, 5vw, 2.6rem); font-weight: normal; text-align: center; margin-bottom: 0.5rem; }
+    .results .lede { text-align: center; color: var(--muted); font-style: italic; line-height: 1.6; margin-bottom: 2rem; }
+    .hero { text-align: center; margin-bottom: 2.5rem; }
+    .hero .big { font-size: 3.2rem; color: var(--accent); line-height: 1.1; }
+    .hero .sub { color: var(--muted); font-size: 0.9rem; margin-top: 0.4rem; line-height: 1.6; }
+    .hero .verdict { margin-top: 0.8rem; font-size: 1rem; }
+    h2.section { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+                 font-weight: normal; margin: 2rem 0 0.75rem; border-bottom: 1px solid var(--surface); padding-bottom: 0.4rem; }
+    .note { color: var(--muted); font-size: 0.8rem; line-height: 1.6; margin-top: 0.6rem; }
+    .chart-wrap { position: relative; }
+    #lead-chart { width: 100%; height: auto; display: block; overflow: visible; }
+    #lead-chart .grid  { stroke: var(--surface); stroke-width: 1; }
+    #lead-chart .axis  { fill: var(--muted); font-size: 11px; font-family: Georgia, serif; }
+    #lead-chart .chance { stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 4 4; }
+    #lead-chart .chance-label { fill: var(--muted); font-size: 11px; font-style: italic; font-family: Georgia, serif; }
+    #lead-chart .ci   { stroke: var(--accent); stroke-width: 2; stroke-linecap: round; }
+    #lead-chart .dot  { fill: var(--accent); stroke: var(--bg); stroke-width: 2; }
+    #lead-chart .val  { fill: var(--cream); font-size: 12px; font-family: Georgia, serif; }
+    #lead-chart .hit  { fill: transparent; cursor: default; }
+    #lead-chart .cat  { fill: var(--cream); font-size: 12px; font-family: Georgia, serif; text-anchor: middle; }
+    .tip { position: absolute; pointer-events: none; background: var(--surface); border: 1px solid var(--green);
+           padding: 0.5rem 0.7rem; font-size: 0.8rem; line-height: 1.5; border-radius: 2px; white-space: nowrap;
+           transform: translate(-50%, -110%); }
+    table.stats { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    table.stats th { text-align: right; color: var(--muted); font-weight: normal; font-size: 0.72rem;
+                     letter-spacing: 0.06em; text-transform: uppercase; padding: 0.35rem 0.5rem; border-bottom: 1px solid var(--green); }
+    table.stats th:first-child, table.stats td:first-child { text-align: left; }
+    table.stats td { text-align: right; padding: 0.4rem 0.5rem; border-bottom: 1px solid var(--surface);
+                     font-variant-numeric: tabular-nums; }
+    .sig { color: var(--correct); }
+    .empty { text-align: center; color: var(--muted); padding: 3rem 0; line-height: 1.8; }
+    .actions { text-align: center; margin-top: 2.5rem; }
+    .actions a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="screen results">
+    <a href="./" class="back-link">← Read the Swing</a>
+    <h1>Can you read the swing?</h1>
+    <p class="lede">Every session shows equal numbers of pull, center and oppo, so blind guessing scores exactly 33%.
+      Anything reliably above that means people are anticipating the ball.</p>
+
+    <div id="content"><p class="empty">Loading results…</p></div>
+
+    <div class="actions"><a href="./">Play a round →</a></div>
+  </div>
+
+  <script src="stats.js"></script>
+  <script>
+  (() => {
+    const LEADS = [
+      { key: 'release', label: 'At release', note: 'pitch just thrown — control' },
+      { key: 'flight',  label: 'Mid-flight', note: 'ball halfway to the plate' },
+      { key: 'swing',   label: 'Mid-swing',  note: 'bat coming through' },
+    ];
+    const EXP = { none: 'Never / casual', youth: 'Youth or high school', college: 'College, pro or coaching' };
+    const FRAME = 1 / 60;
+    const pct = x => `${(x * 100).toFixed(1)}%`;
+    const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+    Promise.all([
+      fetch('/api/trials').then(r => r.ok ? r.json() : Promise.reject()),
+      fetch('data.json').then(r => r.json()),
+    ]).then(([rows, plays]) => render(rows, plays)).catch(() => {
+      document.getElementById('content').innerHTML =
+        '<p class="empty">Results are collected by the local server.<br>Run <code>python scripts/server.py</code> and reload.</p>';
+    });
+
+    function summarize(list) {
+      const n = list.length, k = list.filter(r => r.correct).length;
+      return { n, k, acc: n ? k / n : 0, ci: Stats.wilson(k, n), p: Stats.binomTail(k, n) };
+    }
+
+    function render(rows, plays) {
+      // Same quality gates as scripts/analyze.py: no late freezes, first views only
+      const keep = rows.filter(r => Math.abs(r.frozen_at - (r.contact_time - r.lead_s)) <= 1.5 * FRAME && !r.repeat);
+      const el = document.getElementById('content');
+      if (!keep.length) {
+        el.innerHTML = '<p class="empty">No results yet. Be the first — play a round.</p>';
+        return;
+      }
+      const all = summarize(keep);
+      const players = new Set(keep.map(r => r.player_id)).size;
+      const verdict = all.p < 0.05
+        ? `Above chance (${Stats.fmtP(all.p)}). People are anticipating where the ball goes.`
+        : `Not yet distinguishable from chance (${Stats.fmtP(all.p)}). More trials needed.`;
+
+      const byLead = LEADS.map(l => ({ ...l, ...summarize(keep.filter(r => r.lead === l.key)) }));
+      const byExp = Object.entries(EXP).map(([k, label]) => ({ label, ...summarize(keep.filter(r => r.experience === k)) }));
+
+      const clipMap = Object.fromEntries(plays.map(p => [p.play_id, p]));
+      const byClip = Object.values(keep.reduce((m, r) => ((m[r.play_id] ||= []).push(r), m), {}))
+        .map(list => ({ play: clipMap[list[0].play_id] || {}, ...summarize(list) }))
+        .filter(c => c.n >= 5)
+        .sort((a, b) => a.p - b.p)
+        .slice(0, 12);
+
+      el.innerHTML = `
+        <div class="hero">
+          <div class="big">${pct(all.acc)}</div>
+          <div class="sub">correct across ${all.n} first-look trials from ${players} player${players === 1 ? '' : 's'}<br>
+            95% interval ${pct(all.ci[0])} – ${pct(all.ci[1])} · chance is 33.3%</div>
+          <div class="verdict">${verdict}</div>
+        </div>
+
+        <h2 class="section">Accuracy by when the clip froze</h2>
+        <div class="chart-wrap"><svg id="lead-chart" viewBox="0 0 640 280" role="img"
+          aria-label="Accuracy by freeze point with 95% intervals; see table below"></svg>
+          <div class="tip hidden" id="tip"></div></div>
+        <p class="note">Dots are accuracy, whiskers the 95% interval. “At release” is the control: the swing hasn’t started,
+          so only the batter, count, fielders and pitcher are visible. A rise toward mid-swing means the swing is being read.</p>
+        ${table(['Froze', 'Correct', 'Accuracy', '95% interval', 'vs chance'],
+          byLead.map(r => [r.label, `${r.k}/${r.n}`, r.n ? pct(r.acc) : '—', r.n ? `${pct(r.ci[0])}–${pct(r.ci[1])}` : '—', pcell(r)]))}
+
+        <h2 class="section">By playing experience</h2>
+        ${table(['Experience', 'Correct', 'Accuracy', '95% interval', 'vs chance'],
+          byExp.map(r => [r.label, `${r.k}/${r.n}`, r.n ? pct(r.acc) : '—', r.n ? `${pct(r.ci[0])}–${pct(r.ci[1])}` : '—', pcell(r)]))}
+
+        <h2 class="section">Most readable pitches</h2>
+        ${byClip.length ? table(['Batter', 'Went', 'Correct', 'Accuracy', 'vs chance'],
+          byClip.map(c => [esc(c.play.batter || '?'), c.play.direction || '', `${c.k}/${c.n}`, pct(c.acc), pcell(c)]))
+          : '<p class="note">Clips appear here once they have at least 5 first-look trials.</p>'}
+        <p class="note">Per-clip p-values aren’t corrected for testing many clips; <code>scripts/analyze.py</code> applies
+          Benjamini–Hochberg. Trials are excluded if the frame shown was more than a frame off the intended freeze, or if the player had seen the clip before.</p>
+      `;
+      drawChart(byLead);
+    }
+
+    function pcell(r) {
+      if (!r.n) return '—';
+      return r.p < 0.05 ? `<span class="sig">${Stats.fmtP(r.p)}</span>` : Stats.fmtP(r.p);
+    }
+
+    function table(head, rows) {
+      return `<table class="stats"><thead><tr>${head.map(h => `<th>${h}</th>`).join('')}</tr></thead>
+        <tbody>${rows.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+    }
+
+    function drawChart(data) {
+      const svg = document.getElementById('lead-chart');
+      const W = 640, H = 280, m = { l: 44, r: 20, t: 16, b: 44 };
+      const y = v => m.t + (1 - v) * (H - m.t - m.b);
+      const x = i => m.l + (i + 0.5) * (W - m.l - m.r) / data.length;
+      const ticks = [0, 0.25, 0.5, 0.75, 1];
+      let s = ticks.map(t => `<line class="grid" x1="${m.l}" x2="${W - m.r}" y1="${y(t)}" y2="${y(t)}"/>
+        <text class="axis" x="${m.l - 8}" y="${y(t) + 4}" text-anchor="end">${t * 100}%</text>`).join('');
+      s += `<line class="chance" x1="${m.l}" x2="${W - m.r}" y1="${y(1 / 3)}" y2="${y(1 / 3)}"/>
+        <text class="chance-label" x="${W - m.r}" y="${y(1 / 3) - 6}" text-anchor="end">chance 33%</text>`;
+      data.forEach((d, i) => {
+        s += `<text class="cat" x="${x(i)}" y="${H - m.b + 20}">${d.label}</text>`;
+        if (!d.n) return;
+        s += `<line class="ci" x1="${x(i)}" x2="${x(i)}" y1="${y(d.ci[0])}" y2="${y(d.ci[1])}"/>
+          <circle class="dot" cx="${x(i)}" cy="${y(d.acc)}" r="6"/>
+          <text class="val" x="${x(i) + 12}" y="${y(d.acc) + 4}">${pct(d.acc)}</text>
+          <rect class="hit" data-i="${i}" x="${x(i) - 40}" y="${m.t}" width="80" height="${H - m.t - m.b}"/>`;
+      });
+      svg.innerHTML = s;
+
+      const tip = document.getElementById('tip');
+      svg.querySelectorAll('.hit').forEach(r => {
+        r.addEventListener('mouseenter', () => {
+          const d = data[+r.dataset.i];
+          tip.innerHTML = `<b>${d.label}</b> — ${d.note}<br>${d.k}/${d.n} correct · ${pct(d.acc)}<br>
+            95% interval ${pct(d.ci[0])}–${pct(d.ci[1])} · ${Stats.fmtP(d.p)}`;
+          const box = svg.getBoundingClientRect(), scale = box.width / W;
+          tip.style.left = `${x(+r.dataset.i) * scale}px`;
+          tip.style.top = `${y(d.ci[1]) * scale}px`;
+          tip.classList.remove('hidden');
+        });
+        r.addEventListener('mouseleave', () => tip.classList.add('hidden'));
+      });
+    }
+  })();
+  </script>
+</body>
+</html>

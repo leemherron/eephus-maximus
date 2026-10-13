@@ -2,3 +2,6 @@
 anticipation/clips/
 scripts/__pycache__/
 scripts/.pybaseball/
+raw_clips/
+review/
+data/
