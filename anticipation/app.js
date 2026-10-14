@@ -20,8 +20,10 @@
   // the batter, count, fielders and pitcher alone. Any gain at "flight" and
   // "swing" comes from reading the pitch and the swing.
   // Keep in sync with LEADS in scripts/process_clips.py.
-  // Whole frames at 60fps (24, 12, 4), so the freeze lands exactly on a frame.
-  const LEADS = { release: 24 / 60, flight: 12 / 60, swing: 4 / 60 };
+  // Whole frames at 60fps (24, 12, 6), so the freeze lands exactly on a frame. Mid-swing is 6 frames
+  // (0.1s) rather than fewer: broadcast audio can lag the picture a frame or two, so contact times
+  // found from the crack of the bat may run late; 6 frames keeps a margin against showing contact.
+  const LEADS = { release: 24 / 60, flight: 12 / 60, swing: 6 / 60 };
   const LEAD_LABELS = { release: 'at release', flight: 'mid-flight', swing: 'mid-swing' };
   const PER_DIRECTION = 6;                 // 18 trials per session
   const FRAME = 1 / 60;                    // processed clips are constant 60fps

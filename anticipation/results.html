@@ -89,7 +89,9 @@
 
     function render(rows, plays, base) {
       // Same quality gates as scripts/analyze.py: no late freezes, first views only
-      const keep = rows.filter(r => Math.abs(r.frozen_at - (r.contact_time - r.lead_s)) <= 1.5 * FRAME && !r.repeat);
+      // early = how far before the intended freeze the shown frame was: never late, at most 3 frames early
+      const early = r => (r.contact_time - r.lead_s) - r.frozen_at;
+      const keep = rows.filter(r => early(r) >= -0.5 * FRAME && early(r) <= 3 * FRAME && !r.repeat);
       const el = document.getElementById('content');
       if (!keep.length) {
         el.innerHTML = '<p class="empty">No results yet. Be the first — play a round.</p>';
@@ -100,8 +102,8 @@
       const sessions = new Set(rows.map(r => r.session_id)).size;
       const interim = sessions < PLANNED_SESSIONS;
       const verdict = all.p < 0.05
-        ? `Above chance (${Stats.fmtP(all.p)}).${interim ? ' Interim — the study isn’t finished.' : ' People are anticipating where the ball goes.'}`
-        : `Not yet distinguishable from chance (${Stats.fmtP(all.p)}).`;
+        ? `Above chance in a simple pooled test (${Stats.fmtP(all.p)}).${interim ? ' Interim — the study isn’t finished.' : ''}`
+        : `Not yet distinguishable from chance (pooled test, ${Stats.fmtP(all.p)}).`;
       const best = base && base.strategies.reduce((a, b) => (b.acc > a.acc ? b : a));
 
       const byLead = LEADS.map(l => ({ ...l, ...summarize(keep.filter(r => r.lead === l.key)) }));
@@ -134,7 +136,8 @@
             That’s the real bar.</li>
         </ol>
         <p class="note">Fixed before collecting data, along with the sample size, so the result can’t be cherry-picked.
-          The full analysis tests each player separately (one heavy player can’t carry it): <code>scripts/analyze.py</code>.</p>
+          The official verdict comes from <code>scripts/analyze.py</code>, which uses a mixed model across players and
+          clips, so one heavy player or a few easy clips can’t carry it. Numbers on this page are simpler summaries.</p>
 
         <h2 class="section">Accuracy by when the clip froze</h2>
         <div class="chart-wrap"><svg id="lead-chart" viewBox="0 0 640 280" role="img"
@@ -152,7 +155,7 @@
         <p class="note">How well someone would do on these ${base.n_clips} clips using only what’s known before the pitch:
           each hitter’s 2024 spray tendencies on similar batted balls, the pitch location, or both. Inside pitches get
           pulled and hitters have habits, so a lot is predictable before the swing. That is the bar for “reading the
-          swing”, not 33%. Each strategy is scored on just ${base.n_clips} clips, so treat these as ±10 points.</p>` : ''}
+          swing”, not 33%. Each strategy is scored on just ${base.n_clips} clips, so treat these as ±${Math.round(98 / Math.sqrt(base.n_clips))} points.</p>` : ''}
 
         <h2 class="section">By playing experience</h2>
         ${table(['Experience', 'Correct', 'Accuracy', '95% interval', 'vs chance'],
@@ -163,7 +166,7 @@
           byClip.map(c => [esc(c.play.batter || '?'), c.play.direction || '', `${c.k}/${c.n}`, pct(c.acc), pcell(c)]))
           : '<p class="note">Clips appear here once they have at least 5 first-look trials.</p>'}
         <p class="note">Per-clip p-values aren’t corrected for testing many clips; <code>scripts/analyze.py</code> applies
-          Benjamini–Hochberg. Trials are excluded if the frame shown was more than a frame off the intended freeze, or if the player had seen the clip before.</p>
+          Benjamini–Hochberg. Trials are excluded if the frame shown was at all late (it could show contact) or more than 3 frames early, or if the player had seen the clip before.</p>
       `;
       drawChart(byLead, best);
     }

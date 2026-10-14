@@ -7,8 +7,8 @@ For each play:
      is the sharpest high-frequency transient. Savant clips put contact
      ~3.2-3.7s in, so only that window is searched. A contact time that has
      been checked by eye (contact_verified) is never overwritten.
-  2. Trim to [contact - PRE, contact + POST] and re-encode at constant 60fps
-     with a keyframe every 0.25s, so seeking is exact and files are small.
+  2. Trim to [contact - PRE, contact + POST] and re-encode at constant 60fps,
+     960 wide, with a keyframe every 0.25s, so seeking is exact and files are ~2MB.
      In the processed clip, contact is always at t = PRE.
   3. Write review sheets (review/<play_id>.jpg) showing the frames the game can
      freeze on, plus one frame after contact, for checking by eye.
@@ -38,7 +38,7 @@ WIN = 0.005                   # 5ms energy windows
 WEAK = 150                    # peak/median below this → flag for a closer look
 
 # Freeze points the game uses (seconds before contact) — keep in sync with app.js
-LEADS = {'release': 24 / 60, 'flight': 12 / 60, 'swing': 4 / 60}   # whole 60fps frames
+LEADS = {'release': 24 / 60, 'flight': 12 / 60, 'swing': 6 / 60}   # whole 60fps frames
 
 
 def detect_contact(raw_path):
@@ -62,9 +62,10 @@ def encode(raw_path, out_path, contact):
     start = max(0.0, contact - PRE)
     subprocess.run(
         [FFMPEG, '-v', 'error', '-y', '-i', raw_path, '-ss', f'{start:.3f}', '-t', f'{PRE + POST:.3f}',
-         '-vf', 'fps=60,scale=1280:-2', '-c:v', 'libx264', '-preset', 'medium', '-crf', '24',
+         # 960 wide at CRF 27 keeps bat and ball as sharp as 1280/CRF 24 at under half the size
+         '-vf', 'fps=60,scale=960:-2', '-c:v', 'libx264', '-preset', 'slow', '-crf', '27',
          '-g', '15', '-keyint_min', '15', '-sc_threshold', '0', '-pix_fmt', 'yuv420p',
-         '-c:a', 'aac', '-b:a', '96k', '-movflags', '+faststart', out_path],
+         '-c:a', 'aac', '-b:a', '64k', '-movflags', '+faststart', out_path],
         check=True)
     return round(contact - start, 3)   # contact time inside the processed clip (PRE unless clipped at 0)
 
