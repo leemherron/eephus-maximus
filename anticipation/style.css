@@ -402,4 +402,5 @@ kbd {
 }
 .results-link:hover { color: var(--cream); }
 .complete-actions { display: flex; flex-direction: column; align-items: center; }
-#verdict-line { text-align: center; font-size: 0.85rem; max-width: 26rem; line-height: 1.6; }
+#verdict-line, #scout-line { text-align: center; font-size: 0.85rem; max-width: 28rem; line-height: 1.6; }
+#scout-line { margin-top: 0.6rem; }

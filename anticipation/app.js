@@ -53,6 +53,16 @@
   let frozenAt = null;
   let freezeClock = 0;
 
+  // What a "scouting report" (hitter tendencies + pitch location, no video) picks
+  // for each clip — from scripts/baselines.py. Optional: the game works without it.
+  let scout = null;
+  fetch('baselines.json').then(r => r.ok ? r.json() : null).then(b => {
+    if (!b) return;
+    const best = b.strategies.reduce((x, y) => (y.acc > x.acc ? y : x));
+    const rule = `${best.key}/${best.rule}`;
+    scout = Object.fromEntries(b.per_clip.map(c => [c.play_id, c[rule]]));
+  }).catch(() => {});
+
   const video = $('play-video');
   const preloader = document.createElement('video');
   preloader.preload = 'auto';
@@ -376,6 +386,21 @@
                 : `Over ${total} clips that's within the range of luck (${Stats.fmtP(p)}).`);
 
     $('emoji-line').textContent = history.map(h => h.isRight ? '🟩' : '🟥').join('');
+
+    // The fairer bar: a scout who knows the hitter and the pitch location but never sees the swing
+    $('scout-line').textContent = '';
+    if (scout) {
+      const scored = history.filter(h => scout[h.play.play_id]);
+      const scoutHits = scored.filter(h => scout[h.play.play_id] === h.play.direction).length;
+      const fooled = scored.filter(h => scout[h.play.play_id] !== h.play.direction);
+      const youOnFooled = fooled.filter(h => h.isRight).length;
+      const mine = scored.filter(h => h.isRight).length;
+      $('scout-line').textContent =
+        `A scouting report (each hitter's tendencies plus the pitch location, no video) would have scored ` +
+        `${scoutHits} / ${scored.length} on these clips — ` +
+        (mine > scoutHits ? 'you beat it.' : mine === scoutHits ? 'you tied it.' : 'it beat you.') +
+        (fooled.length ? ` On the ${fooled.length} it got wrong, you got ${youOnFooled}.` : '');
+    }
 
     // Accuracy by freeze point is the point of the experiment
     $('breakdown-table').innerHTML = Object.keys(LEADS).map(l => {

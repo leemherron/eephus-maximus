@@ -23,6 +23,23 @@ reading the video:
 | Every clip's contact time checked by eye | Audio detection misfires on a few percent of clips |
 | Clips a player has already seen are shown last and analyzed separately | Memory isn't anticipation |
 
+### What counts as proof
+
+Beating 1 in 3 isn't enough on its own. `scripts/baselines.py` scores strategies that never watch
+the clip: knowing each hitter's 2024 spray tendencies and the pitch location gets about **52%** on
+these clips, because inside pitches get pulled and hitters have habits. So the hypotheses, fixed
+before collecting data along with the sample size (60 sessions), are:
+
+1. **H1:** accuracy is above 1/3.
+2. **H2:** accuracy is higher mid-swing than at release, i.e. information arriving during the pitch is
+   being read. Pitch location is visible by mid-flight, so this covers pitch and swing.
+3. **H3:** mid-swing accuracy beats the best no-video strategy. Sharpest form: on clips where that
+   strategy points the wrong way, mid-swing accuracy still rises above release.
+
+Primary tests are per player (so one prolific player can't carry it), with player-resampled
+intervals. `python3 scripts/analyze.py --simulate 0.333,0.333,0.333` checks the false-positive rate
+(≈5%); `--simulate 0.35,0.38,0.45` gives ≈98% power for H1 and ≈87% for H2 at 60 sessions.
+
 Each trial is logged (player, clip, freeze point, guess, reaction time, the exact frame shown,
 self-reported playing experience) to `data/trials.jsonl`.
 
@@ -53,6 +70,7 @@ python3 scripts/download_clips.py             # Savant video → raw_clips/ (git
 python3 scripts/process_clips.py              # find contact from audio, trim, re-encode → anticipation/clips/
 python3 scripts/review.py pages               # review sheets → review/pages/
 python3 scripts/review.py ok|contact|bad ...  # or use the clip review page
+python3 scripts/baselines.py                  # rescore the no-video strategies on the current clips
 ```
 
 A clip enters the game only once it's marked verified. Video files are gitignored

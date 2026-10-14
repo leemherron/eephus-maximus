@@ -13,6 +13,10 @@
     .hero .big { font-size: 3.2rem; color: var(--accent); line-height: 1.1; }
     .hero .sub { color: var(--muted); font-size: 0.9rem; margin-top: 0.4rem; line-height: 1.6; }
     .hero .verdict { margin-top: 0.8rem; font-size: 1rem; }
+    .hero .progress-note { margin-top: 0.4rem; color: var(--muted); font-size: 0.8rem; letter-spacing: 0.04em; }
+    ol.hyp { padding-left: 1.3rem; line-height: 1.6; font-size: 0.9rem; }
+    ol.hyp li { margin-bottom: 0.35rem; }
+    ol.hyp b { font-weight: normal; color: var(--accent); }
     h2.section { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
                  font-weight: normal; margin: 2rem 0 0.75rem; border-bottom: 1px solid var(--surface); padding-bottom: 0.4rem; }
     .note { color: var(--muted); font-size: 0.8rem; line-height: 1.6; margin-top: 0.6rem; }
@@ -22,6 +26,7 @@
     #lead-chart .axis  { fill: var(--muted); font-size: 11px; font-family: Georgia, serif; }
     #lead-chart .chance { stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 4 4; }
     #lead-chart .chance-label { fill: var(--muted); font-size: 11px; font-style: italic; font-family: Georgia, serif; }
+    #lead-chart .baseline { stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 1 4; stroke-linecap: round; }
     #lead-chart .ci   { stroke: var(--accent); stroke-width: 2; stroke-linecap: round; }
     #lead-chart .dot  { fill: var(--accent); stroke: var(--bg); stroke-width: 2; }
     #lead-chart .val  { fill: var(--cream); font-size: 12px; font-family: Georgia, serif; }
@@ -64,13 +69,15 @@
     ];
     const EXP = { none: 'Never / casual', youth: 'Youth or high school', college: 'College, pro or coaching' };
     const FRAME = 1 / 60;
+    const PLANNED_SESSIONS = 60;   // fixed in advance — see scripts/analyze.py
     const pct = x => `${(x * 100).toFixed(1)}%`;
     const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
     Promise.all([
       fetch('/api/trials').then(r => r.ok ? r.json() : Promise.reject()),
       fetch('data.json').then(r => r.json()),
-    ]).then(([rows, plays]) => render(rows, plays)).catch(() => {
+      fetch('baselines.json').then(r => r.ok ? r.json() : null).catch(() => null),
+    ]).then(([rows, plays, base]) => render(rows, plays, base)).catch(() => {
       document.getElementById('content').innerHTML =
         '<p class="empty">Results are collected by the local server.<br>Run <code>python scripts/server.py</code> and reload.</p>';
     });
@@ -80,7 +87,7 @@
       return { n, k, acc: n ? k / n : 0, ci: Stats.wilson(k, n), p: Stats.binomTail(k, n) };
     }
 
-    function render(rows, plays) {
+    function render(rows, plays, base) {
       // Same quality gates as scripts/analyze.py: no late freezes, first views only
       const keep = rows.filter(r => Math.abs(r.frozen_at - (r.contact_time - r.lead_s)) <= 1.5 * FRAME && !r.repeat);
       const el = document.getElementById('content');
@@ -90,9 +97,12 @@
       }
       const all = summarize(keep);
       const players = new Set(keep.map(r => r.player_id)).size;
+      const sessions = new Set(rows.map(r => r.session_id)).size;
+      const interim = sessions < PLANNED_SESSIONS;
       const verdict = all.p < 0.05
-        ? `Above chance (${Stats.fmtP(all.p)}). People are anticipating where the ball goes.`
-        : `Not yet distinguishable from chance (${Stats.fmtP(all.p)}). More trials needed.`;
+        ? `Above chance (${Stats.fmtP(all.p)}).${interim ? ' Interim — the study isn’t finished.' : ' People are anticipating where the ball goes.'}`
+        : `Not yet distinguishable from chance (${Stats.fmtP(all.p)}).`;
+      const best = base && base.strategies.reduce((a, b) => (b.acc > a.acc ? b : a));
 
       const byLead = LEADS.map(l => ({ ...l, ...summarize(keep.filter(r => r.lead === l.key)) }));
       const byExp = Object.entries(EXP).map(([k, label]) => ({ label, ...summarize(keep.filter(r => r.experience === k)) }));
@@ -110,16 +120,39 @@
           <div class="sub">correct across ${all.n} first-look trials from ${players} player${players === 1 ? '' : 's'}<br>
             95% interval ${pct(all.ci[0])} – ${pct(all.ci[1])} · chance is 33.3%</div>
           <div class="verdict">${verdict}</div>
+          <div class="progress-note">${sessions} of ${PLANNED_SESSIONS} planned sessions</div>
         </div>
+
+        <h2 class="section">What we’re testing</h2>
+        <ol class="hyp">
+          <li><b>People beat chance.</b> Accuracy above 33%.</li>
+          <li><b>They read the pitch as it happens.</b> Accuracy is higher frozen mid-swing than at release, when only
+            the batter, count and fielders are visible. By mid-flight you can see where the pitch is going, so this
+            gain can come from the pitch, the swing, or both.</li>
+          <li><b>It’s the swing, not just the scouting report.</b> Mid-swing accuracy beats the best strategy that knows
+            the hitter’s tendencies <i>and</i> the pitch location but never watches the swing${best ? ` (${pct(best.acc)} on these clips)` : ''}.
+            That’s the real bar.</li>
+        </ol>
+        <p class="note">Fixed before collecting data, along with the sample size, so the result can’t be cherry-picked.
+          The full analysis tests each player separately (one heavy player can’t carry it): <code>scripts/analyze.py</code>.</p>
 
         <h2 class="section">Accuracy by when the clip froze</h2>
         <div class="chart-wrap"><svg id="lead-chart" viewBox="0 0 640 280" role="img"
           aria-label="Accuracy by freeze point with 95% intervals; see table below"></svg>
           <div class="tip hidden" id="tip"></div></div>
         <p class="note">Dots are accuracy, whiskers the 95% interval. “At release” is the control: the swing hasn’t started,
-          so only the batter, count, fielders and pitcher are visible. A rise toward mid-swing means the swing is being read.</p>
+          so only the batter, count, fielders and pitcher are visible. A rise toward mid-swing means people read the pitch
+          and swing as they happen; clearing the dotted line means more than the scouting report.</p>
         ${table(['Froze', 'Correct', 'Accuracy', '95% interval', 'vs chance'],
           byLead.map(r => [r.label, `${r.k}/${r.n}`, r.n ? pct(r.acc) : '—', r.n ? `${pct(r.ci[0])}–${pct(r.ci[1])}` : '—', pcell(r)]))}
+
+        ${base ? `<h2 class="section">Scoring without watching</h2>
+        ${table(['Strategy', 'Correct', 'Accuracy'],
+          base.strategies.map(st => [st.label, `${st.k}/${st.n}`, pct(st.acc)]))}
+        <p class="note">How well someone would do on these ${base.n_clips} clips using only what’s known before the pitch:
+          each hitter’s 2024 spray tendencies on similar batted balls, the pitch location, or both. Inside pitches get
+          pulled and hitters have habits, so a lot is predictable before the swing. That is the bar for “reading the
+          swing”, not 33%. Each strategy is scored on just ${base.n_clips} clips, so treat these as ±10 points.</p>` : ''}
 
         <h2 class="section">By playing experience</h2>
         ${table(['Experience', 'Correct', 'Accuracy', '95% interval', 'vs chance'],
@@ -132,7 +165,7 @@
         <p class="note">Per-clip p-values aren’t corrected for testing many clips; <code>scripts/analyze.py</code> applies
           Benjamini–Hochberg. Trials are excluded if the frame shown was more than a frame off the intended freeze, or if the player had seen the clip before.</p>
       `;
-      drawChart(byLead);
+      drawChart(byLead, best);
     }
 
     function pcell(r) {
@@ -145,7 +178,7 @@
         <tbody>${rows.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
     }
 
-    function drawChart(data) {
+    function drawChart(data, best) {
       const svg = document.getElementById('lead-chart');
       const W = 640, H = 280, m = { l: 44, r: 20, t: 16, b: 44 };
       const y = v => m.t + (1 - v) * (H - m.t - m.b);
@@ -154,7 +187,11 @@
       let s = ticks.map(t => `<line class="grid" x1="${m.l}" x2="${W - m.r}" y1="${y(t)}" y2="${y(t)}"/>
         <text class="axis" x="${m.l - 8}" y="${y(t) + 4}" text-anchor="end">${t * 100}%</text>`).join('');
       s += `<line class="chance" x1="${m.l}" x2="${W - m.r}" y1="${y(1 / 3)}" y2="${y(1 / 3)}"/>
-        <text class="chance-label" x="${W - m.r}" y="${y(1 / 3) - 6}" text-anchor="end">chance 33%</text>`;
+        <text class="chance-label" x="${W - m.r}" y="${y(1 / 3) + 14}" text-anchor="end">chance 33%</text>`;
+      if (best && Math.abs(best.acc - 1 / 3) > 0.02) {
+        s += `<line class="baseline" x1="${m.l}" x2="${W - m.r}" y1="${y(best.acc)}" y2="${y(best.acc)}"/>
+          <text class="chance-label" x="${m.l + 6}" y="${y(best.acc) - 6}">without watching the swing ${pct(best.acc)}</text>`;
+      }
       data.forEach((d, i) => {
         s += `<text class="cat" x="${x(i)}" y="${H - m.b + 20}">${d.label}</text>`;
         if (!d.n) return;
