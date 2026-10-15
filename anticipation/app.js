@@ -41,6 +41,8 @@
 
   // ── state ──────────────────────────────────────────────────────────────────
   let allPlays = [];
+  let practicePlays = [];  // reserved for the warm-up round, never scored
+  let practicing = false;
   let trials = [];       // [{play, repeat}]
   let index = 0;
   let score = 0;
@@ -70,9 +72,12 @@
   fetch('data.json')
     .then(r => r.ok ? r.json() : Promise.reject())
     .then(data => {
-      // Only clips whose contact frame was checked frame by frame — freezing 2 frames
-      // before contact, an error of 2 frames would show the ball being hit.
-      allPlays = data.filter(p => p.clip_file && p.contact_frame_checked && p.contact_time != null && !p.exclude);
+      // Only clips whose contact frame was checked frame by frame AND whose exact freeze
+      // frame passed a blind "has the ball been hit?" audit (review.py leakcheck).
+      const usable = data.filter(p => p.clip_file && p.contact_frame_checked && p.leak_audit === 'passed'
+        && p.contact_time != null && !p.exclude);
+      allPlays = usable.filter(p => !p.practice);
+      practicePlays = usable.filter(p => p.practice);
       if (allPlays.length === 0) throw new Error('no clips');
       if (!store.get('rts.exp', null)) $('intake').classList.remove('hidden');
       show('start');
@@ -110,7 +115,15 @@
       return;
     }
     $('intake').classList.add('hidden');
-    trials = buildSession();
+    // First time: a 3-clip warm-up (not logged) so the controls — especially pull/oppo
+    // swapping sides for lefties — are learned before anything counts.
+    if (!store.get('rts.practiced', false) && practicePlays.length) {
+      practicing = true;
+      trials = shuffle(practicePlays.map(play => ({ play, repeat: false })));
+    } else {
+      practicing = false;
+      trials = buildSession();
+    }
     sessionId = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()));
     index = 0;
     score = 0;
@@ -130,8 +143,8 @@
 
     const total = trials.length;
     $('progress-fill').style.width = `${(index / total) * 100}%`;
-    $('progress-text').textContent = `${index + 1} / ${total}`;
-    $('score-display').textContent = `${score} / ${index}`;
+    $('progress-text').textContent = practicing ? `Practice ${index + 1} / ${total}` : `${index + 1} / ${total}`;
+    $('score-display').textContent = practicing ? 'Warm-up' : `${score} / ${index}`;
 
     $('batter-name').textContent = play.batter;
     $('batter-hand').textContent = play.stand === 'L' ? 'LHB' : 'RHB';
@@ -232,16 +245,18 @@
     const { play, repeat } = trials[index];
     const correct = play.direction;
     const isRight = chosen === correct;
-    if (isRight) score++;
-    history.push({ play, chosen, isRight });
-    logTrial({
-      play_id: play.play_id, lead: LEAD_NAME, lead_s: +(FREEZE_FRAMES * FRAME).toFixed(4), guess: chosen, direction: correct,
-      correct: isRight, rt_ms: Math.round(performance.now() - freezeClock),
-      frozen_at: +frozenAt.toFixed(3), contact_time: play.contact_time, repeat,
-    });
-    const seen = new Set(store.get('rts.seen', []));
-    seen.add(play.play_id);
-    store.set('rts.seen', [...seen]);
+    if (!practicing) {
+      if (isRight) score++;
+      history.push({ play, chosen, isRight });
+      logTrial({
+        play_id: play.play_id, lead: LEAD_NAME, lead_s: +(FREEZE_FRAMES * FRAME).toFixed(4), guess: chosen, direction: correct,
+        correct: isRight, rt_ms: Math.round(performance.now() - freezeClock),
+        frozen_at: +frozenAt.toFixed(3), contact_time: play.contact_time, repeat,
+      });
+      const seen = new Set(store.get('rts.seen', []));
+      seen.add(play.play_id);
+      store.set('rts.seen', [...seen]);
+    }
 
     document.querySelectorAll('.guess-btn').forEach(b => {
       b.disabled = true;
@@ -254,6 +269,9 @@
 
     $('result-line').textContent = isRight ? '✓ Correct' : `✗ It went ${LABELS[correct].toLowerCase()}`;
     $('result-line').className = isRight ? 'correct' : 'wrong';
+    $('practice-note').textContent = !practicing ? '' :
+      `Warm-up — not scored. Pull is the batter's own side: left field for a righty, right field for a lefty. ` +
+      `This was a ${play.stand === 'L' ? 'lefty' : 'righty'}, so pull was to ${play.stand === 'L' ? 'right' : 'left'}.`;
     $('detail-line').textContent = [
       `${play.launch_speed} mph`,
       `${play.launch_angle}°`,
@@ -308,8 +326,12 @@
   function nextRound() {
     if (!guessed) return;
     index++;
-    if (index >= trials.length) showComplete();
-    else loadRound();
+    if (index < trials.length) return loadRound();
+    if (practicing) {
+      store.set('rts.practiced', true);
+      return startGame();          // warm-up done: the real, logged round starts
+    }
+    showComplete();
   }
   $('next-btn').addEventListener('click', nextRound);
 

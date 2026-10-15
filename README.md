@@ -14,18 +14,21 @@ come from what's visible in the video:
 | Design choice | Why |
 |---|---|
 | Every session has 6 pull, 6 center, 6 oppo | Any strategy that ignores the video averages exactly 1/3 |
-| Every clip's contact frame was set frame by frame (`review.py strips`), and the game only uses those clips | At 2 frames, a contact time off by 2 frames would show the ball being hit. The audio-based times weren't good enough: half the clips needed contact moved earlier, one in five by 3+ frames |
+| Every clip's contact frame was set frame by frame (`review.py strips`) | At 2 frames, a contact time off by 2 frames would show the ball being hit. The audio-based times weren't good enough: half the clips needed contact moved earlier, one in five by 3+ frames |
+| Then every exact freeze frame passed a blind audit (`review.py leakcheck`): reviewers, told nothing about contact times, judged whether the ball had been hit | The direct test of what players see. Clips fail if the ball can't be found while the bat is at the hitting point (no-contact unverifiable) or no swing has started (freeze far too early) |
+| A 3-clip warm-up for first-time players, not logged, with reserved clips | Pull/oppo swap field sides for lefties; early mistakes from learning the controls aren't anticipation failures |
 | Freeze lands on the last frame at or before the target | A late frame could show contact: trials more than half a frame late, or more than 3 frames early, are dropped from analysis |
 | Sound off until the answer is in, one viewing, buttons locked until the freeze | Everyone gets the same information |
 | Only hits 90–100 mph, 10–30°, at least 3° from a direction boundary | Clear-cut answers, comparable batted balls |
-| Clips (60 per direction target) from 142 batters, max 2 each, across the 2024 season | No single swing or park dominates |
+| 138 scored clips (46 pull / 42 center / 50 oppo) from 117 batters, max 2 each, across the 2024 season | No single swing or park dominates; sessions draw 6 per direction, so chance stays exactly 1/3 |
 | Clips a player has already seen are shown last and analyzed separately | Memory isn't anticipation |
+| Only complete 18-clip rounds count; answers under 0.25 s are dropped | Chance is exactly 1/3 only over a full balanced round; instant taps aren't a read |
 
 ### What counts as proof
 
 Beating 1 in 3 isn't enough on its own. `scripts/baselines.py` scores a "scouting report" that never
 watches the clip: knowing each hitter's 2024 spray tendencies and the pitch location gets about
-**48%** on these clips, because inside pitches get pulled and hitters have habits. The hypotheses,
+**46%** on these clips, because inside pitches get pulled and hitters have habits. The hypotheses,
 fixed before collecting data along with the sample size (60 sessions):
 
 1. **H1 (primary):** accuracy is above 1/3.
@@ -79,7 +82,9 @@ python3 scripts/process_clips.py              # find contact from audio, trim, r
 python3 scripts/review.py pages               # review sheets → review/pages/
 python3 scripts/review.py ok|contact|bad ...  # or use the clip review page
 python3 scripts/review.py strips              # frame-by-frame strips → find each clip's exact contact frame
-python3 scripts/review.py frame-ok|shift ...  # record it (the game only uses frame-checked clips)
+python3 scripts/review.py frame-ok|shift ...  # record it
+python3 scripts/review.py leakcheck           # exact freeze frames → review/leak/ for a blind audit
+python3 scripts/review.py leak-ok ...         # mark passed (the game only uses audited clips)
 python3 scripts/baselines.py                  # rescore the no-video strategies on the current clips
 ```
 

@@ -27,9 +27,14 @@ batted balls — one prolific player or a few easy clips can't carry it.
 Planned sample: PLANNED_SESSIONS sessions. Results before then are interim —
 don't stop early because a p-value dips under 0.05.
 
-Quality gates: a trial is dropped if the frame shown was more than half a frame
-late (could show contact) or more than 3 frames early, and by default if the
-player had seen the clip before (memory, not anticipation).
+Quality gates (fixed in advance):
+  - only complete sessions (all 18 trials): chance is exactly 1/3 only over a
+    full balanced 6/6/6 round;
+  - a trial is dropped if the frame shown was more than half a frame late (could
+    show contact) or more than 3 frames early;
+  - answers under MIN_RT_MS after the freeze are dropped as accidental taps;
+  - by default, clips the player had seen before are dropped (memory, not
+    anticipation).
 
   python scripts/analyze.py [--include-repeats]
   python scripts/analyze.py --simulate 0.40,0.38 --clip-sd 0.8   # accuracy on report-right, report-wrong clips
@@ -54,6 +59,8 @@ FRAME = 1 / 60
 FREEZE_FRAMES = 2            # keep in sync with app.js
 PLANNED_SESSIONS = 60        # ≈1080 trials
 BOOT = 2000                  # bootstrap resamples
+SESSION_TRIALS = 18          # 6 per direction
+MIN_RT_MS = 250
 
 
 # ── stats helpers ──────────────────────────────────────────────────────────────
@@ -152,15 +159,22 @@ def analyze(rows, clips, include_repeats=False, quiet=False):
     say = (lambda *a, **k: None) if quiet else print
     scout, best = load_scout()
 
+    per_session = defaultdict(int)
+    for r in rows:
+        per_session[r['session_id']] += 1
+    partial = [r for r in rows if per_session[r['session_id']] < SESSION_TRIALS]
     off = [r for r in rows if not on_target(r)]
+    fast = [r for r in rows if (r.get('rt_ms') or 0) < MIN_RT_MS]
     repeats = [r for r in rows if r.get('repeat')]
-    keep = [r for r in rows if r not in off and (include_repeats or not r.get('repeat'))]
-    sessions = len({r['session_id'] for r in rows})
+    drop = {id(r) for r in partial + off + fast + ([] if include_repeats else repeats)}
+    keep = [r for r in rows if id(r) not in drop]
+    sessions = sum(1 for n in per_session.values() if n >= SESSION_TRIALS)
 
     say(f"\n{len(rows)} trials · {len({r['player_id'] for r in rows})} players · "
-        f"{sessions} sessions ({sessions}/{PLANNED_SESSIONS} planned"
+        f"{sessions} complete sessions ({sessions}/{PLANNED_SESSIONS} planned"
         f"{' — interim' if sessions < PLANNED_SESSIONS else ''})")
-    say(f"Dropped: {len(off)} frozen off-target (>½ frame late or >3 frames early), "
+    say(f"Dropped: {len(partial)} from unfinished sessions, {len(off)} frozen off-target "
+        f"(>½ frame late or >3 frames early), {len(fast)} answered in <{MIN_RT_MS}ms, "
         f"{0 if include_repeats else len(repeats)} repeat views")
     if not keep:
         return {}
@@ -276,7 +290,7 @@ def simulate(acc_right, acc_wrong, n_sessions, clips, scout, seed, clip_sd=0.0):
                          'lead': 'pre2', 'lead_s': FREEZE_FRAMES * FRAME, 'guess': guess,
                          'direction': c['direction'], 'correct': guess == c['direction'],
                          'frozen_at': 3.0 - FREEZE_FRAMES * FRAME - 0.005, 'contact_time': 3.0,
-                         'repeat': False, 'experience': 'none'})
+                         'repeat': False, 'experience': 'none', 'rt_ms': 1000})
     return rows
 
 
@@ -290,7 +304,7 @@ def main():
     args = ap.parse_args()
 
     with open(DATA) as f:
-        clips = {p['play_id']: p for p in json.load(f) if p.get('contact_frame_checked') and not p.get('exclude')}
+        clips = {p['play_id']: p for p in json.load(f) if p.get('contact_frame_checked') and p.get('leak_audit') == 'passed' and not p.get('practice') and not p.get('exclude')}
 
     if args.simulate:
         a_right, a_wrong = map(float, args.simulate.split(','))

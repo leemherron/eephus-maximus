@@ -12,9 +12,14 @@ it is verified, because a wrong contact time could freeze after the ball is hit.
   python scripts/review.py strips [ID ...]         frame-by-frame strips around contact → review/strips/
   python scripts/review.py frame-ok ID [ID ...]    strip checked: recorded contact is the true contact frame
   python scripts/review.py shift ID FRAMES         strip checked: true contact is FRAMES away (e.g. -2 = 2 earlier)
+  python scripts/review.py leakcheck [ID ...]      the exact frame the game freezes on (plus the 2 before it,
+                                                   nothing after) → review/leak/, for a blind "has it been hit?" audit
+  python scripts/review.py leak-ok ID [ID ...]     freeze frame audited: ball clearly not yet hit (required by the game)
 
 The game freezes 2 frames before contact, so it only uses clips whose contact frame
-was checked on a strip (contact_frame_checked), not just on a review sheet.
+was checked on a strip (contact_frame_checked) and whose exact freeze frame then passed
+a blind leak audit (leak_audit = passed). Clips where the ball can't be seen while the
+bat is at the hitting point, or where no swing has started at the freeze, fail it.
 
 IDs can be any unique prefix of the play_id.
 """
@@ -80,6 +85,33 @@ def strips(plays, prefixes):
     print(f"{len(todo)} strips → review/strips/")
 
 
+def leakcheck(plays, prefixes):
+    """For each playable clip: the freeze frame the game shows, zoomed, after the two frames
+    before it — so a reviewer can tell the moving ball from the strike-zone graphic — and
+    nothing later. Reviewers aren't told anything about contact times."""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from PIL import ImageDraw
+    from process_clips import frame
+    out_dir = os.path.join(REVIEW, 'leak')
+    os.makedirs(out_dir, exist_ok=True)
+    todo = [p for p in plays if p.get('clip_file') and p.get('contact_frame_checked') and not p.get('exclude')
+            and (not prefixes or any(p['play_id'].startswith(x) for x in prefixes))]
+    W, H = 640, 480
+    for n, p in enumerate(todo, 1):
+        freeze = p['contact_time'] - 2 / 60
+        crop = '480:360:560:30' if p['stand'] == 'R' else '480:360:360:30'
+        path = os.path.join(ROOT, 'anticipation', p['clip_file'])
+        sheet = Image.new('RGB', (W * 3, H + 24))
+        g = ImageDraw.Draw(sheet)
+        g.text((6, 6), f"#{n:03d} {p['play_id'][:8]}  ({p['stand']}HB)", fill=(255, 255, 0))
+        for i, (off, label) in enumerate([(-2, 'two frames earlier'), (-1, 'one frame earlier'), (0, 'FREEZE FRAME')]):
+            img = frame(path, freeze + off / 60, crop=crop).resize((W, H))
+            sheet.paste(img, (i * W, 24))
+            g.text((i * W + 6, 28), label, fill=(255, 255, 0))
+        sheet.save(os.path.join(out_dir, f"{n:03d}_{p['play_id'][:8]}.jpg"), quality=88)
+    print(f"{len(todo)} leak-check sheets → review/leak/")
+
+
 def main(argv):
     if not argv:
         sys.exit(__doc__)
@@ -122,6 +154,12 @@ def main(argv):
               "to refresh its sheet")
     elif cmd == 'strips':
         strips(plays, args)
+    elif cmd == 'leakcheck':
+        leakcheck(plays, args)
+    elif cmd == 'leak-ok':
+        for prefix in args:
+            find(plays, prefix)['leak_audit'] = 'passed'
+        save(plays)
     elif cmd == 'frame-ok':
         for prefix in args:
             find(plays, prefix)['contact_frame_checked'] = True

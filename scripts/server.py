@@ -17,7 +17,9 @@ Usage:  python scripts/server.py
 import json
 import os
 import re
+import socket
 import threading
+from datetime import datetime, timezone
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -52,7 +54,9 @@ class Handler(SimpleHTTPRequestHandler):
             return self._json(400, {'error': 'bad json'})
 
         if self.path == '/api/trials':
-            rows = [{k: t.get(k) for k in TRIAL_FIELDS} for t in body.get('trials', [])]
+            now = datetime.now(timezone.utc).isoformat(timespec='seconds')
+            rows = [{**{k: t.get(k) for k in TRIAL_FIELDS}, 'received_at': now}
+                    for t in body.get('trials', []) if t.get('session_id') and t.get('play_id')]
             with lock:
                 os.makedirs(os.path.dirname(TRIALS), exist_ok=True)
                 seen = set()
@@ -146,9 +150,22 @@ class Handler(SimpleHTTPRequestHandler):
         pass  # quiet
 
 
+def lan_address():
+    """This machine's address on the local network, so others on the same Wi-Fi can play."""
+    try:
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+            sock.connect(('192.0.2.1', 9))   # no packets are sent; this just picks the outbound interface
+            return sock.getsockname()[0]
+    except OSError:
+        return None
+
+
 if __name__ == '__main__':
     server = ThreadingHTTPServer(('', PORT), Handler)
     print(f"Game     →  http://localhost:{PORT}/anticipation/")
+    lan = lan_address()
+    if lan:
+        print(f"           http://{lan}:{PORT}/anticipation/   (anyone on the same Wi-Fi)")
     print(f"Results  →  http://localhost:{PORT}/anticipation/results.html")
     print(f"Review   →  http://localhost:{PORT}/anticipation/editor.html")
     print("Ctrl-C to stop.\n")

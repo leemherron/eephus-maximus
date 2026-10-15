@@ -90,7 +90,9 @@
       // Same quality gates as scripts/analyze.py: the frame shown is never late and at most
       // 3 frames early; first views only
       const early = r => (r.contact_time - r.lead_s) - r.frozen_at;
-      const keep = rows.filter(r => early(r) >= -0.5 * FRAME && early(r) <= 3 * FRAME && !r.repeat);
+      const perSession = rows.reduce((m, r) => (m[r.session_id] = (m[r.session_id] || 0) + 1, m), {});
+      const keep = rows.filter(r => perSession[r.session_id] >= 18 && (r.rt_ms ?? 0) >= 250 &&
+        early(r) >= -0.5 * FRAME && early(r) <= 3 * FRAME && !r.repeat);
       const el = document.getElementById('content');
       if (!keep.length) {
         el.innerHTML = '<p class="empty">No results yet. Be the first — play a round.</p>';
@@ -98,7 +100,7 @@
       }
       const all = summarize(keep);
       const players = new Set(keep.map(r => r.player_id)).size;
-      const sessions = new Set(rows.map(r => r.session_id)).size;
+      const sessions = Object.values(perSession).filter(n => n >= 18).length;
       const interim = sessions < PLANNED_SESSIONS;
       const verdict = all.p < 0.05
         ? `Above chance in a simple pooled test (${Stats.fmtP(all.p)}).${interim ? ' Interim — the study isn’t finished.' : ''}`
@@ -136,7 +138,7 @@
           <div class="sub">correct across ${all.n} first-look trials from ${players} player${players === 1 ? '' : 's'}<br>
             95% interval ${pct(all.ci[0])} – ${pct(all.ci[1])} · chance is 33.3%</div>
           <div class="verdict">${verdict}</div>
-          <div class="progress-note">${sessions} of ${PLANNED_SESSIONS} planned sessions</div>
+          <div class="progress-note">${sessions} of ${PLANNED_SESSIONS} planned complete sessions</div>
         </div>
 
         <h2 class="section">What we’re testing</h2>
@@ -182,8 +184,9 @@
           byClip.map(c => [esc(c.play.batter || '?'), c.play.direction || '', `${c.k}/${c.n}`, pct(c.acc), pcell(c)]))
           : '<p class="note">Clips appear here once they have at least 5 first-look trials.</p>'}
         <p class="note">Per-clip p-values aren’t corrected for testing many clips; <code>scripts/analyze.py</code> applies
-          Benjamini–Hochberg. Trials are excluded if the frame shown was at all late (it could show contact) or more than
-          3 frames early, or if the player had seen the clip before.</p>
+          Benjamini–Hochberg. Only complete 18-clip rounds count. Trials are also excluded if the frame shown was at all late (it
+          could show contact) or more than 3 frames early, if the answer came under 0.25 s after the freeze, or
+          if the player had seen the clip before.</p>
       `;
       drawChart(groups);
     }
