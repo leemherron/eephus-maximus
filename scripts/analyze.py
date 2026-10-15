@@ -2,44 +2,44 @@
 """
 Can people anticipate where a batted ball goes before contact?
 
-Reads the trials the game logs (data/trials.jsonl) and tests the hypotheses
-below. Chance is exactly 1/3 by design: every session shows the same number of
-pull, center and oppo clips, so any strategy that ignores the video averages 1/3.
+Every clip freezes 2 frames (1/30 s) before the bat meets the ball. This reads
+the trials the game logs (data/trials.jsonl) and tests the hypotheses below.
+Chance is exactly 1/3 by design: every session shows the same number of pull,
+center and oppo clips, so any strategy that ignores the video averages 1/3.
 
-Hypotheses, fixed before data collection
-  H1  Overall accuracy is above 1/3.
-  H2  Accuracy is higher frozen mid-swing than at release — information arriving
-      during the pitch is being read, not just the batter, count or fielders.
-      (Pitch location is visible by mid-flight, so this covers pitch + swing.)
-  H3  Mid-swing accuracy beats the best "no-video" strategy from
-      scripts/baselines.py, which knows each hitter's tendencies AND the pitch
-      location (~48% on these clips). This is the bar for reading the swing itself.
-      Sharpest form: on clips where that strategy is WRONG, mid-swing accuracy
-      still rises above release.
+Hypotheses, fixed before data collection (H1 and H3 are primary)
+  H1  Accuracy is above 1/3: people anticipate the direction at all.
+  H3  On clips where the "scouting report" — the best no-video strategy from
+      scripts/baselines.py (each hitter's tendencies + the pitch location) —
+      points the wrong way, accuracy is still above 1/3. Someone leaning on
+      hitter/location priors scores BELOW 1/3 on those clips, so beating 1/3
+      there means reading the swing itself. Simulations: ~85-100% power at 60
+      sessions for players who read swings moderately well.
+  H2  (descriptive) People vs the scouting report trial by trial on the same
+      clips. Reported, but with little power — its per-trial differences are
+      noisy — so it is not a primary test.
 
-Primary tests use a mixed model with crossed random effects for players and
-clips, so a "yes" must hold across people AND generalize to other batted balls
-— one prolific player or a few easy clips can't carry it. Intervals come from
-a crossed bootstrap (resampling players and clips), which runs wide. By-player
-and by-clip t-tests and pooled binomial tests are shown for reference.
+Primary tests are linear mixed models with crossed random intercepts for
+players and clips, so a "yes" must hold across people AND generalize to other
+batted balls — one prolific player or a few easy clips can't carry it.
+`--simulate` checks the tests on fake players (false-positive rate, power).
 
 Planned sample: PLANNED_SESSIONS sessions. Results before then are interim —
 don't stop early because a p-value dips under 0.05.
 
 Quality gates: a trial is dropped if the frame shown was more than half a frame
-late (could leak contact) or more than 3 frames early (would blur the freeze
-points), and by default if the player had seen the clip before (memory, not
-anticipation).
+late (could show contact) or more than 3 frames early, and by default if the
+player had seen the clip before (memory, not anticipation).
 
   python scripts/analyze.py [--include-repeats]
-  python scripts/analyze.py --simulate 0.33,0.36,0.45 --sessions 60   # check the tests on fake players
+  python scripts/analyze.py --simulate 0.40,0.38 --clip-sd 0.8   # accuracy on report-right, report-wrong clips
 """
 import argparse
-import warnings
 import json
 import math
 import os
 import random
+import warnings
 from collections import defaultdict
 
 import numpy as np
@@ -50,11 +50,10 @@ TRIALS = os.path.join(ROOT, 'data', 'trials.jsonl')
 DATA = os.path.join(ROOT, 'anticipation', 'data.json')
 BASELINES = os.path.join(ROOT, 'anticipation', 'baselines.json')
 CHANCE = 1 / 3
-LEADS = {'release': 24 / 60, 'flight': 12 / 60, 'swing': 6 / 60}
 FRAME = 1 / 60
-PLANNED_SESSIONS = 60        # ≈1080 trials; ~80% power for swing−release of 10 points
-MIN_PLAYER_TRIALS = 9
-BOOT = 2000            # bootstrap resamples
+FREEZE_FRAMES = 2            # keep in sync with app.js
+PLANNED_SESSIONS = 60        # ≈1080 trials
+BOOT = 2000                  # bootstrap resamples
 
 
 # ── stats helpers ──────────────────────────────────────────────────────────────
@@ -84,121 +83,74 @@ def bh(pvals):
     return adj
 
 
-def crossed_boot(rows, which, null, seed=7):
-    """Crossed bootstrap: resample players AND clips with replacement, so the
-    interval covers both "would other people do this well" and "would they on
-    other clips". which = 'acc' (accuracy) or 'diff' (swing − release).
-    Returns (low, high, one-sided p that the true value is <= null)."""
-    if not rows:
-        return (float('nan'), float('nan'), 1.0)
+def mixed_test(rows, y):
+    """One-sided test that mean(y) > 0, from a linear mixed model with crossed
+    random intercepts for player and clip. Returns (estimate, p)."""
+    import pandas as pd
+    import statsmodels.formula.api as smf
+    df = pd.DataFrame({'y': y, 'player': [r['player_id'] for r in rows], 'clip': [r['play_id'] for r in rows]})
+    if df['player'].nunique() < 3 or df['clip'].nunique() < 3 or df['y'].std() == 0:
+        return (float(df['y'].mean()) if len(df) else float('nan'), 1.0)
+    df['all'] = 1
+    with warnings.catch_warnings():
+        warnings.simplefilter('ignore')
+        fit = smf.mixedlm('y ~ 1', df, groups='all', re_formula='0',
+                          vc_formula={'player': '0 + C(player)', 'clip': '0 + C(clip)'}).fit(reml=True)
+    est, se = fit.params['Intercept'], fit.bse['Intercept']
+    return (float(est), float(stats.norm.sf(est / se)) if se > 0 else 1.0)
+
+
+def crossed_boot(rows, y, seed=7):
+    """95% interval for mean(y), resampling players AND clips (runs wide)."""
     players = sorted({r['player_id'] for r in rows})
     clips = sorted({r['play_id'] for r in rows})
-    if len(players) < 2:
-        return (float('nan'), float('nan'), 1.0)
+    if len(players) < 2 or len(clips) < 2:
+        return (float('nan'), float('nan'))
     pi = np.array([players.index(r['player_id']) for r in rows])
     ci = np.array([clips.index(r['play_id']) for r in rows])
-    y = np.array([r['correct'] for r in rows], dtype=float)
-    sw = np.array([r['lead'] == 'swing' for r in rows], dtype=float)
-    rl = np.array([r['lead'] == 'release' for r in rows], dtype=float)
+    y = np.asarray(y, dtype=float)
     rng = np.random.default_rng(seed)
     vals = []
     for _ in range(BOOT):
         wp = np.bincount(rng.integers(len(players), size=len(players)), minlength=len(players))
         wc = np.bincount(rng.integers(len(clips), size=len(clips)), minlength=len(clips))
         w = wp[pi] * wc[ci]
-        if which == 'acc':
-            if w.sum():
-                vals.append((w * y).sum() / w.sum())
-        else:
-            a, b = (w * sw).sum(), (w * rl).sum()
-            if a and b:
-                vals.append((w * y * sw).sum() / a - (w * y * rl).sum() / b)
+        if w.sum():
+            vals.append((w * y).sum() / w.sum())
     vals = np.sort(vals)
-    return (vals[int(0.025 * len(vals))], vals[int(0.975 * len(vals)) - 1], float((vals <= null).mean()))
-
-
-def unit_scores(rows, unit, which):
-    """Per-player or per-clip scores: accuracy − 1/3 ('acc') or swing − release ('diff')."""
-    groups = defaultdict(list)
-    for r in rows:
-        groups[r[unit]].append(r)
-    out = []
-    for rs in groups.values():
-        if which == 'acc':
-            out.append(acc(rs) - CHANCE)
-        else:
-            d = lead_diff(rs)
-            if d is not None:
-                out.append(d)
-    return out
-
-
-def mixed_test(rows, which):
-    """Linear mixed model with crossed random intercepts for player and clip, so the
-    answer generalizes to other people AND other batted balls. which='acc' tests
-    accuracy > 1/3; which='diff' tests mid-swing > release. Returns one-sided p."""
-    import pandas as pd
-    import statsmodels.formula.api as smf
-    df = pd.DataFrame({'y': [float(r['correct']) for r in rows],
-                       'player': [r['player_id'] for r in rows],
-                       'clip': [r['play_id'] for r in rows],
-                       'lead': [r['lead'] for r in rows]})
-    if which == 'diff':
-        df = df[df['lead'].isin(['release', 'swing'])].copy()
-        df['swing'] = (df['lead'] == 'swing').astype(float)
-        formula, term = 'y ~ swing', 'swing'
-    else:
-        df['y'] = df['y'] - CHANCE
-        formula, term = 'y ~ 1', 'Intercept'
-    if df['player'].nunique() < 3 or df['clip'].nunique() < 3:
-        return 1.0
-    df['all'] = 1
-    with warnings.catch_warnings():
-        warnings.simplefilter('ignore')
-        fit = smf.mixedlm(formula, df, groups='all', re_formula='0',
-                          vc_formula={'player': '0 + C(player)', 'clip': '0 + C(clip)'}).fit(reml=True)
-    z = fit.params[term] / fit.bse[term]
-    return float(stats.norm.sf(z))
-
-
-def unit_t(rows, unit, which):
-    """One-sample t over players or over clips (supporting evidence)."""
-    x = unit_scores(rows, unit, which)
-    if len(x) < 3 or np.std(x) == 0:
-        return None
-    t = stats.ttest_1samp(x, 0, alternative='greater')
-    return t.statistic, t.pvalue
+    return (vals[int(0.025 * len(vals))], vals[int(0.975 * len(vals)) - 1])
 
 
 def on_target(r):
-    """The frame shown may be up to 3 frames early (safe; freeze points are ≥0.1s apart)
-    but never more than half a frame late (could show contact)."""
+    """The frame shown may be up to 3 frames early but never more than half a frame late."""
     early = (r['contact_time'] - r['lead_s']) - r['frozen_at']
     return -0.5 * FRAME <= early <= 3 * FRAME
 
 
-def acc(rows):
-    return sum(r['correct'] for r in rows) / len(rows) if rows else None
-
-
-def lead_diff(rows):
-    s = [r['correct'] for r in rows if r['lead'] == 'swing']
-    rel = [r['correct'] for r in rows if r['lead'] == 'release']
-    return (sum(s) / len(s) - sum(rel) / len(rel)) if s and rel else None
-
-
-# ── reporting ──────────────────────────────────────────────────────────────────
 def line(label, k, n, ref=CHANCE):
     if not n:
-        return f"  {label:24s}     —"
+        return f"  {label:28s}     —"
     lo, hi = wilson(k, n)
-    return (f"  {label:24s} {k:4d}/{n:<4d} {k / n:6.1%}   95% CI {lo:5.1%}–{hi:5.1%}   "
+    return (f"  {label:28s} {k:4d}/{n:<4d} {k / n:6.1%}   95% CI {lo:5.1%}–{hi:5.1%}   "
             f"p = {binom_p(k, n, ref):.2g}")
 
 
+def load_scout():
+    """play_id -> the scouting report's pick (best no-video strategy), or None."""
+    if not os.path.exists(BASELINES):
+        return None, None
+    with open(BASELINES) as f:
+        base = json.load(f)
+    best = max(base['strategies'], key=lambda s: s['acc'])
+    rule = f"{best['key']}/{best['rule']}"
+    return {c['play_id']: c[rule] for c in base['per_clip']}, best
+
+
+# ── analysis ───────────────────────────────────────────────────────────────────
 def analyze(rows, clips, include_repeats=False, quiet=False):
-    """Returns {'H1': p, 'H2': p} (player-level); prints the full report unless quiet."""
+    """Prints the report (unless quiet) and returns {'H1': p, 'H2': p, 'H3': p}."""
     say = (lambda *a, **k: None) if quiet else print
+    scout, best = load_scout()
 
     off = [r for r in rows if not on_target(r)]
     repeats = [r for r in rows if r.get('repeat')]
@@ -212,77 +164,41 @@ def analyze(rows, clips, include_repeats=False, quiet=False):
         f"{0 if include_repeats else len(repeats)} repeat views")
     if not keep:
         return {}
-
-    by_player = defaultdict(list)
-    for r in keep:
-        by_player[r['player_id']].append(r)
-    players = {p: rs for p, rs in by_player.items() if len(rs) >= MIN_PLAYER_TRIALS}
     out = {}
 
     # H1
     k = sum(r['correct'] for r in keep)
-    say("\nH1  OVERALL ACCURACY  (chance = 33.3%)")
+    say("\nH1  BEAT CHANCE  (33.3%)")
     say(line('pooled (reference)', k, len(keep)))
-    p = mixed_test(keep, 'acc')
-    out['H1'] = p
-    say(f"  {'mixed model (primary)':24s} {acc(keep):6.1%}   p = {p:.2g}   (random player + clip effects)")
+    est, out['H1'] = mixed_test(keep, [r['correct'] - CHANCE for r in keep])
+    say(f"  {'mixed model (primary)':28s} {est + CHANCE:6.1%}   p = {out['H1']:.2g}")
     if not quiet:
-        lo, hi, _ = crossed_boot(keep, 'acc', CHANCE)
+        lo, hi = crossed_boot(keep, [r['correct'] for r in keep])
         if not math.isnan(lo):
-            say(f"  {'players × clips interval':24s} {lo:5.1%}–{hi:5.1%}  (crossed bootstrap; runs wide)")
-        for unit, label in (('player_id', 'by player'), ('play_id', 'by clip')):
-            t = unit_t(keep, unit, 'acc')
-            if t:
-                say(f"  {label:24s} t = {t[0]:.2f}, p = {t[1]:.2g}")
+            say(f"  {'players × clips interval':28s} {lo:5.1%}–{hi:5.1%}  (crossed bootstrap; runs wide)")
 
-    # H2
-    say("\nH2  BY FREEZE POINT  (release = control: swing not started)")
-    for l in LEADS:
-        sub = [r for r in keep if r['lead'] == l]
-        say(line(l, sum(r['correct'] for r in sub), len(sub)))
-    pooled = lead_diff(keep)
-    if pooled is not None:
-        p = mixed_test(keep, 'diff')
-        out['H2'] = p
-        say(f"  {'swing − release':24s} {pooled:+6.1%}   mixed model p = {p:.2g}   (primary)")
-        if not quiet:
-            lo, hi, _ = crossed_boot(keep, 'diff', 0)
-            if not math.isnan(lo):
-                say(f"  {'players × clips interval':24s} {lo:+.1%} to {hi:+.1%}  (crossed bootstrap; runs wide)")
-            for unit, label in (('player_id', 'by player'), ('play_id', 'by clip')):
-                t = unit_t(keep, unit, 'diff')
-                if t:
-                    say(f"  {label:24s} t = {t[0]:.2f}, p = {t[1]:.2g}")
+    # H2 / H3
+    if scout:
+        scored = [r for r in keep if r['play_id'] in scout]
+        right = [r for r in scored if scout[r['play_id']] == r['direction']]
+        wrong = [r for r in scored if scout[r['play_id']] != r['direction']]
+        s_acc = len(right) / len(scored) if scored else float('nan')
 
-    # H3
-    if os.path.exists(BASELINES):
-        with open(BASELINES) as f:
-            base = json.load(f)
-        best = max(base['strategies'], key=lambda s: s['acc'])
-        sw = [r for r in keep if r['lead'] == 'swing']
-        say(f"\nH3  MID-SWING vs BEST NO-VIDEO STRATEGY  ({best['label'].lower()}: {best['acc']:.1%} on "
-            f"{best['n']} clips)")
-        say(line('mid-swing vs that rate', sum(r['correct'] for r in sw), len(sw), ref=best['acc']))
-        rel = [r for r in keep if r['lead'] == 'release']
-        say(line('release vs that rate', sum(r['correct'] for r in rel), len(rel), ref=best['acc']))
+        say(f"\nH2  VS THE SCOUTING REPORT  ({best['label'].lower()}, no video; descriptive)")
+        say(f"  {'people':28s} {sum(r['correct'] for r in scored) / len(scored):6.1%}   "
+            f"scouting report on the same trials {s_acc:6.1%}")
+        diff = [r['correct'] - (scout[r['play_id']] == r['direction']) for r in scored]
+        est, out['H2'] = mixed_test(scored, diff)
+        say(f"  {'people − report':28s} {est:+6.1%}   p = {out['H2']:.2g}")
 
-        # The sharpest test: clips where the scouting report points the wrong way. Someone
-        # leaning on hitter + location priors is pulled toward a wrong answer there, so
-        # mid-swing beating release on these clips means reading what the report can't see.
-        rule = f"{best['key']}/{best['rule']}"
-        report_right = {c['play_id'] for c in base['per_clip'] if c[rule] == c['direction']}
-        say(f"\n  Split by whether {best['label'].lower()} gets the clip right "
-            f"({len(report_right)}/{best['n']} clips):")
-        for label, want in (('report right', True), ('report WRONG', False)):
-            sub = [r for r in keep if (r['play_id'] in report_right) == want]
-            for l in LEADS:
-                ls = [r for r in sub if r['lead'] == l]
-                say(line(f'{label} · {l}', sum(r['correct'] for r in ls), len(ls)))
-        wrong = [r for r in keep if r['play_id'] not in report_right]
-        d = lead_diff(wrong)
-        if d is not None:
-            p = mixed_test(wrong, 'diff')
-            say(f"  {'report WRONG: swing − release':32s} {d:+6.1%}   mixed model p = {p:.2g}")
+        say("\nH3  CLIPS WHERE THE SCOUTING REPORT IS WRONG  (priors alone score below 33%)")
+        say(line('report right', sum(r['correct'] for r in right), len(right)))
+        say(line('report WRONG', sum(r['correct'] for r in wrong), len(wrong)))
+        if wrong:
+            est, out['H3'] = mixed_test(wrong, [r['correct'] - CHANCE for r in wrong])
+            say(f"  {'report WRONG, mixed model':28s} {est + CHANCE:6.1%}   p = {out['H3']:.2g}   (primary)")
+            agree = sum(r['guess'] == scout[r['play_id']] for r in wrong) / len(wrong)
+            say(f"  {'guessed what the report said':28s} {agree:6.1%} of report-wrong trials")
 
     # secondary
     say("\nLEARNING  (does accuracy rise within a session?)")
@@ -320,47 +236,46 @@ def analyze(rows, clips, include_repeats=False, quiet=False):
 
 
 # ── simulation: do the tests work? ─────────────────────────────────────────────
-def simulate(true_acc, n_sessions, clips, seed, clip_sd=0.0):
-    """Fake sessions with the game's design: 6 per direction, leads balanced, given accuracy per lead.
-    clip_sd adds clip-to-clip difficulty (SD on the log-odds scale, drawn fresh each study), the
-    situation where a test that treats these clips as fixed would overstate the evidence."""
+def simulate(acc_right, acc_wrong, n_sessions, clips, scout, seed, clip_sd=0.0):
+    """Fake sessions with the game's design (6 clips per direction). Players are right with
+    probability acc_right on clips the scouting report gets right and acc_wrong where it's
+    wrong; clip_sd adds clip-to-clip difficulty (log-odds SD), centered so those averages hold.
+    On report-wrong clips, half of the wrong guesses follow the report (a prior-led player)."""
     rng = random.Random(seed)
     offset = {pid: rng.gauss(0, clip_sd) for pid in clips}
     sig = lambda x: 1 / (1 + math.exp(-x))
-    # Spread on the log-odds scale shifts the average; pick each lead's center so the
-    # average over the clip population is exactly true_acc (bisection on a fixed sample).
     r99 = random.Random(99)
     draws = [r99.gauss(0, clip_sd) for _ in range(4000)]
-    center = {}
-    for l, target in true_acc.items():
-        lo, hi = -6.0, 6.0
+
+    def center(target):
+        lo, hi = -8.0, 8.0
         for _ in range(40):
             mid = (lo + hi) / 2
             if sum(sig(mid + e) for e in draws) / len(draws) < target:
                 lo = mid
             else:
                 hi = mid
-        center[l] = (lo + hi) / 2
+        return (lo + hi) / 2
 
-    def p_right(c, l):
-        return sig(center[l] + offset[c['play_id']])
-
+    c_right, c_wrong = center(acc_right), center(acc_wrong)
     pool = {d: [c for c in clips.values() if c.get('direction') == d] for d in ('pull', 'center', 'oppo')}
     rows = []
     for s in range(n_sessions):
-        trials = []
-        for d, cs in pool.items():
-            leads = [l for l in LEADS for _ in range(2)]
-            rng.shuffle(leads)
-            for c, l in zip(rng.sample(cs, 6), leads):
-                trials.append((c, l))
+        trials = [c for cs in pool.values() for c in rng.sample(cs, 6)]
         rng.shuffle(trials)
-        for i, (c, l) in enumerate(trials):
-            right = rng.random() < p_right(c, l)
-            guess = c['direction'] if right else rng.choice([d for d in pool if d != c['direction']])
+        for i, c in enumerate(trials):
+            report_wrong = scout.get(c['play_id'], c['direction']) != c['direction']
+            right = rng.random() < sig((c_wrong if report_wrong else c_right) + offset[c['play_id']])
+            if right:
+                guess = c['direction']
+            elif report_wrong and rng.random() < 0.5:
+                guess = scout[c['play_id']]
+            else:
+                guess = rng.choice([d for d in pool if d != c['direction']])
             rows.append({'player_id': f'p{s}', 'session_id': f's{s}', 'trial': i, 'play_id': c['play_id'],
-                         'lead': l, 'lead_s': LEADS[l], 'guess': guess, 'direction': c['direction'],
-                         'correct': right, 'frozen_at': 3.0 - LEADS[l] - 0.01, 'contact_time': 3.0,
+                         'lead': 'pre2', 'lead_s': FREEZE_FRAMES * FRAME, 'guess': guess,
+                         'direction': c['direction'], 'correct': guess == c['direction'],
+                         'frozen_at': 3.0 - FREEZE_FRAMES * FRAME - 0.005, 'contact_time': 3.0,
                          'repeat': False, 'experience': 'none'})
     return rows
 
@@ -368,27 +283,27 @@ def simulate(true_acc, n_sessions, clips, seed, clip_sd=0.0):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--include-repeats', action='store_true')
-    ap.add_argument('--simulate', help='true accuracy at release,flight,swing e.g. 0.33,0.36,0.45')
+    ap.add_argument('--simulate', help='true accuracy on report-right,report-wrong clips, e.g. 0.40,0.38')
     ap.add_argument('--sessions', type=int, default=PLANNED_SESSIONS)
-    ap.add_argument('--runs', type=int, default=200, help='simulated studies for the power estimate')
+    ap.add_argument('--runs', type=int, default=200, help='simulated studies')
     ap.add_argument('--clip-sd', type=float, default=0.0, help='clip difficulty spread (log-odds SD)')
     args = ap.parse_args()
 
     with open(DATA) as f:
-        clips = {p['play_id']: p for p in json.load(f) if p.get('contact_verified') and not p.get('exclude')}
+        clips = {p['play_id']: p for p in json.load(f) if p.get('contact_frame_checked') and not p.get('exclude')}
 
     if args.simulate:
-        true_acc = dict(zip(LEADS, map(float, args.simulate.split(','))))
-        print(f"Simulating {args.runs} studies of {args.sessions} sessions, true accuracy {true_acc}, "
-              f"clip SD {args.clip_sd}")
+        a_right, a_wrong = map(float, args.simulate.split(','))
+        scout, _ = load_scout()
+        print(f"Simulating {args.runs} studies of {args.sessions} sessions: accuracy {a_right:.0%} where the "
+              f"report is right, {a_wrong:.0%} where it's wrong, clip SD {args.clip_sd}")
         hits = defaultdict(int)
         for i in range(args.runs):
-            res = analyze(simulate(true_acc, args.sessions, clips, i, args.clip_sd), clips, quiet=True)
+            res = analyze(simulate(a_right, a_wrong, args.sessions, clips, scout, i, args.clip_sd), clips, quiet=True)
             for h, p in res.items():
                 hits[h] += p < 0.05
-        for h in ('H1', 'H2'):
+        for h in ('H1', 'H2', 'H3'):
             print(f"  {h} significant in {hits[h] / args.runs:.0%} of studies")
-        print("(At 0.333,0.333,0.333 these are false-positive rates and should be ≈5%.)")
         return
 
     if not os.path.exists(TRIALS):

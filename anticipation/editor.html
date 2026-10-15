@@ -145,9 +145,7 @@
 
     <div class="group">
       <span class="group-label">Jump</span>
-      <button class="btn" data-jump="release">Release</button>
-      <button class="btn" data-jump="flight">Flight</button>
-      <button class="btn" data-jump="swing">Swing</button>
+      <button class="btn" data-jump="freeze">Freeze frame</button>
       <button class="btn" data-jump="contact">Contact</button>
     </div>
 
@@ -170,9 +168,9 @@
     <div id="status"></div>
 
     <div id="help">
-      Contact must be the first frame where the bat meets the ball. Check that the <b>swing</b> freeze shows no contact
-      and that the camera is the center-field view. &nbsp;
-      <kbd>,</kbd>/<kbd>.</kbd> frame · <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd> jump release/flight/swing/contact ·
+      Contact must be the first frame where the bat meets the ball. The game freezes 2 frames earlier; check that frame
+      shows no contact and that the camera is the center-field view. &nbsp;
+      <kbd>,</kbd>/<kbd>.</kbd> frame · <kbd>1</kbd><kbd>2</kbd> jump to freeze/contact ·
       <kbd>S</kbd> set contact · <kbd>V</kbd> verify · <kbd>X</kbd> exclude · <kbd>[</kbd>/<kbd>]</kbd> clip
     </div>
   </div>
@@ -180,8 +178,7 @@
 
 <script>
 (() => {
-  // Keep in sync with LEADS in app.js / scripts/process_clips.py
-  const LEADS = { release: 24 / 60, flight: 12 / 60, swing: 6 / 60 };
+  const FREEZE_FRAMES = 2;   // keep in sync with app.js
   const FRAME = 1 / 60;
 
   let plays = [];
@@ -194,7 +191,7 @@
     .then(r => r.json())
     .then(data => {
       plays = data;
-      const rank = p => p.exclude ? 2 : p.contact_verified ? 1 : 0;
+      const rank = p => p.exclude ? 2 : p.contact_frame_checked ? 1 : 0;
       order = plays.map((p, i) => i).filter(i => plays[i].clip_file)
         .sort((a, b) => rank(plays[a]) - rank(plays[b]));
       buildSidebar();
@@ -204,7 +201,7 @@
   // ── sidebar ───────────────────────────────────────────────────────────────
   function status(p) {
     if (p.exclude) return ['bad', 'excluded'];
-    if (p.contact_verified) return ['ok', `verified · ${p.contact_time.toFixed(3)}s`];
+    if (p.contact_frame_checked) return ['ok', `verified · ${p.contact_time.toFixed(3)}s`];
     return ['todo', `needs review · ${p.contact_time?.toFixed(3) ?? '—'}s`];
   }
 
@@ -233,10 +230,10 @@
 
   function updateCounts() {
     const live = order.map(i => plays[i]);
-    const done = live.filter(p => p.contact_verified || p.exclude).length;
+    const done = live.filter(p => p.contact_frame_checked || p.exclude).length;
     $('done-count').textContent = `${done}/${live.length}`;
     const byDir = ['pull', 'center', 'oppo'].map(d =>
-      `${live.filter(p => p.direction === d && p.contact_verified && !p.exclude).length} ${d}`).join(' · ');
+      `${live.filter(p => p.direction === d && p.contact_frame_checked && !p.exclude).length} ${d}`).join(' · ');
     $('progress-count').textContent = `${live.length - done} to review · playable: ${byDir}`;
   }
 
@@ -253,14 +250,14 @@
       `<span class="sub">${p.direction} · ${p.spray_angle}° · ${(p.events || '').replace(/_/g, ' ')}` +
       ` · vs ${p.pitcher} · ${p.game_date}</span>`;
     v.src = p.clip_file;
-    v.addEventListener('loadeddata', () => jump('swing'), { once: true });
+    v.addEventListener('loadeddata', () => jump('freeze'), { once: true });
   }
 
   function jump(what) {
     const c = plays[current].contact_time;
     if (c == null) return;
     v.pause();
-    v.currentTime = what === 'contact' ? c : c - LEADS[what];
+    v.currentTime = what === 'contact' ? c : c - FREEZE_FRAMES * FRAME;
   }
 
   function step(dir) {
@@ -305,12 +302,12 @@
     const p = plays[current];
     const shift = t - p.contact_time;
     // contact_raw lets process_clips.py re-encode around the corrected time
-    await save({ contact_time: +t.toFixed(3), contact_raw: +((p.contact_raw ?? 0) + shift).toFixed(3) });
+    await save({ contact_time: +t.toFixed(3), contact_raw: +((p.contact_raw ?? 0) + shift).toFixed(3), contact_frame_checked: true });
     flash(`contact set to ${t.toFixed(3)}s (${shift >= 0 ? '+' : ''}${(shift * 1000).toFixed(0)}ms)`);
   }
 
   async function verify() {
-    await save({ contact_verified: true, exclude: null, exclude_reason: null });
+    await save({ contact_verified: true, contact_frame_checked: true, exclude: null, exclude_reason: null });
     flash('✓ verified');
     nextUnreviewed();
   }
@@ -331,7 +328,7 @@
   function nextUnreviewed() {
     const pos = order.indexOf(current);
     const nxt = order.slice(pos + 1).concat(order.slice(0, pos))
-      .find(i => !plays[i].contact_verified && !plays[i].exclude);
+      .find(i => !plays[i].contact_frame_checked && !plays[i].exclude);
     if (nxt != null) loadClip(nxt);
   }
 
@@ -352,7 +349,7 @@
 
   document.addEventListener('keydown', e => {
     const k = e.key.toLowerCase();
-    const jumps = { '1': 'release', '2': 'flight', '3': 'swing', '4': 'contact' };
+    const jumps = { '1': 'freeze', '2': 'contact' };
     if (jumps[k]) jump(jumps[k]);
     else if (k === ',') step(-1);
     else if (k === '.') step(+1);

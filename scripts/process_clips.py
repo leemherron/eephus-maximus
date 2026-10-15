@@ -37,8 +37,7 @@ SR = 16000                    # audio analysis sample rate
 WIN = 0.005                   # 5ms energy windows
 WEAK = 150                    # peak/median below this → flag for a closer look
 
-# Freeze points the game uses (seconds before contact) — keep in sync with app.js
-LEADS = {'release': 24 / 60, 'flight': 12 / 60, 'swing': 6 / 60}   # whole 60fps frames
+FREEZE_FRAMES = 2           # the game freezes 2 frames (60fps) before contact — keep in sync with app.js
 
 
 def detect_contact(raw_path):
@@ -71,21 +70,24 @@ def encode(raw_path, out_path, contact):
 
 
 def frame(path, t, crop=None):
+    """The frame nearest time t. ffmpeg returns the first frame at or after the seek
+    point, and encoded frames sit a hair before each 1/60 s mark, so seek half a frame
+    early — otherwise requests drift onto the next frame and can repeat a frame."""
     vf = 'scale=1280:720'
     if crop:
         vf += f',crop={crop}'
     png = subprocess.run(
-        [FFMPEG, '-v', 'error', '-ss', f'{t:.3f}', '-i', path, '-frames:v', '1', '-vf', vf,
+        [FFMPEG, '-v', 'error', '-ss', f'{max(0.0, t - 0.5 / 60):.5f}', '-i', path, '-frames:v', '1', '-vf', vf,
          '-f', 'image2pipe', '-vcodec', 'png', '-'], capture_output=True, check=True).stdout
     from io import BytesIO
     return Image.open(BytesIO(png)).convert('RGB')
 
 
 def review_sheet(play, clip_path, contact):
-    """Top row: full frames at each freeze point. Bottom row: the batter zone, same
+    """Top row: full frames 0.2s before, at the freeze, at contact, and after. Bottom row: the batter zone, same
     times plus +0.10s (must show the swing through / ball gone)."""
-    shots = [('release', -LEADS['release']), ('flight', -LEADS['flight']),
-             ('swing', -LEADS['swing']), ('+0.10', 0.10)]   # frames are pulled by seek, 60fps grid
+    shots = [('-0.2s', -0.2), (f'freeze (-{FREEZE_FRAMES}f)', -FREEZE_FRAMES / 60),
+             ('contact', 0.0), ('+0.10s', 0.10)]
     W = 400
     sheet = Image.new('RGB', (W * 4, 225 + 300 + 28), (0, 0, 0))
     g = ImageDraw.Draw(sheet)

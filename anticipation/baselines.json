@@ -1,29 +1,29 @@
 {
-  "n_clips": 180,
+  "n_clips": 176,
   "generated": "2026-10-14",
   "strategies": [
     {
       "key": "combined",
       "label": "Knowing both",
-      "acc": 0.48333333333333334,
-      "k": 87,
-      "n": 180,
+      "acc": 0.48295454545454547,
+      "k": 85,
+      "n": 176,
       "rule": "balanced"
     },
     {
       "key": "hitter",
       "label": "Knowing each hitter's tendencies",
-      "acc": 0.4444444444444444,
-      "k": 80,
-      "n": 180,
+      "acc": 0.4375,
+      "k": 77,
+      "n": 176,
       "rule": "balanced"
     },
     {
       "key": "location",
       "label": "Knowing the pitch location",
-      "acc": 0.4222222222222222,
+      "acc": 0.4318181818181818,
       "k": 76,
-      "n": 180,
+      "n": 176,
       "rule": "balanced"
     }
   ],
@@ -69,8 +69,8 @@
       "hitter/balanced": "pull",
       "location/naive": "oppo",
       "location/balanced": "oppo",
-      "combined/naive": "pull",
-      "combined/balanced": "pull"
+      "combined/naive": "center",
+      "combined/balanced": "center"
     },
     {
       "play_id": "2198def4-e410-4419-8f54-f3de664c90ad",
@@ -465,8 +465,8 @@
       "hitter/balanced": "pull",
       "location/naive": "oppo",
       "location/balanced": "oppo",
-      "combined/naive": "pull",
-      "combined/balanced": "pull"
+      "combined/naive": "center",
+      "combined/balanced": "center"
     },
     {
       "play_id": "82fe4f97-b4a1-43c4-9c78-72ac1c7e01f6",
@@ -555,17 +555,6 @@
       "location/balanced": "pull",
       "combined/naive": "center",
       "combined/balanced": "center"
-    },
-    {
-      "play_id": "e4817800-063c-48ba-8ab7-17a5d2b68eae",
-      "direction": "pull",
-      "n_hitter": 30,
-      "hitter/naive": "oppo",
-      "hitter/balanced": "oppo",
-      "location/naive": "oppo",
-      "location/balanced": "oppo",
-      "combined/naive": "oppo",
-      "combined/balanced": "oppo"
     },
     {
       "play_id": "d6b0dd2f-7e32-42bb-9df5-be78563ce8cd",
@@ -803,7 +792,7 @@
       "direction": "center",
       "n_hitter": 24,
       "hitter/naive": "oppo",
-      "hitter/balanced": "center",
+      "hitter/balanced": "oppo",
       "location/naive": "pull",
       "location/balanced": "pull",
       "combined/naive": "center",
@@ -918,17 +907,6 @@
       "location/balanced": "oppo",
       "combined/naive": "center",
       "combined/balanced": "center"
-    },
-    {
-      "play_id": "3427a8c2-c2b6-4dc8-aa6d-16afd1aaec79",
-      "direction": "center",
-      "n_hitter": 36,
-      "hitter/naive": "pull",
-      "hitter/balanced": "pull",
-      "location/naive": "pull",
-      "location/balanced": "pull",
-      "combined/naive": "pull",
-      "combined/balanced": "pull"
     },
     {
       "play_id": "a7545445-b2fa-4b83-a19c-2d44add20a67",
@@ -1177,7 +1155,7 @@
       "direction": "center",
       "n_hitter": 24,
       "hitter/naive": "oppo",
-      "hitter/balanced": "center",
+      "hitter/balanced": "oppo",
       "location/naive": "oppo",
       "location/balanced": "oppo",
       "combined/naive": "oppo",
@@ -1248,17 +1226,6 @@
       "location/balanced": "center",
       "combined/naive": "pull",
       "combined/balanced": "pull"
-    },
-    {
-      "play_id": "eb31ae88-0298-44e3-894b-dfa159cbd338",
-      "direction": "center",
-      "n_hitter": 38,
-      "hitter/naive": "pull",
-      "hitter/balanced": "pull",
-      "location/naive": "oppo",
-      "location/balanced": "oppo",
-      "combined/naive": "oppo",
-      "combined/balanced": "oppo"
     },
     {
       "play_id": "dd756afe-9e30-4ee7-b845-986151b74def",
@@ -1346,7 +1313,7 @@
       "location/naive": "oppo",
       "location/balanced": "oppo",
       "combined/naive": "oppo",
-      "combined/balanced": "pull"
+      "combined/balanced": "center"
     },
     {
       "play_id": "612ac2f1-5691-4f79-9c6e-41b633eb7908",
@@ -1357,7 +1324,7 @@
       "location/naive": "oppo",
       "location/balanced": "oppo",
       "combined/naive": "oppo",
-      "combined/balanced": "pull"
+      "combined/balanced": "center"
     },
     {
       "play_id": "70508ffa-722a-4068-91d8-372446523977",
@@ -1420,17 +1387,6 @@
       "n_hitter": 39,
       "hitter/naive": "oppo",
       "hitter/balanced": "center",
-      "location/naive": "oppo",
-      "location/balanced": "oppo",
-      "combined/naive": "oppo",
-      "combined/balanced": "oppo"
-    },
-    {
-      "play_id": "d977482b-f843-4516-9640-5f34bbb09e88",
-      "direction": "oppo",
-      "n_hitter": 19,
-      "hitter/naive": "oppo",
-      "hitter/balanced": "oppo",
       "location/naive": "oppo",
       "location/balanced": "oppo",
       "combined/naive": "oppo",
@@ -1523,17 +1479,6 @@
       "location/balanced": "oppo",
       "combined/naive": "pull",
       "combined/balanced": "pull"
-    },
-    {
-      "play_id": "3838e418-ffb5-472f-8112-3e6760cf732f",
-      "direction": "oppo",
-      "n_hitter": 14,
-      "hitter/naive": "oppo",
-      "hitter/balanced": "oppo",
-      "location/naive": "oppo",
-      "location/balanced": "oppo",
-      "combined/naive": "oppo",
-      "combined/balanced": "oppo"
     },
     {
       "play_id": "6d013a07-c868-47d1-b643-3324b814fdfd",
@@ -1789,17 +1734,6 @@
       "combined/balanced": "pull"
     },
     {
-      "play_id": "ccdf9c89-2fee-4b88-9ff0-0f2f25542f10",
-      "direction": "oppo",
-      "n_hitter": 37,
-      "hitter/naive": "oppo",
-      "hitter/balanced": "oppo",
-      "location/naive": "pull",
-      "location/balanced": "pull",
-      "combined/naive": "center",
-      "combined/balanced": "center"
-    },
-    {
       "play_id": "338e6e60-da72-4e7b-8770-07cd2c67760e",
       "direction": "oppo",
       "n_hitter": 51,
@@ -1936,7 +1870,7 @@
       "direction": "oppo",
       "n_hitter": 23,
       "hitter/naive": "oppo",
-      "hitter/balanced": "pull",
+      "hitter/balanced": "oppo",
       "location/naive": "oppo",
       "location/balanced": "oppo",
       "combined/naive": "oppo",
@@ -2007,6 +1941,28 @@
       "location/balanced": "oppo",
       "combined/naive": "oppo",
       "combined/balanced": "oppo"
+    },
+    {
+      "play_id": "17ce60e2-eaed-426f-813a-5db4b43ca4b5",
+      "direction": "oppo",
+      "n_hitter": 37,
+      "hitter/naive": "oppo",
+      "hitter/balanced": "oppo",
+      "location/naive": "oppo",
+      "location/balanced": "oppo",
+      "combined/naive": "oppo",
+      "combined/balanced": "oppo"
+    },
+    {
+      "play_id": "f1b2cf1b-2c6c-4c4e-ab68-26781c091a2b",
+      "direction": "oppo",
+      "n_hitter": 10,
+      "hitter/naive": "center",
+      "hitter/balanced": "center",
+      "location/naive": "oppo",
+      "location/balanced": "oppo",
+      "combined/naive": "center",
+      "combined/balanced": "center"
     }
   ]
 }

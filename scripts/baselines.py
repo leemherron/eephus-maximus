@@ -96,7 +96,7 @@ def dist(counter):
 
 def main():
     with open(DATA) as f:
-        clips = [p for p in json.load(f) if p.get('contact_verified') and not p.get('exclude')]
+        clips = [p for p in json.load(f) if p.get('contact_frame_checked') and not p.get('exclude')]
 
     print(f"Loading 2024 seasons for {len({c['batter_id'] for c in clips})} batters (cached after first run)...")
     seasons = {}

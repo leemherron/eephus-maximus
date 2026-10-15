@@ -25,7 +25,7 @@ ROOT = os.path.normpath(os.path.join(HERE, '..'))
 DATA = os.path.join(ROOT, 'anticipation', 'data.json')
 TRIALS = os.path.join(ROOT, 'data', 'trials.jsonl')
 PORT = 8080
-EDITABLE = {'contact_time', 'contact_raw', 'contact_verified', 'exclude', 'exclude_reason'}
+EDITABLE = {'contact_time', 'contact_raw', 'contact_verified', 'contact_frame_checked', 'exclude', 'exclude_reason'}
 TRIAL_FIELDS = {'player_id', 'session_id', 'trial', 'play_id', 'lead', 'lead_s', 'guess', 'direction',
                 'correct', 'rt_ms', 'frozen_at', 'contact_time', 'repeat', 'experience', 'ts'}
 

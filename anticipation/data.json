@@ -21,12 +21,14 @@
     "borderline": false,
     "description": "Jake Bauers singles on a line drive to right fielder Jake Cave. Sal Frelick scores.",
     "inning": "Top 2",
-    "contact_raw": 3.385,
+    "contact_raw": 3.335,
     "contact_verified": true,
     "raw_file": "raw_clips/256f8f95-07f8-418d-b630-5d93fbd6ea6f.mp4",
-    "contact_time": 3.0,
+    "contact_time": 2.95,
     "clip_file": "clips/256f8f95-07f8-418d-b630-5d93fbd6ea6f.mp4",
-    "duration": 7.5
+    "duration": 7.5,
+    "contact_shift_frames": -3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "00f9048f-daa0-40c8-ab83-c882d78cb5d8",
@@ -55,7 +57,9 @@
     "raw_file": "raw_clips/00f9048f-daa0-40c8-ab83-c882d78cb5d8.mp4",
     "contact_time": 3.0,
     "clip_file": "clips/00f9048f-daa0-40c8-ab83-c882d78cb5d8.mp4",
-    "duration": 7.5
+    "duration": 7.5,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "46a5b58d-df9b-4c91-b281-a24a056f8253",
@@ -79,12 +83,14 @@
     "borderline": false,
     "description": "Andy Ibáñez homers (3) on a fly ball to left field.",
     "inning": "Bot 8",
-    "contact_raw": 3.56,
+    "contact_raw": 3.51,
     "contact_verified": true,
     "raw_file": "raw_clips/46a5b58d-df9b-4c91-b281-a24a056f8253.mp4",
-    "contact_time": 3.0,
+    "contact_time": 2.95,
     "clip_file": "clips/46a5b58d-df9b-4c91-b281-a24a056f8253.mp4",
-    "duration": 7.5
+    "duration": 7.5,
+    "contact_shift_frames": -3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "10262389-0dcf-493a-b6fe-a913e3cbe0d5",
@@ -108,12 +114,14 @@
     "borderline": false,
     "description": "Austin Riley doubles (16) on a line drive to left fielder Michael Conforto. Matt Olson out at home on the throw, left fielder Michael Conforto to third baseman Matt Chapman to catcher Patrick Bailey.",
     "inning": "Bot 4",
-    "contact_raw": 3.5,
+    "contact_raw": 3.483,
     "contact_verified": true,
     "raw_file": "raw_clips/10262389-0dcf-493a-b6fe-a913e3cbe0d5.mp4",
-    "contact_time": 3.0,
+    "contact_time": 2.983,
     "clip_file": "clips/10262389-0dcf-493a-b6fe-a913e3cbe0d5.mp4",
-    "duration": 7.5
+    "duration": 7.5,
+    "contact_shift_frames": -1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "2198def4-e410-4419-8f54-f3de664c90ad",
@@ -142,7 +150,9 @@
     "raw_file": "raw_clips/2198def4-e410-4419-8f54-f3de664c90ad.mp4",
     "contact_time": 3.0,
     "clip_file": "clips/2198def4-e410-4419-8f54-f3de664c90ad.mp4",
-    "duration": 7.5
+    "duration": 7.5,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "0a882d23-9e40-4490-92f2-652480e2ffed",
@@ -166,12 +176,14 @@
     "borderline": false,
     "description": "Freddy Fermin out on a sacrifice fly to left fielder Nolan Jones. Salvador Perez scores.",
     "inning": "Top 8",
-    "contact_raw": 3.545,
+    "contact_raw": 3.478,
     "contact_verified": true,
     "raw_file": "raw_clips/0a882d23-9e40-4490-92f2-652480e2ffed.mp4",
-    "contact_time": 3.0,
+    "contact_time": 2.933,
     "clip_file": "clips/0a882d23-9e40-4490-92f2-652480e2ffed.mp4",
-    "duration": 7.5
+    "duration": 7.5,
+    "contact_shift_frames": -4,
+    "contact_frame_checked": true
   },
   {
     "play_id": "bfbef0f8-37b3-4196-b5bd-7d19639f18bf",
@@ -200,7 +212,9 @@
     "raw_file": "raw_clips/bfbef0f8-37b3-4196-b5bd-7d19639f18bf.mp4",
     "contact_time": 3.0,
     "clip_file": "clips/bfbef0f8-37b3-4196-b5bd-7d19639f18bf.mp4",
-    "duration": 7.5
+    "duration": 7.5,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "8236d686-f942-4f69-9531-f98adae86f47",
@@ -224,12 +238,14 @@
     "borderline": false,
     "description": "Alec Burleson homers (17) on a fly ball to right field.",
     "inning": "Bot 6",
-    "contact_raw": 3.495,
+    "contact_raw": 3.462,
     "contact_verified": true,
     "raw_file": "raw_clips/8236d686-f942-4f69-9531-f98adae86f47.mp4",
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/8236d686-f942-4f69-9531-f98adae86f47.mp4",
-    "duration": 7.5
+    "duration": 7.5,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "93afd074-22dd-4960-ba09-b722f199d564",
@@ -254,12 +270,14 @@
     "description": "Ozzie Albies doubles (24) on a fly ball to right fielder Mike Yastrzemski. Jarred Kelenic scores. Throwing error by right fielder Mike Yastrzemski.",
     "inning": "Bot 1",
     "raw_file": "raw_clips/93afd074-22dd-4960-ba09-b722f199d564.mp4",
-    "contact_raw": 3.435,
+    "contact_raw": 3.385,
     "contact_strength": 73,
-    "contact_time": 3.0,
+    "contact_time": 2.95,
     "clip_file": "clips/93afd074-22dd-4960-ba09-b722f199d564.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "047fc52b-0ce7-45be-aa5d-66758b6a7893",
@@ -284,12 +302,14 @@
     "description": "Jazz Chisholm Jr. lines out to right fielder Rece Hinds.",
     "inning": "Top 1",
     "raw_file": "raw_clips/047fc52b-0ce7-45be-aa5d-66758b6a7893.mp4",
-    "contact_raw": 3.445,
+    "contact_raw": 3.428,
     "contact_strength": 167,
-    "contact_time": 3.0,
+    "contact_time": 2.983,
     "clip_file": "clips/047fc52b-0ce7-45be-aa5d-66758b6a7893.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "dbee67e0-263e-48b1-954c-f16a558a6878",
@@ -319,7 +339,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/dbee67e0-263e-48b1-954c-f16a558a6878.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "e8dfbc92-2485-4781-82a1-f39ace0020b9",
@@ -344,12 +366,14 @@
     "description": "Michael Massey lines out to right fielder Rob Refsnyder.",
     "inning": "Top 3",
     "raw_file": "raw_clips/e8dfbc92-2485-4781-82a1-f39ace0020b9.mp4",
-    "contact_raw": 4.065,
+    "contact_raw": 4.048,
     "contact_strength": 257,
-    "contact_time": 3.0,
+    "contact_time": 2.983,
     "clip_file": "clips/e8dfbc92-2485-4781-82a1-f39ace0020b9.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "da7f6df6-3e9e-4377-b643-b4b8aba8f235",
@@ -374,12 +398,14 @@
     "description": "Michael Toglia flies out to right fielder Rece Hinds. Jake Cave to 3rd.",
     "inning": "Top 6",
     "raw_file": "raw_clips/da7f6df6-3e9e-4377-b643-b4b8aba8f235.mp4",
-    "contact_raw": 3.815,
+    "contact_raw": 3.782,
     "contact_strength": 161,
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/da7f6df6-3e9e-4377-b643-b4b8aba8f235.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "c6ce69bc-7a58-4fe4-bc06-bb790171ab45",
@@ -404,12 +430,14 @@
     "description": "Nolan Schanuel lines out to second baseman Zack Gelof.",
     "inning": "Top 9",
     "raw_file": "raw_clips/c6ce69bc-7a58-4fe4-bc06-bb790171ab45.mp4",
-    "contact_raw": 3.49,
+    "contact_raw": 3.473,
     "contact_strength": 293,
-    "contact_time": 3.0,
+    "contact_time": 2.983,
     "clip_file": "clips/c6ce69bc-7a58-4fe4-bc06-bb790171ab45.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "5eea40aa-f143-4815-86b4-394f457bf9af",
@@ -434,12 +462,14 @@
     "description": "Michael Toglia homers (15) on a fly ball to left center field.",
     "inning": "Top 6",
     "raw_file": "raw_clips/5eea40aa-f143-4815-86b4-394f457bf9af.mp4",
-    "contact_raw": 3.505,
+    "contact_raw": 3.455,
     "contact_strength": 618,
-    "contact_time": 3.0,
+    "contact_time": 2.95,
     "clip_file": "clips/5eea40aa-f143-4815-86b4-394f457bf9af.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "f2272d55-254a-4c80-aff5-286e35f13dc3",
@@ -464,12 +494,14 @@
     "description": "Gleyber Torres singles on a line drive to left fielder Randy Arozarena. Juan Soto scores. Alex Verdugo to 2nd.",
     "inning": "Top 1",
     "raw_file": "raw_clips/f2272d55-254a-4c80-aff5-286e35f13dc3.mp4",
-    "contact_raw": 3.42,
+    "contact_raw": 3.403,
     "contact_strength": 435,
-    "contact_time": 3.0,
+    "contact_time": 2.983,
     "clip_file": "clips/f2272d55-254a-4c80-aff5-286e35f13dc3.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "34ca5bae-0865-464a-8970-48e1c31638b5",
@@ -494,12 +526,14 @@
     "description": "Byron Buxton singles on a line drive to left fielder Chas McCormick.",
     "inning": "Bot 3",
     "raw_file": "raw_clips/34ca5bae-0865-464a-8970-48e1c31638b5.mp4",
-    "contact_raw": 3.48,
+    "contact_raw": 3.397,
     "contact_strength": 383,
-    "contact_time": 3.0,
+    "contact_time": 2.917,
     "clip_file": "clips/34ca5bae-0865-464a-8970-48e1c31638b5.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -5,
+    "contact_frame_checked": true
   },
   {
     "play_id": "f983d44b-b234-4916-b552-216d5b24fc53",
@@ -524,12 +558,14 @@
     "description": "Cal Raleigh doubles (9) on a line drive to center fielder Jackson Merrill.",
     "inning": "Top 9",
     "raw_file": "raw_clips/f983d44b-b234-4916-b552-216d5b24fc53.mp4",
-    "contact_raw": 3.285,
+    "contact_raw": 3.268,
     "contact_strength": 33,
-    "contact_time": 3.0,
+    "contact_time": 2.983,
     "clip_file": "clips/f983d44b-b234-4916-b552-216d5b24fc53.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "3a06da73-e75c-4d0a-b5e9-f33fbd30a048",
@@ -554,12 +590,14 @@
     "description": "Geraldo Perdomo doubles (5) on a line drive to right fielder Adam Duvall.",
     "inning": "Bot 2",
     "raw_file": "raw_clips/3a06da73-e75c-4d0a-b5e9-f33fbd30a048.mp4",
-    "contact_raw": 3.35,
+    "contact_raw": 3.317,
     "contact_strength": 39,
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/3a06da73-e75c-4d0a-b5e9-f33fbd30a048.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "8bde0379-1926-4521-82ab-b8801e7d32ab",
@@ -589,7 +627,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/8bde0379-1926-4521-82ab-b8801e7d32ab.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "ffa60cad-00f2-47e1-9e29-95821cbf83f2",
@@ -614,12 +654,14 @@
     "description": "Wenceel Pérez singles on a line drive to right fielder Teoscar Hernández.",
     "inning": "Bot 9",
     "raw_file": "raw_clips/ffa60cad-00f2-47e1-9e29-95821cbf83f2.mp4",
-    "contact_raw": 3.55,
+    "contact_raw": 3.483,
     "contact_strength": 97,
-    "contact_time": 3.0,
+    "contact_time": 2.933,
     "clip_file": "clips/ffa60cad-00f2-47e1-9e29-95821cbf83f2.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -4,
+    "contact_frame_checked": true
   },
   {
     "play_id": "d168c212-df60-4969-bfa0-9d5f97d7066b",
@@ -644,12 +686,14 @@
     "description": "Nolan Schanuel singles on a line drive to right fielder Lawrence Butler.",
     "inning": "Top 7",
     "raw_file": "raw_clips/d168c212-df60-4969-bfa0-9d5f97d7066b.mp4",
-    "contact_raw": 3.465,
+    "contact_raw": 3.448,
     "contact_strength": 502,
-    "contact_time": 3.0,
+    "contact_time": 2.983,
     "clip_file": "clips/d168c212-df60-4969-bfa0-9d5f97d7066b.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "39b63354-c849-485b-8283-20127c944dee",
@@ -679,7 +723,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/39b63354-c849-485b-8283-20127c944dee.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "4b7f07f5-c8cd-4a82-a143-5995dfb53bc9",
@@ -704,12 +750,14 @@
     "description": "Daulton Varsho triples (4) on a line drive to right fielder Corbin Carroll.",
     "inning": "Top 7",
     "raw_file": "raw_clips/4b7f07f5-c8cd-4a82-a143-5995dfb53bc9.mp4",
-    "contact_raw": 3.52,
+    "contact_raw": 3.487,
     "contact_strength": 61,
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/4b7f07f5-c8cd-4a82-a143-5995dfb53bc9.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "ad71a608-8142-4ee2-851f-350309070a6a",
@@ -734,12 +782,14 @@
     "description": "Pete Alonso singles on a line drive to left fielder Sam Hilliard.",
     "inning": "Bot 2",
     "raw_file": "raw_clips/ad71a608-8142-4ee2-851f-350309070a6a.mp4",
-    "contact_raw": 3.465,
+    "contact_raw": 3.432,
     "contact_strength": 432,
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/ad71a608-8142-4ee2-851f-350309070a6a.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "b449549e-4c9d-4468-99e9-b4c5daeaec63",
@@ -764,12 +814,14 @@
     "description": "Jose Iglesias doubles (6) on a line drive to left fielder Bryan Reynolds. Mark Vientos scores. Luis Torrens to 3rd.",
     "inning": "Top 6",
     "raw_file": "raw_clips/b449549e-4c9d-4468-99e9-b4c5daeaec63.mp4",
-    "contact_raw": 3.45,
+    "contact_raw": 3.417,
     "contact_strength": 188,
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/b449549e-4c9d-4468-99e9-b4c5daeaec63.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "80a20fd5-a8ba-4aa8-900b-1183d711b049",
@@ -794,12 +846,14 @@
     "description": "Josh Smith doubles (19) on a sharp line drive to right fielder David Peralta. Corey Seager scores.",
     "inning": "Bot 3",
     "raw_file": "raw_clips/80a20fd5-a8ba-4aa8-900b-1183d711b049.mp4",
-    "contact_raw": 3.4,
+    "contact_raw": 3.383,
     "contact_strength": 25,
-    "contact_time": 3.0,
+    "contact_time": 2.983,
     "clip_file": "clips/80a20fd5-a8ba-4aa8-900b-1183d711b049.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "1d6b3cd9-7574-42d2-814d-e6b848363192",
@@ -824,12 +878,14 @@
     "description": "Ezequiel Tovar singles on a line drive to left fielder Jesse Winker.",
     "inning": "Bot 1",
     "raw_file": "raw_clips/1d6b3cd9-7574-42d2-814d-e6b848363192.mp4",
-    "contact_raw": 3.505,
+    "contact_raw": 3.488,
     "contact_strength": 197,
-    "contact_time": 3.0,
+    "contact_time": 2.983,
     "clip_file": "clips/1d6b3cd9-7574-42d2-814d-e6b848363192.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "ca78b12f-eee6-4588-8c50-05a6e6d42b19",
@@ -854,12 +910,14 @@
     "description": "Anthony Volpe doubles (11) on a line drive to left fielder Colton Cowser.",
     "inning": "Bot 9",
     "raw_file": "raw_clips/ca78b12f-eee6-4588-8c50-05a6e6d42b19.mp4",
-    "contact_raw": 3.483,
+    "contact_raw": 3.45,
     "contact_strength": 24,
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/ca78b12f-eee6-4588-8c50-05a6e6d42b19.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "b8c8d201-297b-4c77-a990-e76763622fb1",
@@ -884,12 +942,14 @@
     "description": "Austin Riley lines out to left fielder Colton Cowser.",
     "inning": "Top 1",
     "raw_file": "raw_clips/b8c8d201-297b-4c77-a990-e76763622fb1.mp4",
-    "contact_raw": 3.38,
+    "contact_raw": 3.413,
     "contact_strength": 110,
-    "contact_time": 3.0,
+    "contact_time": 3.033,
     "clip_file": "clips/b8c8d201-297b-4c77-a990-e76763622fb1.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "ea684c26-1e0e-4885-b9e2-9bedeb9b4f27",
@@ -919,7 +979,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/ea684c26-1e0e-4885-b9e2-9bedeb9b4f27.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "2be6ef4a-3980-4ebf-93e8-180fdafea58e",
@@ -949,7 +1011,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/2be6ef4a-3980-4ebf-93e8-180fdafea58e.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "c70175be-4b07-4bc9-9106-4c3710a1f57a",
@@ -979,7 +1043,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/c70175be-4b07-4bc9-9106-4c3710a1f57a.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "2829eaf2-295a-42d0-b0ac-f0dc3989d356",
@@ -1004,12 +1070,14 @@
     "description": "Randal Grichuk doubles (3) on a line drive to left fielder Miles Mastrobuoni.",
     "inning": "Bot 6",
     "raw_file": "raw_clips/2829eaf2-295a-42d0-b0ac-f0dc3989d356.mp4",
-    "contact_raw": 3.51,
+    "contact_raw": 3.443,
     "contact_strength": 124,
-    "contact_time": 3.0,
+    "contact_time": 2.933,
     "clip_file": "clips/2829eaf2-295a-42d0-b0ac-f0dc3989d356.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -4,
+    "contact_frame_checked": true
   },
   {
     "play_id": "e4095d2e-2eae-49e7-99eb-4bdb9d21acde",
@@ -1034,12 +1102,14 @@
     "description": "Nolan Arenado lines out to left fielder Nathan Lukes.",
     "inning": "Top 7",
     "raw_file": "raw_clips/e4095d2e-2eae-49e7-99eb-4bdb9d21acde.mp4",
-    "contact_raw": 3.5,
+    "contact_raw": 3.4,
     "contact_strength": 72,
-    "contact_time": 3.0,
+    "contact_time": 2.9,
     "clip_file": "clips/e4095d2e-2eae-49e7-99eb-4bdb9d21acde.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -5,
+    "contact_frame_checked": true
   },
   {
     "play_id": "12f44229-d981-4733-ab1d-d7a5d00147b2",
@@ -1064,12 +1134,14 @@
     "description": "Andruw Monasterio singles on a line drive to left fielder Adam Duvall. Joey Ortiz scores.",
     "inning": "Top 8",
     "raw_file": "raw_clips/12f44229-d981-4733-ab1d-d7a5d00147b2.mp4",
-    "contact_raw": 3.54,
+    "contact_raw": 3.507,
     "contact_strength": 327,
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/12f44229-d981-4733-ab1d-d7a5d00147b2.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "f7579633-3fc3-423a-91e3-7fdfede582d9",
@@ -1094,12 +1166,14 @@
     "description": "Amed Rosario doubles (12) on a line drive to left fielder Manuel Margot. Richie Palacios scores.",
     "inning": "Top 8",
     "raw_file": "raw_clips/f7579633-3fc3-423a-91e3-7fdfede582d9.mp4",
-    "contact_raw": 3.5,
+    "contact_raw": 3.416,
     "contact_strength": 201,
-    "contact_time": 3.0,
+    "contact_time": 2.916,
     "clip_file": "clips/f7579633-3fc3-423a-91e3-7fdfede582d9.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -4,
+    "contact_frame_checked": true
   },
   {
     "play_id": "88590f89-f1b1-46d4-849b-740a6153bd7c",
@@ -1124,12 +1198,14 @@
     "description": "Kyle McCann singles on a line drive to right fielder Manuel Margot. J.D. Davis scores. Daz Cameron to 2nd.",
     "inning": "Top 9",
     "raw_file": "raw_clips/88590f89-f1b1-46d4-849b-740a6153bd7c.mp4",
-    "contact_raw": 3.535,
+    "contact_raw": 3.485,
     "contact_strength": 3047,
-    "contact_time": 3.0,
+    "contact_time": 2.95,
     "clip_file": "clips/88590f89-f1b1-46d4-849b-740a6153bd7c.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "82412aad-e716-40bf-965f-1fb779e47faf",
@@ -1154,12 +1230,14 @@
     "description": "Santiago Espinal singles on a line drive to left fielder Lourdes Gurriel Jr. Tyler Stephenson scores. Jake Fraley to 3rd.",
     "inning": "Top 6",
     "raw_file": "raw_clips/82412aad-e716-40bf-965f-1fb779e47faf.mp4",
-    "contact_raw": 3.42,
+    "contact_raw": 3.387,
     "contact_strength": 134,
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/82412aad-e716-40bf-965f-1fb779e47faf.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "efb52751-2789-4c46-a04f-4896fe9ebda1",
@@ -1189,7 +1267,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/efb52751-2789-4c46-a04f-4896fe9ebda1.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "82fe4f97-b4a1-43c4-9c78-72ac1c7e01f6",
@@ -1219,7 +1299,9 @@
     "contact_time": 3.083,
     "clip_file": "clips/82fe4f97-b4a1-43c4-9c78-72ac1c7e01f6.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "0cc8396e-3a03-435a-9af2-d9eaaffac152",
@@ -1244,12 +1326,14 @@
     "description": "Adley Rutschman singles on a line drive to right fielder Trey Cabbage. Gunnar Henderson to 3rd.",
     "inning": "Top 3",
     "raw_file": "raw_clips/0cc8396e-3a03-435a-9af2-d9eaaffac152.mp4",
-    "contact_raw": 3.37,
+    "contact_raw": 3.42,
     "contact_strength": 76,
-    "contact_time": 3.0,
+    "contact_time": 3.05,
     "clip_file": "clips/0cc8396e-3a03-435a-9af2-d9eaaffac152.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "3185464e-05a1-497b-b461-0fc00ad0d9b2",
@@ -1274,12 +1358,14 @@
     "description": "Alex Verdugo singles on a line drive to right fielder Corey Julks.",
     "inning": "Top 9",
     "raw_file": "raw_clips/3185464e-05a1-497b-b461-0fc00ad0d9b2.mp4",
-    "contact_raw": 3.33,
+    "contact_raw": 3.38,
     "contact_strength": 307,
-    "contact_time": 3.0,
+    "contact_time": 3.05,
     "clip_file": "clips/3185464e-05a1-497b-b461-0fc00ad0d9b2.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "526c4a90-4039-4c55-bb9d-46cec6ef1d49",
@@ -1304,12 +1390,14 @@
     "description": "Masataka Yoshida doubles (7) on a line drive to right fielder Lawrence Butler.",
     "inning": "Bot 4",
     "raw_file": "raw_clips/526c4a90-4039-4c55-bb9d-46cec6ef1d49.mp4",
-    "contact_raw": 3.495,
+    "contact_raw": 3.428,
     "contact_strength": 306,
-    "contact_time": 3.0,
+    "contact_time": 2.933,
     "clip_file": "clips/526c4a90-4039-4c55-bb9d-46cec6ef1d49.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -4,
+    "contact_frame_checked": true
   },
   {
     "play_id": "20023153-1a62-4719-b574-ace0f4db6507",
@@ -1339,7 +1427,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/20023153-1a62-4719-b574-ace0f4db6507.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "61c30495-503c-44e4-81c9-499a10f11a89",
@@ -1364,12 +1454,14 @@
     "description": "Shay Whitcomb lines out to left fielder Randal Grichuk.",
     "inning": "Bot 8",
     "raw_file": "raw_clips/61c30495-503c-44e4-81c9-499a10f11a89.mp4",
-    "contact_raw": 3.35,
+    "contact_raw": 3.4,
     "contact_strength": 131,
-    "contact_time": 3.0,
+    "contact_time": 3.05,
     "clip_file": "clips/61c30495-503c-44e4-81c9-499a10f11a89.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "826ae51e-efa1-48e0-8d15-055b1add6f8a",
@@ -1394,12 +1486,14 @@
     "description": "Kevin Newman hits a ground-rule double (13) on a line drive down the left-field line.",
     "inning": "Bot 3",
     "raw_file": "raw_clips/826ae51e-efa1-48e0-8d15-055b1add6f8a.mp4",
-    "contact_raw": 3.49,
+    "contact_raw": 3.457,
     "contact_strength": 65,
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/826ae51e-efa1-48e0-8d15-055b1add6f8a.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "87a20aa0-dec2-4654-a9ca-9ffdb8e1afcf",
@@ -1424,42 +1518,14 @@
     "description": "Lane Thomas singles on a line drive to left fielder Brandon Nimmo. Keibert Ruiz to 2nd.",
     "inning": "Top 4",
     "raw_file": "raw_clips/87a20aa0-dec2-4654-a9ca-9ffdb8e1afcf.mp4",
-    "contact_raw": 3.575,
+    "contact_raw": 3.491,
     "contact_strength": 182,
-    "contact_time": 3.0,
+    "contact_time": 2.916,
     "clip_file": "clips/87a20aa0-dec2-4654-a9ca-9ffdb8e1afcf.mp4",
     "duration": 7.5,
-    "contact_verified": true
-  },
-  {
-    "play_id": "e4817800-063c-48ba-8ab7-17a5d2b68eae",
-    "events": "field_out",
-    "launch_speed": 98.1,
-    "launch_angle": 21.0,
-    "game_date": "2024-04-26",
-    "game_pk": 746078,
-    "batter": "Josh Bell",
-    "batter_id": 605137,
-    "pitcher": "Trevor Williams",
-    "stand": "L",
-    "p_throws": "R",
-    "pitch_type": "Changeup",
-    "pitch_speed": 84.1,
-    "trajectory": "line_drive",
-    "hc_x": 180.32,
-    "hc_y": 95.97,
-    "spray_angle": 28.2,
-    "direction": "pull",
-    "borderline": false,
-    "description": "Josh Bell lines out to right fielder Eddie Rosario.",
-    "inning": "Bot 3",
-    "raw_file": "raw_clips/e4817800-063c-48ba-8ab7-17a5d2b68eae.mp4",
-    "contact_raw": 3.435,
-    "contact_strength": 176,
-    "contact_time": 3.0,
-    "clip_file": "clips/e4817800-063c-48ba-8ab7-17a5d2b68eae.mp4",
-    "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -4,
+    "contact_frame_checked": true
   },
   {
     "play_id": "d6b0dd2f-7e32-42bb-9df5-be78563ce8cd",
@@ -1484,12 +1550,14 @@
     "description": "Yordan Alvarez lines out to right fielder Dominic Fletcher.",
     "inning": "Bot 7",
     "raw_file": "raw_clips/d6b0dd2f-7e32-42bb-9df5-be78563ce8cd.mp4",
-    "contact_raw": 3.335,
+    "contact_raw": 3.385,
     "contact_strength": 90,
-    "contact_time": 3.0,
+    "contact_time": 3.05,
     "clip_file": "clips/d6b0dd2f-7e32-42bb-9df5-be78563ce8cd.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "43993e96-cdd8-4a8a-b8e6-745b5718b427",
@@ -1514,12 +1582,14 @@
     "description": "Geraldo Perdomo lines out to right fielder George Springer.",
     "inning": "Bot 6",
     "raw_file": "raw_clips/43993e96-cdd8-4a8a-b8e6-745b5718b427.mp4",
-    "contact_raw": 3.42,
+    "contact_raw": 3.37,
     "contact_strength": 526,
-    "contact_time": 3.0,
+    "contact_time": 2.95,
     "clip_file": "clips/43993e96-cdd8-4a8a-b8e6-745b5718b427.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "024fa8da-399d-449a-93c1-a987593283a2",
@@ -1549,7 +1619,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/024fa8da-399d-449a-93c1-a987593283a2.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "795946b6-46ea-476e-8017-335b3c0a2287",
@@ -1579,7 +1651,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/795946b6-46ea-476e-8017-335b3c0a2287.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "eec20121-7733-4782-8657-1d06811e9dbe",
@@ -1604,12 +1678,14 @@
     "description": "Eugenio Suárez hits a ground-rule double (5) on a fly ball down the left-field line. Christian Walker scores. Joc Pederson to 3rd.",
     "inning": "Top 5",
     "raw_file": "raw_clips/eec20121-7733-4782-8657-1d06811e9dbe.mp4",
-    "contact_raw": 3.43,
+    "contact_raw": 3.413,
     "contact_strength": 433,
-    "contact_time": 3.0,
+    "contact_time": 2.983,
     "clip_file": "clips/eec20121-7733-4782-8657-1d06811e9dbe.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "9847bed5-c1a8-47b4-8247-2fa4b51738de",
@@ -1634,12 +1710,14 @@
     "description": "Ty France doubles (3) on a line drive to left fielder Spencer Steer.",
     "inning": "Bot 6",
     "raw_file": "raw_clips/9847bed5-c1a8-47b4-8247-2fa4b51738de.mp4",
-    "contact_raw": 3.4,
+    "contact_raw": 3.433,
     "contact_strength": 398,
-    "contact_time": 3.0,
+    "contact_time": 3.033,
     "clip_file": "clips/9847bed5-c1a8-47b4-8247-2fa4b51738de.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "abe7343e-3470-447b-857a-82c2db284184",
@@ -1664,12 +1742,14 @@
     "description": "Trevor Larnach singles on a line drive to right fielder Adolis García. Willi Castro to 2nd.",
     "inning": "Top 3",
     "raw_file": "raw_clips/abe7343e-3470-447b-857a-82c2db284184.mp4",
-    "contact_raw": 3.74,
+    "contact_raw": 3.707,
     "contact_strength": 100,
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/abe7343e-3470-447b-857a-82c2db284184.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "9bab96b0-a4c8-4655-99d0-2b79a8ac9d87",
@@ -1694,12 +1774,14 @@
     "description": "César Salazar doubles (1) on a fly ball to right fielder Wenceel Pérez. Yainer Diaz scores.",
     "inning": "Bot 7",
     "raw_file": "raw_clips/9bab96b0-a4c8-4655-99d0-2b79a8ac9d87.mp4",
-    "contact_raw": 3.45,
+    "contact_raw": 3.517,
     "contact_strength": 13,
-    "contact_time": 3.0,
+    "contact_time": 3.067,
     "clip_file": "clips/9bab96b0-a4c8-4655-99d0-2b79a8ac9d87.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "a9ada5a2-bfd4-4e3b-8082-f9031aec3c97",
@@ -1729,7 +1811,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/a9ada5a2-bfd4-4e3b-8082-f9031aec3c97.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "53e8e70c-1731-4b8c-b4f9-e4b1d70bd41a",
@@ -1754,12 +1838,14 @@
     "description": "Ha-Seong Kim flies out to left fielder Bryan Reynolds.",
     "inning": "Bot 5",
     "raw_file": "raw_clips/53e8e70c-1731-4b8c-b4f9-e4b1d70bd41a.mp4",
-    "contact_raw": 3.66,
+    "contact_raw": 3.693,
     "contact_strength": 28,
-    "contact_time": 3.0,
+    "contact_time": 3.033,
     "clip_file": "clips/53e8e70c-1731-4b8c-b4f9-e4b1d70bd41a.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "e3350892-38a2-4a99-ab44-790cc4d30838",
@@ -1789,7 +1875,37 @@
     "contact_time": 3.0,
     "clip_file": "clips/e3350892-38a2-4a99-ab44-790cc4d30838.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
+  },
+  {
+    "play_id": "34652aba-e7de-4a25-8d01-5e8e8e3a613e",
+    "events": "field_out",
+    "launch_speed": 91.4,
+    "launch_angle": 26.0,
+    "game_date": "2024-07-05",
+    "game_pk": 745884,
+    "batter": "Jose Altuve",
+    "batter_id": 514888,
+    "pitcher": "Jorge Alcala",
+    "stand": "R",
+    "p_throws": "R",
+    "pitch_type": "Slider",
+    "pitch_speed": 89.0,
+    "trajectory": "fly_ball",
+    "hc_x": 88.65,
+    "hc_y": 88.72,
+    "spray_angle": -18.6,
+    "direction": "pull",
+    "borderline": false,
+    "description": "Jose Altuve flies out to left fielder Manuel Margot.",
+    "inning": "Top 6",
+    "raw_file": "raw_clips/34652aba-e7de-4a25-8d01-5e8e8e3a613e.mp4",
+    "contact_raw": 3.745,
+    "contact_strength": 909,
+    "exclude": true,
+    "exclude_reason": "audio contact far too late: swing already through at -8f; true frame unclear"
   },
   {
     "play_id": "4c498469-78e0-4f0c-bffe-4a1f27f3ce9e",
@@ -1818,7 +1934,9 @@
     "raw_file": "raw_clips/4c498469-78e0-4f0c-bffe-4a1f27f3ce9e.mp4",
     "contact_time": 3.0,
     "clip_file": "clips/4c498469-78e0-4f0c-bffe-4a1f27f3ce9e.mp4",
-    "duration": 7.5
+    "duration": 7.5,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "ee06a556-eb89-49fa-a22c-f46baeaf94ad",
@@ -1842,12 +1960,14 @@
     "borderline": false,
     "description": "Adley Rutschman singles on a line drive to center fielder Cody Bellinger.",
     "inning": "Bot 1",
-    "contact_raw": 3.62,
+    "contact_raw": 3.537,
     "contact_verified": true,
     "raw_file": "raw_clips/ee06a556-eb89-49fa-a22c-f46baeaf94ad.mp4",
-    "contact_time": 3.0,
+    "contact_time": 2.917,
     "clip_file": "clips/ee06a556-eb89-49fa-a22c-f46baeaf94ad.mp4",
-    "duration": 7.5
+    "duration": 7.5,
+    "contact_shift_frames": -5,
+    "contact_frame_checked": true
   },
   {
     "play_id": "907caecd-e026-4381-81e6-a1dff56ae10b",
@@ -1876,7 +1996,9 @@
     "raw_file": "raw_clips/907caecd-e026-4381-81e6-a1dff56ae10b.mp4",
     "contact_time": 3.0,
     "clip_file": "clips/907caecd-e026-4381-81e6-a1dff56ae10b.mp4",
-    "duration": 7.5
+    "duration": 7.5,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "269d574b-a09b-42b7-8b95-b28f8c49d28d",
@@ -1900,12 +2022,14 @@
     "borderline": false,
     "description": "Ke'Bryan Hayes singles on a line drive to center fielder Dylan Carlson.",
     "inning": "Bot 9",
-    "contact_raw": 3.435,
+    "contact_raw": 3.418,
     "contact_verified": true,
     "raw_file": "raw_clips/269d574b-a09b-42b7-8b95-b28f8c49d28d.mp4",
-    "contact_time": 3.0,
+    "contact_time": 2.983,
     "clip_file": "clips/269d574b-a09b-42b7-8b95-b28f8c49d28d.mp4",
-    "duration": 7.5
+    "duration": 7.5,
+    "contact_shift_frames": -1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "d555af8e-5dda-41d6-a7d3-32b92603cf3c",
@@ -1929,12 +2053,14 @@
     "borderline": false,
     "description": "Jose Miranda singles on a line drive to center fielder Matt Vierling. Carlos Santana to 2nd.",
     "inning": "Bot 6",
-    "contact_raw": 3.505,
+    "contact_raw": 3.472,
     "contact_verified": true,
     "raw_file": "raw_clips/d555af8e-5dda-41d6-a7d3-32b92603cf3c.mp4",
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/d555af8e-5dda-41d6-a7d3-32b92603cf3c.mp4",
-    "duration": 7.5
+    "duration": 7.5,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "d2a0bcf1-aab5-4ef9-8db6-4d2cc6f04833",
@@ -1963,7 +2089,9 @@
     "raw_file": "raw_clips/d2a0bcf1-aab5-4ef9-8db6-4d2cc6f04833.mp4",
     "contact_time": 3.0,
     "clip_file": "clips/d2a0bcf1-aab5-4ef9-8db6-4d2cc6f04833.mp4",
-    "duration": 7.5
+    "duration": 7.5,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "4ace80c8-4048-455d-8c98-5c76f160b30e",
@@ -1987,12 +2115,14 @@
     "borderline": false,
     "description": "Austin Wells singles on a line drive to center fielder Jarren Duran.",
     "inning": "Bot 6",
-    "contact_raw": 3.485,
+    "contact_raw": 3.468,
     "contact_verified": true,
     "raw_file": "raw_clips/4ace80c8-4048-455d-8c98-5c76f160b30e.mp4",
-    "contact_time": 3.0,
+    "contact_time": 2.983,
     "clip_file": "clips/4ace80c8-4048-455d-8c98-5c76f160b30e.mp4",
-    "duration": 7.5
+    "duration": 7.5,
+    "contact_shift_frames": -1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "cf2aed40-01f1-48b8-9ae3-28527cfdb333",
@@ -2021,7 +2151,9 @@
     "raw_file": "raw_clips/cf2aed40-01f1-48b8-9ae3-28527cfdb333.mp4",
     "contact_time": 3.0,
     "clip_file": "clips/cf2aed40-01f1-48b8-9ae3-28527cfdb333.mp4",
-    "duration": 7.5
+    "duration": 7.5,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "b8ea7a90-0196-48b6-8c2e-25f1524966c5",
@@ -2051,7 +2183,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/b8ea7a90-0196-48b6-8c2e-25f1524966c5.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "750adf3b-fd1b-418a-adf3-387efd297ef7",
@@ -2076,12 +2210,14 @@
     "description": "Jose Miranda flies out to center fielder Corey Julks.",
     "inning": "Top 1",
     "raw_file": "raw_clips/750adf3b-fd1b-418a-adf3-387efd297ef7.mp4",
-    "contact_raw": 3.415,
+    "contact_raw": 3.482,
     "contact_strength": 584,
-    "contact_time": 3.0,
+    "contact_time": 3.067,
     "clip_file": "clips/750adf3b-fd1b-418a-adf3-387efd297ef7.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "2aae4cf1-2efe-4024-b30f-94fa879eae7f",
@@ -2106,12 +2242,14 @@
     "description": "William Contreras singles on a line drive to center fielder Brenton Doyle. Brice Turang to 2nd.",
     "inning": "Top 5",
     "raw_file": "raw_clips/2aae4cf1-2efe-4024-b30f-94fa879eae7f.mp4",
-    "contact_raw": 3.51,
+    "contact_raw": 3.477,
     "contact_strength": 424,
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/2aae4cf1-2efe-4024-b30f-94fa879eae7f.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "f1972285-67ae-4017-91c8-e1e6c8cb9816",
@@ -2141,7 +2279,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/f1972285-67ae-4017-91c8-e1e6c8cb9816.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "b534c572-b1f3-4bd3-be9c-b67901cb85d2",
@@ -2166,12 +2306,14 @@
     "description": "Brooks Lee flies out to center fielder Luis Robert Jr.",
     "inning": "Top 4",
     "raw_file": "raw_clips/b534c572-b1f3-4bd3-be9c-b67901cb85d2.mp4",
-    "contact_raw": 3.4,
+    "contact_raw": 3.467,
     "contact_strength": 724,
-    "contact_time": 3.0,
+    "contact_time": 3.067,
     "clip_file": "clips/b534c572-b1f3-4bd3-be9c-b67901cb85d2.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "3272d364-7719-4afc-b4ed-f3a2a36ae664",
@@ -2201,7 +2343,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/3272d364-7719-4afc-b4ed-f3a2a36ae664.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "5c389baa-501c-4588-aa3b-3decdff88748",
@@ -2226,12 +2370,14 @@
     "description": "Randal Grichuk lines out to center fielder Jarred Kelenic.",
     "inning": "Bot 1",
     "raw_file": "raw_clips/5c389baa-501c-4588-aa3b-3decdff88748.mp4",
-    "contact_raw": 3.405,
+    "contact_raw": 3.372,
     "contact_strength": 399,
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/5c389baa-501c-4588-aa3b-3decdff88748.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "033cf9d4-5b70-490c-83b8-23f14d07f1a6",
@@ -2256,12 +2402,14 @@
     "description": "Brendan Donovan flies out to center fielder Jacob Young.",
     "inning": "Top 9",
     "raw_file": "raw_clips/033cf9d4-5b70-490c-83b8-23f14d07f1a6.mp4",
-    "contact_raw": 3.87,
+    "contact_raw": 3.837,
     "contact_strength": 1726,
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/033cf9d4-5b70-490c-83b8-23f14d07f1a6.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "b3d4af2a-edc5-443a-bce1-2b759538380d",
@@ -2286,12 +2434,14 @@
     "description": "Willy Adames singles on a line drive to center fielder Brenton Doyle. William Contreras to 3rd. Christian Yelich to 2nd.",
     "inning": "Top 4",
     "raw_file": "raw_clips/b3d4af2a-edc5-443a-bce1-2b759538380d.mp4",
-    "contact_raw": 3.475,
+    "contact_raw": 3.408,
     "contact_strength": 225,
-    "contact_time": 3.0,
+    "contact_time": 2.933,
     "clip_file": "clips/b3d4af2a-edc5-443a-bce1-2b759538380d.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -4,
+    "contact_frame_checked": true
   },
   {
     "play_id": "bd8b7184-0999-4fd9-ad87-c97afb416281",
@@ -2321,7 +2471,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/bd8b7184-0999-4fd9-ad87-c97afb416281.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "f3ad24d5-f69c-495d-80f8-1d078bd157e6",
@@ -2346,12 +2498,14 @@
     "description": "Steven Kwan singles on a line drive to center fielder Luis Robert Jr.",
     "inning": "Bot 1",
     "raw_file": "raw_clips/f3ad24d5-f69c-495d-80f8-1d078bd157e6.mp4",
-    "contact_raw": 3.405,
+    "contact_raw": 3.422,
     "contact_strength": 124,
-    "contact_time": 3.0,
+    "contact_time": 3.017,
     "clip_file": "clips/f3ad24d5-f69c-495d-80f8-1d078bd157e6.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "1efe4043-da6e-4054-b5a8-c844bd1899da",
@@ -2381,7 +2535,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/1efe4043-da6e-4054-b5a8-c844bd1899da.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "168b16f3-8fce-44c2-b2e5-e8710087396c",
@@ -2406,42 +2562,14 @@
     "description": "Dairon Blanco lines out to center fielder Brenton Doyle.",
     "inning": "Top 7",
     "raw_file": "raw_clips/168b16f3-8fce-44c2-b2e5-e8710087396c.mp4",
-    "contact_raw": 3.44,
+    "contact_raw": 3.407,
     "contact_strength": 244,
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/168b16f3-8fce-44c2-b2e5-e8710087396c.mp4",
     "duration": 7.5,
-    "contact_verified": true
-  },
-  {
-    "play_id": "3427a8c2-c2b6-4dc8-aa6d-16afd1aaec79",
-    "events": "field_out",
-    "launch_speed": 92.7,
-    "launch_angle": 30.0,
-    "game_date": "2024-07-12",
-    "game_pk": 745153,
-    "batter": "Michael Busch",
-    "batter_id": 683737,
-    "pitcher": "Sonny Gray",
-    "stand": "L",
-    "p_throws": "R",
-    "pitch_type": "Four-Seam Fastball",
-    "pitch_speed": 92.6,
-    "trajectory": "fly_ball",
-    "hc_x": 138.57,
-    "hc_y": 65.45,
-    "spray_angle": 5.7,
-    "direction": "center",
-    "borderline": false,
-    "description": "Michael Busch flies out to center fielder Michael Siani.",
-    "inning": "Top 3",
-    "raw_file": "raw_clips/3427a8c2-c2b6-4dc8-aa6d-16afd1aaec79.mp4",
-    "contact_raw": 3.53,
-    "contact_strength": 290,
-    "contact_time": 3.0,
-    "clip_file": "clips/3427a8c2-c2b6-4dc8-aa6d-16afd1aaec79.mp4",
-    "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "a7545445-b2fa-4b83-a19c-2d44add20a67",
@@ -2471,7 +2599,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/a7545445-b2fa-4b83-a19c-2d44add20a67.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "3c60101a-498b-4e39-9875-3b7427855f4d",
@@ -2496,12 +2626,14 @@
     "description": "Daz Cameron singles on a line drive to center fielder Johan Rojas. Shea Langeliers to 3rd.",
     "inning": "Top 7",
     "raw_file": "raw_clips/3c60101a-498b-4e39-9875-3b7427855f4d.mp4",
-    "contact_raw": 3.46,
+    "contact_raw": 3.41,
     "contact_strength": 2185,
-    "contact_time": 3.0,
+    "contact_time": 2.95,
     "clip_file": "clips/3c60101a-498b-4e39-9875-3b7427855f4d.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "cc3b9b05-97f3-4507-97d4-521cbe58e611",
@@ -2526,12 +2658,14 @@
     "description": "Tyler Nevin flies out to center fielder Jarren Duran.",
     "inning": "Top 7",
     "raw_file": "raw_clips/cc3b9b05-97f3-4507-97d4-521cbe58e611.mp4",
-    "contact_raw": 3.555,
+    "contact_raw": 3.505,
     "contact_strength": 1639,
-    "contact_time": 3.0,
+    "contact_time": 2.95,
     "clip_file": "clips/cc3b9b05-97f3-4507-97d4-521cbe58e611.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "6176c4be-e960-4c2b-944d-aec91444abb1",
@@ -2556,12 +2690,14 @@
     "description": "Christian Vázquez singles on a line drive to center fielder Mickey Moniak.",
     "inning": "Bot 7",
     "raw_file": "raw_clips/6176c4be-e960-4c2b-944d-aec91444abb1.mp4",
-    "contact_raw": 3.505,
+    "contact_raw": 3.455,
     "contact_strength": 827,
-    "contact_time": 3.0,
+    "contact_time": 2.95,
     "clip_file": "clips/6176c4be-e960-4c2b-944d-aec91444abb1.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "3bf27528-8264-4f37-b0fd-74a544c70061",
@@ -2586,12 +2722,14 @@
     "description": "Francisco Lindor lines out to center fielder Victor Robles.",
     "inning": "Top 4",
     "raw_file": "raw_clips/3bf27528-8264-4f37-b0fd-74a544c70061.mp4",
-    "contact_raw": 3.31,
+    "contact_raw": 3.343,
     "contact_strength": 251,
-    "contact_time": 3.0,
+    "contact_time": 3.033,
     "clip_file": "clips/3bf27528-8264-4f37-b0fd-74a544c70061.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "2016d511-b192-490d-8a78-ef47ba0b8ecd",
@@ -2621,7 +2759,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/2016d511-b192-490d-8a78-ef47ba0b8ecd.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "e3b38776-c0ac-4f18-93da-59caf7d775cb",
@@ -2651,7 +2791,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/e3b38776-c0ac-4f18-93da-59caf7d775cb.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "01045074-d5f6-4f7d-aacb-3e7730e29103",
@@ -2676,12 +2818,14 @@
     "description": "Cedric Mullins flies out to center fielder Parker Meadows.",
     "inning": "Top 1",
     "raw_file": "raw_clips/01045074-d5f6-4f7d-aacb-3e7730e29103.mp4",
-    "contact_raw": 3.49,
+    "contact_raw": 3.44,
     "contact_strength": 251,
-    "contact_time": 3.0,
+    "contact_time": 2.95,
     "clip_file": "clips/01045074-d5f6-4f7d-aacb-3e7730e29103.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "7ed445ea-acf9-4517-9663-165fdfc79427",
@@ -2711,7 +2855,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/7ed445ea-acf9-4517-9663-165fdfc79427.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "7bc322eb-d8c4-49a2-9416-f82826b5ada3",
@@ -2736,12 +2882,14 @@
     "description": "Jeremy Peña out on a sacrifice fly to center fielder Heliot Ramos. Yordan Alvarez scores.",
     "inning": "Top 7",
     "raw_file": "raw_clips/7bc322eb-d8c4-49a2-9416-f82826b5ada3.mp4",
-    "contact_raw": 3.705,
+    "contact_raw": 3.755,
     "contact_strength": 143,
-    "contact_time": 3.0,
+    "contact_time": 3.05,
     "clip_file": "clips/7bc322eb-d8c4-49a2-9416-f82826b5ada3.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "d16498d1-f1b1-41ea-9223-02d40e160fe0",
@@ -2771,7 +2919,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/d16498d1-f1b1-41ea-9223-02d40e160fe0.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "ea8303c5-3258-44ea-ad39-1cabecfbf111",
@@ -2796,12 +2946,14 @@
     "description": "Luis Rengifo singles on a line drive to center fielder Andy Pages.",
     "inning": "Top 1",
     "raw_file": "raw_clips/ea8303c5-3258-44ea-ad39-1cabecfbf111.mp4",
-    "contact_raw": 3.785,
+    "contact_raw": 3.818,
     "contact_strength": 305,
-    "contact_time": 3.0,
+    "contact_time": 3.033,
     "clip_file": "clips/ea8303c5-3258-44ea-ad39-1cabecfbf111.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "bccc32b3-17ff-4eca-bf6c-f4554df44d04",
@@ -2826,12 +2978,14 @@
     "description": "Jo Adell lines out to center fielder Cody Bellinger.",
     "inning": "Top 3",
     "raw_file": "raw_clips/bccc32b3-17ff-4eca-bf6c-f4554df44d04.mp4",
-    "contact_raw": 3.35,
+    "contact_raw": 3.45,
     "contact_strength": 36,
-    "contact_time": 3.0,
+    "contact_time": 3.1,
     "clip_file": "clips/bccc32b3-17ff-4eca-bf6c-f4554df44d04.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 6,
+    "contact_frame_checked": true
   },
   {
     "play_id": "ff0f08b2-c2df-4f3e-a8bb-d4df619c54fd",
@@ -2856,12 +3010,14 @@
     "description": "Max Kepler lines out to center fielder Mike Trout.",
     "inning": "Top 9",
     "raw_file": "raw_clips/ff0f08b2-c2df-4f3e-a8bb-d4df619c54fd.mp4",
-    "contact_raw": 3.45,
+    "contact_raw": 3.433,
     "contact_strength": 55,
-    "contact_time": 3.0,
+    "contact_time": 2.983,
     "clip_file": "clips/ff0f08b2-c2df-4f3e-a8bb-d4df619c54fd.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "2e708c2c-f04d-4add-b1b9-ab83cb9d1d08",
@@ -2886,12 +3042,14 @@
     "description": "Daniel Schneemann flies out to center fielder Garrett Mitchell.",
     "inning": "Top 3",
     "raw_file": "raw_clips/2e708c2c-f04d-4add-b1b9-ab83cb9d1d08.mp4",
-    "contact_raw": 3.38,
+    "contact_raw": 3.397,
     "contact_strength": 231,
-    "contact_time": 3.0,
+    "contact_time": 3.017,
     "clip_file": "clips/2e708c2c-f04d-4add-b1b9-ab83cb9d1d08.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "668108b9-a00f-4e88-aceb-e63294ca1023",
@@ -2916,12 +3074,14 @@
     "description": "Steven Kwan singles on a line drive to center fielder Jake McCarthy.",
     "inning": "Bot 7",
     "raw_file": "raw_clips/668108b9-a00f-4e88-aceb-e63294ca1023.mp4",
-    "contact_raw": 3.46,
+    "contact_raw": 3.443,
     "contact_strength": 151,
-    "contact_time": 3.0,
+    "contact_time": 2.983,
     "clip_file": "clips/668108b9-a00f-4e88-aceb-e63294ca1023.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "88a8153a-67db-434d-a0d3-29fabef0522a",
@@ -2946,12 +3106,14 @@
     "description": "Marcell Ozuna singles on a line drive to center fielder Kevin Pillar.",
     "inning": "Top 3",
     "raw_file": "raw_clips/88a8153a-67db-434d-a0d3-29fabef0522a.mp4",
-    "contact_raw": 3.42,
+    "contact_raw": 3.37,
     "contact_strength": 553,
-    "contact_time": 3.0,
+    "contact_time": 2.95,
     "clip_file": "clips/88a8153a-67db-434d-a0d3-29fabef0522a.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "0022de26-2e9d-4328-862b-f496b1cab6bd",
@@ -2976,12 +3138,14 @@
     "description": "Ezequiel Tovar flies out to center fielder JJ Bleday.",
     "inning": "Top 2",
     "raw_file": "raw_clips/0022de26-2e9d-4328-862b-f496b1cab6bd.mp4",
-    "contact_raw": 3.325,
+    "contact_raw": 3.292,
     "contact_strength": 629,
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/0022de26-2e9d-4328-862b-f496b1cab6bd.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "1bfd4b81-ee84-47b1-9571-293d3b1244d2",
@@ -3006,12 +3170,14 @@
     "description": "Josh Naylor flies out to center fielder Pete Crow-Armstrong. José Ramírez to 3rd.",
     "inning": "Bot 3",
     "raw_file": "raw_clips/1bfd4b81-ee84-47b1-9571-293d3b1244d2.mp4",
-    "contact_raw": 3.785,
+    "contact_raw": 3.802,
     "contact_strength": 97,
-    "contact_time": 3.0,
+    "contact_time": 3.017,
     "clip_file": "clips/1bfd4b81-ee84-47b1-9571-293d3b1244d2.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "b608cfda-63e9-4754-ac9b-3ec11080668d",
@@ -3041,7 +3207,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/b608cfda-63e9-4754-ac9b-3ec11080668d.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "eb88e070-2438-4020-a605-062b5e01d3e2",
@@ -3066,12 +3234,14 @@
     "description": "Yainer Diaz singles on a line drive to center fielder JJ Bleday. Jon Singleton to 2nd.",
     "inning": "Top 8",
     "raw_file": "raw_clips/eb88e070-2438-4020-a605-062b5e01d3e2.mp4",
-    "contact_raw": 3.32,
+    "contact_raw": 3.303,
     "contact_strength": 175,
-    "contact_time": 3.0,
+    "contact_time": 2.983,
     "clip_file": "clips/eb88e070-2438-4020-a605-062b5e01d3e2.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "4b53d856-94a3-4f71-ba3b-616fb60fd20b",
@@ -3096,12 +3266,14 @@
     "description": "Jarren Duran flies out to center fielder Aaron Judge.",
     "inning": "Top 3",
     "raw_file": "raw_clips/4b53d856-94a3-4f71-ba3b-616fb60fd20b.mp4",
-    "contact_raw": 3.485,
+    "contact_raw": 3.435,
     "contact_strength": 163,
-    "contact_time": 3.0,
+    "contact_time": 2.95,
     "clip_file": "clips/4b53d856-94a3-4f71-ba3b-616fb60fd20b.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "e995f529-8b88-426b-9211-053da1b47aff",
@@ -3131,7 +3303,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/e995f529-8b88-426b-9211-053da1b47aff.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "bf41dde4-30be-454b-9946-04436a39e7b6",
@@ -3161,7 +3335,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/bf41dde4-30be-454b-9946-04436a39e7b6.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "74853774-8661-4975-93bf-4a7cc5cbee39",
@@ -3186,12 +3362,14 @@
     "description": "Connor Joe singles on a line drive to center fielder Cody Bellinger.",
     "inning": "Top 1",
     "raw_file": "raw_clips/74853774-8661-4975-93bf-4a7cc5cbee39.mp4",
-    "contact_raw": 3.81,
+    "contact_raw": 3.86,
     "contact_strength": 1475,
-    "contact_time": 3.0,
+    "contact_time": 3.05,
     "clip_file": "clips/74853774-8661-4975-93bf-4a7cc5cbee39.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "5b34f854-dbaf-42d4-9df6-60aeb5c0675d",
@@ -3216,12 +3394,14 @@
     "description": "Ian Happ flies out to center fielder Aaron Judge.",
     "inning": "Bot 3",
     "raw_file": "raw_clips/5b34f854-dbaf-42d4-9df6-60aeb5c0675d.mp4",
-    "contact_raw": 3.295,
+    "contact_raw": 3.362,
     "contact_strength": 113,
-    "contact_time": 3.0,
+    "contact_time": 3.067,
     "clip_file": "clips/5b34f854-dbaf-42d4-9df6-60aeb5c0675d.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "e730a877-3fcc-4a9e-8e3f-6a4f77bfa373",
@@ -3251,7 +3431,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/e730a877-3fcc-4a9e-8e3f-6a4f77bfa373.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "05d84ac1-d5ba-49fe-b5f4-574ebab8eeb6",
@@ -3276,12 +3458,14 @@
     "description": "J.T. Realmuto lines out to center fielder Derek Hill.",
     "inning": "Bot 2",
     "raw_file": "raw_clips/05d84ac1-d5ba-49fe-b5f4-574ebab8eeb6.mp4",
-    "contact_raw": 3.585,
+    "contact_raw": 3.552,
     "contact_strength": 783,
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/05d84ac1-d5ba-49fe-b5f4-574ebab8eeb6.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "703dbe63-642b-4da2-9095-68aeb21daca9",
@@ -3311,37 +3495,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/703dbe63-642b-4da2-9095-68aeb21daca9.mp4",
     "duration": 7.5,
-    "contact_verified": true
-  },
-  {
-    "play_id": "eb31ae88-0298-44e3-894b-dfa159cbd338",
-    "events": "double",
-    "launch_speed": 97.9,
-    "launch_angle": 21.0,
-    "game_date": "2024-06-13",
-    "game_pk": 746299,
-    "batter": "Vinnie Pasquantino",
-    "batter_id": 686469,
-    "pitcher": "Nestor Cortes",
-    "stand": "L",
-    "p_throws": "L",
-    "pitch_type": "Cutter",
-    "pitch_speed": 89.1,
-    "trajectory": "fly_ball",
-    "hc_x": 114.21,
-    "hc_y": 69.01,
-    "spray_angle": -5.0,
-    "direction": "center",
-    "borderline": false,
-    "description": "Vinnie Pasquantino doubles (19) on a fly ball to center fielder Trent Grisham. Maikel Garcia scores. Bobby Witt Jr. scores.",
-    "inning": "Bot 4",
-    "raw_file": "raw_clips/eb31ae88-0298-44e3-894b-dfa159cbd338.mp4",
-    "contact_raw": 3.405,
-    "contact_strength": 31,
-    "contact_time": 3.0,
-    "clip_file": "clips/eb31ae88-0298-44e3-894b-dfa159cbd338.mp4",
-    "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "dd756afe-9e30-4ee7-b845-986151b74def",
@@ -3366,12 +3522,14 @@
     "description": "Brandon Lowe lines out to center fielder Jarred Kelenic.",
     "inning": "Top 6",
     "raw_file": "raw_clips/dd756afe-9e30-4ee7-b845-986151b74def.mp4",
-    "contact_raw": 3.49,
+    "contact_raw": 3.457,
     "contact_strength": 725,
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/dd756afe-9e30-4ee7-b845-986151b74def.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "c93a8b90-0e1d-4dc3-a9f8-15e8e8f2f4e6",
@@ -3396,12 +3554,14 @@
     "description": "Anthony Santander singles on a line drive to center fielder Chas McCormick.",
     "inning": "Top 1",
     "raw_file": "raw_clips/c93a8b90-0e1d-4dc3-a9f8-15e8e8f2f4e6.mp4",
-    "contact_raw": 3.295,
+    "contact_raw": 3.345,
     "contact_strength": 697,
-    "contact_time": 3.0,
+    "contact_time": 3.05,
     "clip_file": "clips/c93a8b90-0e1d-4dc3-a9f8-15e8e8f2f4e6.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "4b9bc5b0-70ab-4079-b929-db0ade268255",
@@ -3431,7 +3591,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/4b9bc5b0-70ab-4079-b929-db0ade268255.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "5e1161e6-b196-4d70-b087-b6817883dd37",
@@ -3461,7 +3623,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/5e1161e6-b196-4d70-b087-b6817883dd37.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "ff7e5643-2e84-4993-886a-2b99f8b2ef52",
@@ -3486,12 +3650,14 @@
     "description": "DJ LeMahieu lines out to center fielder Ceddanne Rafaela.",
     "inning": "Top 7",
     "raw_file": "raw_clips/ff7e5643-2e84-4993-886a-2b99f8b2ef52.mp4",
-    "contact_raw": 3.515,
+    "contact_raw": 3.365,
     "contact_strength": 40,
-    "contact_time": 3.0,
+    "contact_time": 2.85,
     "clip_file": "clips/ff7e5643-2e84-4993-886a-2b99f8b2ef52.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -8,
+    "contact_frame_checked": true
   },
   {
     "play_id": "254a7297-cf00-4952-9726-09db5e4bffc9",
@@ -3516,12 +3682,14 @@
     "description": "Bryce Harper lines out to center fielder Brenton Doyle.",
     "inning": "Bot 3",
     "raw_file": "raw_clips/254a7297-cf00-4952-9726-09db5e4bffc9.mp4",
-    "contact_raw": 3.525,
+    "contact_raw": 3.508,
     "contact_strength": 2477,
-    "contact_time": 3.0,
+    "contact_time": 2.983,
     "clip_file": "clips/254a7297-cf00-4952-9726-09db5e4bffc9.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "b2dda75c-1185-49e2-9700-f2336afc0234",
@@ -3546,12 +3714,14 @@
     "description": "Cody Bellinger singles on a line drive to center fielder Oneil Cruz.",
     "inning": "Bot 6",
     "raw_file": "raw_clips/b2dda75c-1185-49e2-9700-f2336afc0234.mp4",
-    "contact_raw": 3.365,
+    "contact_raw": 3.415,
     "contact_strength": 159,
-    "contact_time": 3.0,
+    "contact_time": 3.05,
     "clip_file": "clips/b2dda75c-1185-49e2-9700-f2336afc0234.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "b5205836-cb19-45b8-bfbc-d7bb771652e5",
@@ -3576,12 +3746,70 @@
     "description": "Matthew Batten triples (1) on a line drive to center fielder Blake Perkins.",
     "inning": "Top 8",
     "raw_file": "raw_clips/b5205836-cb19-45b8-bfbc-d7bb771652e5.mp4",
-    "contact_raw": 3.653,
+    "contact_raw": 3.62,
     "contact_strength": 70,
-    "contact_time": 3.083,
+    "contact_time": 3.05,
     "clip_file": "clips/b5205836-cb19-45b8-bfbc-d7bb771652e5.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
+  },
+  {
+    "play_id": "d23892a4-e0e3-484b-ae02-c6c08b074490",
+    "events": "sac_fly",
+    "launch_speed": 99.2,
+    "launch_angle": 28.0,
+    "game_date": "2024-09-02",
+    "game_pk": 746265,
+    "batter": "Kyle Isbel",
+    "batter_id": 664728,
+    "pitcher": "Cade Smith",
+    "stand": "L",
+    "p_throws": "R",
+    "pitch_type": "Four-Seam Fastball",
+    "pitch_speed": 94.1,
+    "trajectory": "fly_ball",
+    "hc_x": 115.33,
+    "hc_y": 45.26,
+    "spray_angle": -3.8,
+    "direction": "center",
+    "borderline": false,
+    "description": "Kyle Isbel out on a sacrifice fly to center fielder Lane Thomas. Freddy Fermin scores.",
+    "inning": "Bot 8",
+    "raw_file": "raw_clips/d23892a4-e0e3-484b-ae02-c6c08b074490.mp4",
+    "contact_raw": 3.36,
+    "contact_strength": 24,
+    "exclude": true,
+    "exclude_reason": "contact frame unclear (possible miss)"
+  },
+  {
+    "play_id": "f474fce0-52f5-4af9-8370-e14bd2938993",
+    "events": "single",
+    "launch_speed": 90.7,
+    "launch_angle": 14.0,
+    "game_date": "2024-09-15",
+    "game_pk": 745206,
+    "batter": "Victor Robles",
+    "batter_id": 645302,
+    "pitcher": "Andrew Heaney",
+    "stand": "R",
+    "p_throws": "L",
+    "pitch_type": "Four-Seam Fastball",
+    "pitch_speed": 90.8,
+    "trajectory": "line_drive",
+    "hc_x": 148.74,
+    "hc_y": 82.55,
+    "spray_angle": 11.4,
+    "direction": "center",
+    "borderline": false,
+    "description": "Victor Robles singles on a line drive to center fielder Leody Taveras.",
+    "inning": "Bot 1",
+    "raw_file": "raw_clips/f474fce0-52f5-4af9-8370-e14bd2938993.mp4",
+    "contact_raw": 3.39,
+    "contact_strength": 336,
+    "exclude": true,
+    "exclude_reason": "audio contact far too early: ball still in flight 3 frames after it"
   },
   {
     "play_id": "612ac2f1-5691-4f79-9c6e-41b633eb7908",
@@ -3605,12 +3833,14 @@
     "borderline": false,
     "description": "Alex Bregman flies out to right fielder Max Kepler.",
     "inning": "Top 1",
-    "contact_raw": 3.475,
+    "contact_raw": 3.442,
     "contact_verified": true,
     "raw_file": "raw_clips/612ac2f1-5691-4f79-9c6e-41b633eb7908.mp4",
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/612ac2f1-5691-4f79-9c6e-41b633eb7908.mp4",
-    "duration": 7.5
+    "duration": 7.5,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "70508ffa-722a-4068-91d8-372446523977",
@@ -3634,12 +3864,14 @@
     "borderline": false,
     "description": "Mike Yastrzemski doubles (9) on a fly ball to left fielder Matt Wallner. Michael Conforto to 3rd.",
     "inning": "Bot 6",
-    "contact_raw": 3.335,
+    "contact_raw": 3.385,
     "contact_verified": true,
     "raw_file": "raw_clips/70508ffa-722a-4068-91d8-372446523977.mp4",
-    "contact_time": 3.0,
+    "contact_time": 3.05,
     "clip_file": "clips/70508ffa-722a-4068-91d8-372446523977.mp4",
-    "duration": 7.5
+    "duration": 7.5,
+    "contact_shift_frames": 3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "231ea371-2cb8-4fd0-b794-325436e438a8",
@@ -3663,12 +3895,14 @@
     "borderline": false,
     "description": "Brice Turang singles on a line drive to left fielder James Wood.",
     "inning": "Bot 8",
-    "contact_raw": 3.375,
+    "contact_raw": 3.425,
     "contact_verified": true,
     "raw_file": "raw_clips/231ea371-2cb8-4fd0-b794-325436e438a8.mp4",
-    "contact_time": 3.0,
+    "contact_time": 3.05,
     "clip_file": "clips/231ea371-2cb8-4fd0-b794-325436e438a8.mp4",
-    "duration": 7.5
+    "duration": 7.5,
+    "contact_shift_frames": 2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "a6a2e6d0-6649-4923-a601-0717fb9a453a",
@@ -3692,12 +3926,14 @@
     "borderline": false,
     "description": "Yainer Diaz singles on a line drive to right fielder Max Kepler.",
     "inning": "Top 8",
-    "contact_raw": 3.585,
+    "contact_raw": 3.518,
     "contact_verified": true,
     "raw_file": "raw_clips/a6a2e6d0-6649-4923-a601-0717fb9a453a.mp4",
-    "contact_time": 3.0,
+    "contact_time": 2.933,
     "clip_file": "clips/a6a2e6d0-6649-4923-a601-0717fb9a453a.mp4",
-    "duration": 7.5
+    "duration": 7.5,
+    "contact_shift_frames": -4,
+    "contact_frame_checked": true
   },
   {
     "play_id": "7472f593-e71b-48fd-b7a3-0deb999cc33e",
@@ -3726,7 +3962,9 @@
     "raw_file": "raw_clips/7472f593-e71b-48fd-b7a3-0deb999cc33e.mp4",
     "contact_time": 3.0,
     "clip_file": "clips/7472f593-e71b-48fd-b7a3-0deb999cc33e.mp4",
-    "duration": 7.5
+    "duration": 7.5,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "84a37346-c7f4-45b0-86b4-788514fca323",
@@ -3755,7 +3993,9 @@
     "raw_file": "raw_clips/84a37346-c7f4-45b0-86b4-788514fca323.mp4",
     "contact_time": 3.0,
     "clip_file": "clips/84a37346-c7f4-45b0-86b4-788514fca323.mp4",
-    "duration": 7.5
+    "duration": 7.5,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "4beac838-d925-4ba9-aac5-87ae8e0e48a2",
@@ -3784,36 +4024,9 @@
     "raw_file": "raw_clips/4beac838-d925-4ba9-aac5-87ae8e0e48a2.mp4",
     "contact_time": 3.0,
     "clip_file": "clips/4beac838-d925-4ba9-aac5-87ae8e0e48a2.mp4",
-    "duration": 7.5
-  },
-  {
-    "play_id": "d977482b-f843-4516-9640-5f34bbb09e88",
-    "events": "field_out",
-    "launch_speed": 94.5,
-    "launch_angle": 22.0,
-    "game_date": "2024-07-12",
-    "game_pk": 745312,
-    "batter": "Carlos Correa",
-    "batter_id": 621043,
-    "pitcher": "Ryan Walker",
-    "stand": "R",
-    "p_throws": "R",
-    "pitch_type": "Slider",
-    "pitch_speed": 85.3,
-    "trajectory": "line_drive",
-    "hc_x": 176.89,
-    "hc_y": 87.55,
-    "spray_angle": 24.9,
-    "direction": "oppo",
-    "borderline": false,
-    "description": "Carlos Correa lines out to right fielder Mike Yastrzemski.",
-    "inning": "Top 7",
-    "contact_raw": 3.25,
-    "contact_verified": true,
-    "raw_file": "raw_clips/d977482b-f843-4516-9640-5f34bbb09e88.mp4",
-    "contact_time": 3.0,
-    "clip_file": "clips/d977482b-f843-4516-9640-5f34bbb09e88.mp4",
-    "duration": 7.5
+    "duration": 7.5,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "a61c6394-c260-489e-bb3d-a4a13965a52a",
@@ -3838,12 +4051,14 @@
     "description": "Austin Slater lines out to right fielder Jesús Sánchez.",
     "inning": "Bot 5",
     "raw_file": "raw_clips/a61c6394-c260-489e-bb3d-a4a13965a52a.mp4",
-    "contact_raw": 3.415,
+    "contact_raw": 3.398,
     "contact_strength": 877,
-    "contact_time": 3.0,
+    "contact_time": 2.983,
     "clip_file": "clips/a61c6394-c260-489e-bb3d-a4a13965a52a.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "2ce64b87-3368-464f-927c-06ea61951b66",
@@ -3873,7 +4088,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/2ce64b87-3368-464f-927c-06ea61951b66.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "04b8e304-d204-4367-b940-b006d8326265",
@@ -3898,12 +4115,14 @@
     "description": "Carson Kelly flies out to right fielder Nick Martini.",
     "inning": "Top 7",
     "raw_file": "raw_clips/04b8e304-d204-4367-b940-b006d8326265.mp4",
-    "contact_raw": 3.415,
+    "contact_raw": 3.382,
     "contact_strength": 78,
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/04b8e304-d204-4367-b940-b006d8326265.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "54121e54-5a80-4c0c-b350-bedd608b9711",
@@ -3928,12 +4147,14 @@
     "description": "Luke Raley hits a ground-rule double (10) on a line drive to left field. Cal Raleigh to 3rd.",
     "inning": "Bot 9",
     "raw_file": "raw_clips/54121e54-5a80-4c0c-b350-bedd608b9711.mp4",
-    "contact_raw": 3.45,
+    "contact_raw": 3.433,
     "contact_strength": 441,
-    "contact_time": 3.0,
+    "contact_time": 2.983,
     "clip_file": "clips/54121e54-5a80-4c0c-b350-bedd608b9711.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "3a58ef59-1308-4739-b391-c54d612622fe",
@@ -3958,12 +4179,14 @@
     "description": "Taylor Ward flies out to right fielder Travis Jankowski.",
     "inning": "Bot 2",
     "raw_file": "raw_clips/3a58ef59-1308-4739-b391-c54d612622fe.mp4",
-    "contact_raw": 3.405,
+    "contact_raw": 3.372,
     "contact_strength": 368,
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/3a58ef59-1308-4739-b391-c54d612622fe.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "a301735b-7e1c-4b1f-9a0d-86b197b04528",
@@ -3988,12 +4211,14 @@
     "description": "Jhonkensy Noel flies out to right fielder Tommy Pham.",
     "inning": "Bot 4",
     "raw_file": "raw_clips/a301735b-7e1c-4b1f-9a0d-86b197b04528.mp4",
-    "contact_raw": 3.435,
+    "contact_raw": 3.452,
     "contact_strength": 185,
-    "contact_time": 3.0,
+    "contact_time": 3.017,
     "clip_file": "clips/a301735b-7e1c-4b1f-9a0d-86b197b04528.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "faa7460f-b34e-4206-bee6-384cc3acb4cc",
@@ -4018,12 +4243,14 @@
     "description": "Jackson Merrill flies out to left fielder Eddie Rosario.",
     "inning": "Bot 7",
     "raw_file": "raw_clips/faa7460f-b34e-4206-bee6-384cc3acb4cc.mp4",
-    "contact_raw": 3.64,
+    "contact_raw": 3.723,
     "contact_strength": 98,
-    "contact_time": 3.0,
+    "contact_time": 3.083,
     "clip_file": "clips/faa7460f-b34e-4206-bee6-384cc3acb4cc.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "13cf3fa2-e4e1-4737-a1e4-5bd90181c724",
@@ -4053,37 +4280,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/13cf3fa2-e4e1-4737-a1e4-5bd90181c724.mp4",
     "duration": 7.5,
-    "contact_verified": true
-  },
-  {
-    "play_id": "3838e418-ffb5-472f-8112-3e6760cf732f",
-    "events": "field_out",
-    "launch_speed": 96.8,
-    "launch_angle": 25.0,
-    "game_date": "2024-07-11",
-    "game_pk": 746935,
-    "batter": "Miguel Andujar",
-    "batter_id": 609280,
-    "pitcher": "Tanner Houck",
-    "stand": "R",
-    "p_throws": "R",
-    "pitch_type": "Splitter",
-    "pitch_speed": 89.7,
-    "trajectory": "fly_ball",
-    "hc_x": 171.28,
-    "hc_y": 83.14,
-    "spray_angle": 21.7,
-    "direction": "oppo",
-    "borderline": false,
-    "description": "Miguel Andujar flies out to right fielder Wilyer Abreu.",
-    "inning": "Top 3",
-    "raw_file": "raw_clips/3838e418-ffb5-472f-8112-3e6760cf732f.mp4",
-    "contact_raw": 3.52,
-    "contact_strength": 1233,
-    "contact_time": 3.0,
-    "clip_file": "clips/3838e418-ffb5-472f-8112-3e6760cf732f.mp4",
-    "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "6d013a07-c868-47d1-b643-3324b814fdfd",
@@ -4108,12 +4307,14 @@
     "description": "Heliot Ramos lines out to right fielder Daniel Schneemann.",
     "inning": "Top 1",
     "raw_file": "raw_clips/6d013a07-c868-47d1-b643-3324b814fdfd.mp4",
-    "contact_raw": 3.385,
+    "contact_raw": 3.402,
     "contact_strength": 546,
-    "contact_time": 3.0,
+    "contact_time": 3.017,
     "clip_file": "clips/6d013a07-c868-47d1-b643-3324b814fdfd.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "43d23dce-80b1-467c-9afd-cc8e3603376d",
@@ -4138,12 +4339,14 @@
     "description": "Carson Kelly out on a sacrifice fly to right fielder Daniel Schneemann. Colt Keith scores.",
     "inning": "Bot 10",
     "raw_file": "raw_clips/43d23dce-80b1-467c-9afd-cc8e3603376d.mp4",
-    "contact_raw": 3.505,
+    "contact_raw": 3.422,
     "contact_strength": 493,
-    "contact_time": 3.0,
+    "contact_time": 2.917,
     "clip_file": "clips/43d23dce-80b1-467c-9afd-cc8e3603376d.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -5,
+    "contact_frame_checked": true
   },
   {
     "play_id": "a006557b-f0ea-46f9-b935-4294b3aa0254",
@@ -4168,12 +4371,14 @@
     "description": "Alex Bregman flies out to right fielder George Springer.",
     "inning": "Top 1",
     "raw_file": "raw_clips/a006557b-f0ea-46f9-b935-4294b3aa0254.mp4",
-    "contact_raw": 3.56,
+    "contact_raw": 3.493,
     "contact_strength": 56,
-    "contact_time": 3.0,
+    "contact_time": 2.933,
     "clip_file": "clips/a006557b-f0ea-46f9-b935-4294b3aa0254.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -4,
+    "contact_frame_checked": true
   },
   {
     "play_id": "bb87cef0-a82e-4af5-bbf1-2addcb84ec11",
@@ -4203,7 +4408,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/bb87cef0-a82e-4af5-bbf1-2addcb84ec11.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "d478d604-0a55-4949-a83f-d721e0612e79",
@@ -4228,12 +4435,14 @@
     "description": "Travis d'Arnaud doubles (14) on a fly ball to right fielder Corbin Carroll. Marcell Ozuna scores. Eddie Rosario scores.",
     "inning": "Top 2",
     "raw_file": "raw_clips/d478d604-0a55-4949-a83f-d721e0612e79.mp4",
-    "contact_raw": 3.415,
+    "contact_raw": 3.365,
     "contact_strength": 146,
-    "contact_time": 3.0,
+    "contact_time": 2.95,
     "clip_file": "clips/d478d604-0a55-4949-a83f-d721e0612e79.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "4b6d9a64-a2cb-465d-8600-641b90dc5e37",
@@ -4258,12 +4467,14 @@
     "description": "Josh Naylor singles on a line drive to left fielder Michael Conforto.",
     "inning": "Bot 6",
     "raw_file": "raw_clips/4b6d9a64-a2cb-465d-8600-641b90dc5e37.mp4",
-    "contact_raw": 3.48,
+    "contact_raw": 3.463,
     "contact_strength": 60,
-    "contact_time": 3.0,
+    "contact_time": 2.983,
     "clip_file": "clips/4b6d9a64-a2cb-465d-8600-641b90dc5e37.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "8bfeab84-b488-42b4-b2bc-0d06e8743805",
@@ -4293,7 +4504,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/8bfeab84-b488-42b4-b2bc-0d06e8743805.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "50aed993-da81-4586-a8eb-a9d9fe416e58",
@@ -4318,12 +4531,14 @@
     "description": "Daulton Varsho lines out to left fielder Mauricio Dubón.",
     "inning": "Bot 9",
     "raw_file": "raw_clips/50aed993-da81-4586-a8eb-a9d9fe416e58.mp4",
-    "contact_raw": 4.02,
+    "contact_raw": 3.97,
     "contact_strength": 627,
-    "contact_time": 3.0,
+    "contact_time": 2.95,
     "clip_file": "clips/50aed993-da81-4586-a8eb-a9d9fe416e58.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "2f035167-f2d3-43ca-a204-2873acfb193d",
@@ -4348,12 +4563,14 @@
     "description": "Ceddanne Rafaela singles on a line drive to right fielder Lawrence Butler.",
     "inning": "Bot 7",
     "raw_file": "raw_clips/2f035167-f2d3-43ca-a204-2873acfb193d.mp4",
-    "contact_raw": 3.55,
+    "contact_raw": 3.517,
     "contact_strength": 1587,
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/2f035167-f2d3-43ca-a204-2873acfb193d.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "1f310855-4500-48d8-88ae-61a366dfa13d",
@@ -4378,12 +4595,14 @@
     "description": "Jacob Young lines out to right fielder Tyrone Taylor.",
     "inning": "Bot 9",
     "raw_file": "raw_clips/1f310855-4500-48d8-88ae-61a366dfa13d.mp4",
-    "contact_raw": 3.415,
+    "contact_raw": 3.382,
     "contact_strength": 152,
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/1f310855-4500-48d8-88ae-61a366dfa13d.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "35802cda-775c-49f9-b366-03c34d235448",
@@ -4408,12 +4627,14 @@
     "description": "Isaac Paredes flies out to right fielder Will Brennan. Randy Arozarena to 3rd.",
     "inning": "Bot 4",
     "raw_file": "raw_clips/35802cda-775c-49f9-b366-03c34d235448.mp4",
-    "contact_raw": 3.495,
+    "contact_raw": 3.462,
     "contact_strength": 467,
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/35802cda-775c-49f9-b366-03c34d235448.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "f5dff43c-f348-4d3e-a485-ab5392f94dba",
@@ -4438,12 +4659,14 @@
     "description": "Giants challenged (tag play), call on the field was overturned: Travis d'Arnaud singles on a line drive to right fielder Austin Slater. Austin Riley out at home on the throw, right fielder Austin Slater to catcher Curt Casali.",
     "inning": "Bot 5",
     "raw_file": "raw_clips/f5dff43c-f348-4d3e-a485-ab5392f94dba.mp4",
-    "contact_raw": 3.555,
+    "contact_raw": 3.522,
     "contact_strength": 59,
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/f5dff43c-f348-4d3e-a485-ab5392f94dba.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "db684d4b-2ddd-4cb2-9522-5af9aa11539e",
@@ -4468,12 +4691,14 @@
     "description": "Jake Rogers singles on a line drive to right fielder Gavin Sheets.",
     "inning": "Bot 2",
     "raw_file": "raw_clips/db684d4b-2ddd-4cb2-9522-5af9aa11539e.mp4",
-    "contact_raw": 3.39,
+    "contact_raw": 3.357,
     "contact_strength": 249,
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/db684d4b-2ddd-4cb2-9522-5af9aa11539e.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "d9bd5924-c0a8-4343-9089-aeccb4ee4dfc",
@@ -4503,7 +4728,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/d9bd5924-c0a8-4343-9089-aeccb4ee4dfc.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "7e716dfb-99f9-4bf0-b515-8450a403c28d",
@@ -4533,7 +4760,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/7e716dfb-99f9-4bf0-b515-8450a403c28d.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "17257f65-1b4a-4c45-b993-16c4b755023d",
@@ -4558,12 +4787,14 @@
     "description": "Christian Vázquez flies out to right fielder Will Brennan.",
     "inning": "Top 3",
     "raw_file": "raw_clips/17257f65-1b4a-4c45-b993-16c4b755023d.mp4",
-    "contact_raw": 3.425,
+    "contact_raw": 3.442,
     "contact_strength": 947,
-    "contact_time": 3.0,
+    "contact_time": 3.017,
     "clip_file": "clips/17257f65-1b4a-4c45-b993-16c4b755023d.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "ab9f33ae-564a-42c3-9a3c-42c39c70538a",
@@ -4588,12 +4819,14 @@
     "description": "Jo Adell lines into a double play, right fielder Lars Nootbaar to first baseman Paul Goldschmidt. Nolan Schanuel out at 1st.",
     "inning": "Bot 3",
     "raw_file": "raw_clips/ab9f33ae-564a-42c3-9a3c-42c39c70538a.mp4",
-    "contact_raw": 3.42,
+    "contact_raw": 3.387,
     "contact_strength": 29,
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/ab9f33ae-564a-42c3-9a3c-42c39c70538a.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "9b64a4d5-5076-4150-adb3-bd643fc0b1f9",
@@ -4618,12 +4851,14 @@
     "description": "Alec Bohm lines out to right fielder Travis Jankowski.",
     "inning": "Bot 7",
     "raw_file": "raw_clips/9b64a4d5-5076-4150-adb3-bd643fc0b1f9.mp4",
-    "contact_raw": 3.42,
+    "contact_raw": 3.387,
     "contact_strength": 929,
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/9b64a4d5-5076-4150-adb3-bd643fc0b1f9.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "bf8fbef1-c65c-48a2-82ba-72f4a6e33ef2",
@@ -4653,7 +4888,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/bf8fbef1-c65c-48a2-82ba-72f4a6e33ef2.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "536ddfcb-77e9-4a9e-812b-21b9b5f06216",
@@ -4678,12 +4915,14 @@
     "description": "Alejandro Kirk lines out to right fielder Corbin Carroll.",
     "inning": "Top 7",
     "raw_file": "raw_clips/536ddfcb-77e9-4a9e-812b-21b9b5f06216.mp4",
-    "contact_raw": 3.355,
+    "contact_raw": 3.322,
     "contact_strength": 288,
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/536ddfcb-77e9-4a9e-812b-21b9b5f06216.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "1596a039-adc2-4ddd-8a8d-b71aec5be1bd",
@@ -4708,12 +4947,14 @@
     "description": "Lenyn Sosa flies out to center fielder Jake Meyers.",
     "inning": "Top 2",
     "raw_file": "raw_clips/1596a039-adc2-4ddd-8a8d-b71aec5be1bd.mp4",
-    "contact_raw": 3.3,
+    "contact_raw": 3.367,
     "contact_strength": 65,
-    "contact_time": 3.0,
+    "contact_time": 3.067,
     "clip_file": "clips/1596a039-adc2-4ddd-8a8d-b71aec5be1bd.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "99ae05aa-fcf5-4d96-b295-3853a1e73f0b",
@@ -4738,12 +4979,14 @@
     "description": "Joey Meneses lines out to right fielder Dane Myers.",
     "inning": "Top 7",
     "raw_file": "raw_clips/99ae05aa-fcf5-4d96-b295-3853a1e73f0b.mp4",
-    "contact_raw": 3.4,
+    "contact_raw": 3.383,
     "contact_strength": 5961,
-    "contact_time": 3.0,
+    "contact_time": 2.983,
     "clip_file": "clips/99ae05aa-fcf5-4d96-b295-3853a1e73f0b.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "3fb3d79e-9401-4f49-8d1b-893c7eafd91c",
@@ -4768,42 +5011,14 @@
     "description": "Derek Hill lines out to right fielder David Peralta.",
     "inning": "Bot 4",
     "raw_file": "raw_clips/3fb3d79e-9401-4f49-8d1b-893c7eafd91c.mp4",
-    "contact_raw": 3.37,
+    "contact_raw": 3.387,
     "contact_strength": 246,
-    "contact_time": 3.0,
+    "contact_time": 3.017,
     "clip_file": "clips/3fb3d79e-9401-4f49-8d1b-893c7eafd91c.mp4",
     "duration": 7.5,
-    "contact_verified": true
-  },
-  {
-    "play_id": "ccdf9c89-2fee-4b88-9ff0-0f2f25542f10",
-    "events": "field_out",
-    "launch_speed": 93.0,
-    "launch_angle": 30.0,
-    "game_date": "2024-08-09",
-    "game_pk": 745308,
-    "batter": "Gio Urshela",
-    "batter_id": 570482,
-    "pitcher": "Robbie Ray",
-    "stand": "R",
-    "p_throws": "L",
-    "pitch_type": "Four-Seam Fastball",
-    "pitch_speed": 92.7,
-    "trajectory": "fly_ball",
-    "hc_x": 170.0,
-    "hc_y": 74.15,
-    "spray_angle": 19.8,
-    "direction": "oppo",
-    "borderline": false,
-    "description": "Gio Urshela flies out to right fielder Mike Yastrzemski.",
-    "inning": "Top 4",
-    "raw_file": "raw_clips/ccdf9c89-2fee-4b88-9ff0-0f2f25542f10.mp4",
-    "contact_raw": 3.41,
-    "contact_strength": 149,
-    "contact_time": 3.0,
-    "clip_file": "clips/ccdf9c89-2fee-4b88-9ff0-0f2f25542f10.mp4",
-    "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "338e6e60-da72-4e7b-8770-07cd2c67760e",
@@ -4828,12 +5043,14 @@
     "description": "Maikel Garcia flies out to right fielder Anthony Santander.",
     "inning": "Bot 6",
     "raw_file": "raw_clips/338e6e60-da72-4e7b-8770-07cd2c67760e.mp4",
-    "contact_raw": 3.475,
+    "contact_raw": 3.492,
     "contact_strength": 172,
-    "contact_time": 3.0,
+    "contact_time": 3.017,
     "clip_file": "clips/338e6e60-da72-4e7b-8770-07cd2c67760e.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "393e934d-6786-47c8-9bb7-7951d1af9b2c",
@@ -4863,7 +5080,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/393e934d-6786-47c8-9bb7-7951d1af9b2c.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "8ea97ec6-9e68-4661-a15a-4aa4ec0af196",
@@ -4893,7 +5112,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/8ea97ec6-9e68-4661-a15a-4aa4ec0af196.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "9ab7fe0b-9a8d-481b-98dd-7e2f28fd067b",
@@ -4918,12 +5139,14 @@
     "description": "Willi Castro singles on a line drive to left fielder Alex Verdugo.",
     "inning": "Bot 4",
     "raw_file": "raw_clips/9ab7fe0b-9a8d-481b-98dd-7e2f28fd067b.mp4",
-    "contact_raw": 3.49,
+    "contact_raw": 3.44,
     "contact_strength": 1154,
-    "contact_time": 3.0,
+    "contact_time": 2.95,
     "clip_file": "clips/9ab7fe0b-9a8d-481b-98dd-7e2f28fd067b.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "4d3088ba-7f4d-4f3f-9442-13117310791a",
@@ -4948,12 +5171,14 @@
     "description": "Gio Urshela flies out to right fielder Jesús Sánchez. Riley Greene to 3rd.",
     "inning": "Bot 10",
     "raw_file": "raw_clips/4d3088ba-7f4d-4f3f-9442-13117310791a.mp4",
-    "contact_raw": 3.448,
+    "contact_raw": 3.465,
     "contact_strength": 172,
-    "contact_time": 2.933,
+    "contact_time": 2.95,
     "clip_file": "clips/4d3088ba-7f4d-4f3f-9442-13117310791a.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "ac49038e-daed-4b6c-80f6-0febc743a424",
@@ -4983,7 +5208,9 @@
     "contact_time": 3.0,
     "clip_file": "clips/ac49038e-daed-4b6c-80f6-0febc743a424.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "36f32d37-f720-4c60-91b9-7e7de0763825",
@@ -5008,12 +5235,14 @@
     "description": "Miguel Sanó lines out to right fielder Richie Palacios.",
     "inning": "Top 9",
     "raw_file": "raw_clips/36f32d37-f720-4c60-91b9-7e7de0763825.mp4",
-    "contact_raw": 3.535,
+    "contact_raw": 3.518,
     "contact_strength": 738,
-    "contact_time": 3.0,
+    "contact_time": 2.983,
     "clip_file": "clips/36f32d37-f720-4c60-91b9-7e7de0763825.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "f5e7f553-b671-4934-9e40-d7d39d01a3b4",
@@ -5038,12 +5267,14 @@
     "description": "JJ Bleday flies out to left fielder Manuel Margot.",
     "inning": "Top 1",
     "raw_file": "raw_clips/f5e7f553-b671-4934-9e40-d7d39d01a3b4.mp4",
-    "contact_raw": 3.442,
+    "contact_raw": 3.425,
     "contact_strength": 2197,
-    "contact_time": 2.967,
+    "contact_time": 2.95,
     "clip_file": "clips/f5e7f553-b671-4934-9e40-d7d39d01a3b4.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "95db629c-d86c-405d-ba9a-e1033767fa32",
@@ -5068,12 +5299,14 @@
     "description": "Jarren Duran lines out to left fielder Will Benson.",
     "inning": "Top 6",
     "raw_file": "raw_clips/95db629c-d86c-405d-ba9a-e1033767fa32.mp4",
-    "contact_raw": 3.34,
+    "contact_raw": 3.323,
     "contact_strength": 318,
-    "contact_time": 3.0,
+    "contact_time": 2.983,
     "clip_file": "clips/95db629c-d86c-405d-ba9a-e1033767fa32.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "d158f9bd-2118-4f91-b4b7-287972ebb380",
@@ -5098,12 +5331,14 @@
     "description": "Julio Rodríguez lines out to right fielder Jordan Walker.",
     "inning": "Top 3",
     "raw_file": "raw_clips/d158f9bd-2118-4f91-b4b7-287972ebb380.mp4",
-    "contact_raw": 3.495,
+    "contact_raw": 3.478,
     "contact_strength": 400,
-    "contact_time": 3.0,
+    "contact_time": 2.983,
     "clip_file": "clips/d158f9bd-2118-4f91-b4b7-287972ebb380.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "67335c8a-723a-4ece-a3fc-368a6e4b5f7b",
@@ -5128,12 +5363,14 @@
     "description": "Jorge Polanco lines out to right fielder Lawrence Butler.",
     "inning": "Top 6",
     "raw_file": "raw_clips/67335c8a-723a-4ece-a3fc-368a6e4b5f7b.mp4",
-    "contact_raw": 3.57,
+    "contact_raw": 3.537,
     "contact_strength": 938,
-    "contact_time": 3.0,
+    "contact_time": 2.967,
     "clip_file": "clips/67335c8a-723a-4ece-a3fc-368a6e4b5f7b.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -2,
+    "contact_frame_checked": true
   },
   {
     "play_id": "38abc74c-f368-4fbe-b949-dae664a34ebf",
@@ -5158,12 +5395,14 @@
     "description": "Taylor Walls flies out to left fielder Colton Cowser.",
     "inning": "Top 6",
     "raw_file": "raw_clips/38abc74c-f368-4fbe-b949-dae664a34ebf.mp4",
-    "contact_raw": 3.345,
+    "contact_raw": 3.412,
     "contact_strength": 40,
-    "contact_time": 3.0,
+    "contact_time": 3.067,
     "clip_file": "clips/38abc74c-f368-4fbe-b949-dae664a34ebf.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "8ca79b67-e30a-460f-87e0-4424866345c1",
@@ -5188,12 +5427,14 @@
     "description": "Nick Gonzales singles on a line drive to right fielder Garrett Mitchell. Rowdy Tellez to 2nd.",
     "inning": "Top 9",
     "raw_file": "raw_clips/8ca79b67-e30a-460f-87e0-4424866345c1.mp4",
-    "contact_raw": 3.595,
+    "contact_raw": 3.612,
     "contact_strength": 958,
-    "contact_time": 3.0,
+    "contact_time": 3.017,
     "clip_file": "clips/8ca79b67-e30a-460f-87e0-4424866345c1.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "779e83d0-20e1-4279-8382-15f610ebfb78",
@@ -5218,12 +5459,14 @@
     "description": "Michael Siani singles on a line drive to center fielder Blake Perkins.",
     "inning": "Bot 9",
     "raw_file": "raw_clips/779e83d0-20e1-4279-8382-15f610ebfb78.mp4",
-    "contact_raw": 3.46,
+    "contact_raw": 3.394,
     "contact_strength": 563,
-    "contact_time": 3.0,
+    "contact_time": 2.934,
     "clip_file": "clips/779e83d0-20e1-4279-8382-15f610ebfb78.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -5,
+    "contact_frame_checked": true
   },
   {
     "play_id": "28df2939-77d2-4a6d-8f53-ab5b12a578fd",
@@ -5248,12 +5491,14 @@
     "description": "Taylor Ward lines out to right fielder Richie Palacios.",
     "inning": "Top 1",
     "raw_file": "raw_clips/28df2939-77d2-4a6d-8f53-ab5b12a578fd.mp4",
-    "contact_raw": 3.505,
+    "contact_raw": 3.488,
     "contact_strength": 424,
-    "contact_time": 3.0,
+    "contact_time": 2.983,
     "clip_file": "clips/28df2939-77d2-4a6d-8f53-ab5b12a578fd.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -1,
+    "contact_frame_checked": true
   },
   {
     "play_id": "66eeda62-aae4-46d0-9010-51600ce1cd6d",
@@ -5283,7 +5528,9 @@
     "contact_time": 2.933,
     "clip_file": "clips/66eeda62-aae4-46d0-9010-51600ce1cd6d.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": 0,
+    "contact_frame_checked": true
   },
   {
     "play_id": "f2b9648c-b967-4ffa-8fec-d31a9fde76ee",
@@ -5308,12 +5555,14 @@
     "description": "Matt Thaiss flies out to left fielder Wyatt Langford.",
     "inning": "Top 2",
     "raw_file": "raw_clips/f2b9648c-b967-4ffa-8fec-d31a9fde76ee.mp4",
-    "contact_raw": 3.555,
+    "contact_raw": 3.505,
     "contact_strength": 294,
-    "contact_time": 3.0,
+    "contact_time": 2.95,
     "clip_file": "clips/f2b9648c-b967-4ffa-8fec-d31a9fde76ee.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "8dff202d-e4ff-4dd6-bfcb-caf6aaaa892a",
@@ -5338,12 +5587,14 @@
     "description": "Miguel Rojas flies out to right fielder Corbin Carroll.",
     "inning": "Bot 6",
     "raw_file": "raw_clips/8dff202d-e4ff-4dd6-bfcb-caf6aaaa892a.mp4",
-    "contact_raw": 3.36,
+    "contact_raw": 3.31,
     "contact_strength": 695,
-    "contact_time": 3.0,
+    "contact_time": 2.95,
     "clip_file": "clips/8dff202d-e4ff-4dd6-bfcb-caf6aaaa892a.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -3,
+    "contact_frame_checked": true
   },
   {
     "play_id": "33d2434d-f54d-46fa-a732-f459faf3b8c5",
@@ -5368,12 +5619,275 @@
     "description": "Jarred Kelenic lines out to left fielder Joey Loperfido.",
     "inning": "Bot 2",
     "raw_file": "raw_clips/33d2434d-f54d-46fa-a732-f459faf3b8c5.mp4",
-    "contact_raw": 3.47,
+    "contact_raw": 3.42,
     "contact_strength": 158,
-    "contact_time": 3.0,
+    "contact_time": 2.95,
     "clip_file": "clips/33d2434d-f54d-46fa-a732-f459faf3b8c5.mp4",
     "duration": 7.5,
-    "contact_verified": true
+    "contact_verified": true,
+    "contact_shift_frames": -3,
+    "contact_frame_checked": true
+  },
+  {
+    "play_id": "17ce60e2-eaed-426f-813a-5db4b43ca4b5",
+    "events": "double",
+    "launch_speed": 99.4,
+    "launch_angle": 22.0,
+    "game_date": "2024-05-18",
+    "game_pk": 747202,
+    "batter": "Gio Urshela",
+    "batter_id": 570482,
+    "pitcher": "Zac Gallen",
+    "stand": "R",
+    "p_throws": "R",
+    "pitch_type": "Slider",
+    "pitch_speed": 88.7,
+    "trajectory": "line_drive",
+    "hc_x": 189.29,
+    "hc_y": 67.31,
+    "spray_angle": 26.0,
+    "direction": "oppo",
+    "borderline": false,
+    "description": "Gio Urshela doubles (3) on a line drive to right fielder Pavin Smith.",
+    "inning": "Top 2",
+    "raw_file": "raw_clips/17ce60e2-eaed-426f-813a-5db4b43ca4b5.mp4",
+    "contact_raw": 3.495,
+    "contact_strength": 318,
+    "contact_time": 2.95,
+    "clip_file": "clips/17ce60e2-eaed-426f-813a-5db4b43ca4b5.mp4",
+    "duration": 7.5,
+    "contact_frame_checked": true
+  },
+  {
+    "play_id": "83d67e5d-4b9d-471c-b776-748d3d106c14",
+    "events": "field_out",
+    "launch_speed": 99.9,
+    "launch_angle": 18.0,
+    "game_date": "2024-05-26",
+    "game_pk": 746789,
+    "batter": "Andrew Vaughn",
+    "batter_id": 683734,
+    "pitcher": "Craig Kimbrel",
+    "stand": "R",
+    "p_throws": "R",
+    "pitch_type": "Four-Seam Fastball",
+    "pitch_speed": 93.1,
+    "trajectory": "line_drive",
+    "hc_x": 204.52,
+    "hc_y": 110.3,
+    "spray_angle": 42.0,
+    "direction": "oppo",
+    "borderline": false,
+    "description": "Andrew Vaughn lines out to right fielder Colton Cowser.",
+    "inning": "Bot 9",
+    "raw_file": "raw_clips/83d67e5d-4b9d-471c-b776-748d3d106c14.mp4",
+    "contact_raw": 3.48,
+    "contact_strength": 388,
+    "exclude": true,
+    "exclude_reason": "audio contact too early: swing only starting at +3f"
+  },
+  {
+    "play_id": "f1b2cf1b-2c6c-4c4e-ab68-26781c091a2b",
+    "events": "field_out",
+    "launch_speed": 97.6,
+    "launch_angle": 26.0,
+    "game_date": "2024-07-13",
+    "game_pk": 745798,
+    "batter": "Luis Torrens",
+    "batter_id": 620443,
+    "pitcher": "Ryan Feltner",
+    "stand": "R",
+    "p_throws": "R",
+    "pitch_type": "Four-Seam Fastball",
+    "pitch_speed": 95.0,
+    "trajectory": "fly_ball",
+    "hc_x": 191.17,
+    "hc_y": 70.36,
+    "spray_angle": 27.2,
+    "direction": "oppo",
+    "borderline": false,
+    "description": "Luis Torrens flies out to right fielder Jake Cave.",
+    "inning": "Bot 4",
+    "raw_file": "raw_clips/f1b2cf1b-2c6c-4c4e-ab68-26781c091a2b.mp4",
+    "contact_raw": 3.45,
+    "contact_strength": 650,
+    "contact_time": 2.95,
+    "clip_file": "clips/f1b2cf1b-2c6c-4c4e-ab68-26781c091a2b.mp4",
+    "duration": 7.5,
+    "contact_frame_checked": true
+  },
+  {
+    "play_id": "e4817800-063c-48ba-8ab7-17a5d2b68eae",
+    "events": "field_out",
+    "launch_speed": 98.1,
+    "launch_angle": 21.0,
+    "game_date": "2024-04-26",
+    "game_pk": 746078,
+    "batter": "Josh Bell",
+    "batter_id": 605137,
+    "pitcher": "Trevor Williams",
+    "stand": "L",
+    "p_throws": "R",
+    "pitch_type": "Changeup",
+    "pitch_speed": 84.1,
+    "trajectory": "line_drive",
+    "hc_x": 180.32,
+    "hc_y": 95.97,
+    "spray_angle": 28.2,
+    "direction": "pull",
+    "borderline": false,
+    "description": "Josh Bell lines out to right fielder Eddie Rosario.",
+    "inning": "Bot 3",
+    "raw_file": "raw_clips/e4817800-063c-48ba-8ab7-17a5d2b68eae.mp4",
+    "contact_raw": 3.435,
+    "contact_strength": 176,
+    "contact_shift_frames": 0,
+    "exclude": true,
+    "exclude_reason": "ball goes untouched into the catcher's glove: not the batted-ball pitch"
+  },
+  {
+    "play_id": "3427a8c2-c2b6-4dc8-aa6d-16afd1aaec79",
+    "events": "field_out",
+    "launch_speed": 92.7,
+    "launch_angle": 30.0,
+    "game_date": "2024-07-12",
+    "game_pk": 745153,
+    "batter": "Michael Busch",
+    "batter_id": 683737,
+    "pitcher": "Sonny Gray",
+    "stand": "L",
+    "p_throws": "R",
+    "pitch_type": "Four-Seam Fastball",
+    "pitch_speed": 92.6,
+    "trajectory": "fly_ball",
+    "hc_x": 138.57,
+    "hc_y": 65.45,
+    "spray_angle": 5.7,
+    "direction": "center",
+    "borderline": false,
+    "description": "Michael Busch flies out to center fielder Michael Siani.",
+    "inning": "Top 3",
+    "raw_file": "raw_clips/3427a8c2-c2b6-4dc8-aa6d-16afd1aaec79.mp4",
+    "contact_raw": 3.397,
+    "contact_strength": 290,
+    "contact_shift_frames": -8,
+    "exclude": true,
+    "exclude_reason": "off-center framing: plate and contact out of frame"
+  },
+  {
+    "play_id": "eb31ae88-0298-44e3-894b-dfa159cbd338",
+    "events": "double",
+    "launch_speed": 97.9,
+    "launch_angle": 21.0,
+    "game_date": "2024-06-13",
+    "game_pk": 746299,
+    "batter": "Vinnie Pasquantino",
+    "batter_id": 686469,
+    "pitcher": "Nestor Cortes",
+    "stand": "L",
+    "p_throws": "L",
+    "pitch_type": "Cutter",
+    "pitch_speed": 89.1,
+    "trajectory": "fly_ball",
+    "hc_x": 114.21,
+    "hc_y": 69.01,
+    "spray_angle": -5.0,
+    "direction": "center",
+    "borderline": false,
+    "description": "Vinnie Pasquantino doubles (19) on a fly ball to center fielder Trent Grisham. Maikel Garcia scores. Bobby Witt Jr. scores.",
+    "inning": "Bot 4",
+    "raw_file": "raw_clips/eb31ae88-0298-44e3-894b-dfa159cbd338.mp4",
+    "contact_raw": 3.405,
+    "contact_strength": 31,
+    "contact_shift_frames": 0,
+    "exclude": true,
+    "exclude_reason": "swing-and-miss: ball travels untouched into the catcher's mitt"
+  },
+  {
+    "play_id": "d977482b-f843-4516-9640-5f34bbb09e88",
+    "events": "field_out",
+    "launch_speed": 94.5,
+    "launch_angle": 22.0,
+    "game_date": "2024-07-12",
+    "game_pk": 745312,
+    "batter": "Carlos Correa",
+    "batter_id": 621043,
+    "pitcher": "Ryan Walker",
+    "stand": "R",
+    "p_throws": "R",
+    "pitch_type": "Slider",
+    "pitch_speed": 85.3,
+    "trajectory": "line_drive",
+    "hc_x": 176.89,
+    "hc_y": 87.55,
+    "spray_angle": 24.9,
+    "direction": "oppo",
+    "borderline": false,
+    "description": "Carlos Correa lines out to right fielder Mike Yastrzemski.",
+    "inning": "Top 7",
+    "contact_raw": 3.35,
+    "raw_file": "raw_clips/d977482b-f843-4516-9640-5f34bbb09e88.mp4",
+    "contact_shift_frames": 6,
+    "exclude": true,
+    "exclude_reason": "contact frame ambiguous across reviews (ball not visible)"
+  },
+  {
+    "play_id": "3838e418-ffb5-472f-8112-3e6760cf732f",
+    "events": "field_out",
+    "launch_speed": 96.8,
+    "launch_angle": 25.0,
+    "game_date": "2024-07-11",
+    "game_pk": 746935,
+    "batter": "Miguel Andujar",
+    "batter_id": 609280,
+    "pitcher": "Tanner Houck",
+    "stand": "R",
+    "p_throws": "R",
+    "pitch_type": "Splitter",
+    "pitch_speed": 89.7,
+    "trajectory": "fly_ball",
+    "hc_x": 171.28,
+    "hc_y": 83.14,
+    "spray_angle": 21.7,
+    "direction": "oppo",
+    "borderline": false,
+    "description": "Miguel Andujar flies out to right fielder Wilyer Abreu.",
+    "inning": "Top 3",
+    "raw_file": "raw_clips/3838e418-ffb5-472f-8112-3e6760cf732f.mp4",
+    "contact_raw": 3.437,
+    "contact_strength": 1233,
+    "contact_shift_frames": -5,
+    "exclude": true,
+    "exclude_reason": "contact frame ambiguous (ball not visible; reviews ranged from -8f to +3f)"
+  },
+  {
+    "play_id": "ccdf9c89-2fee-4b88-9ff0-0f2f25542f10",
+    "events": "field_out",
+    "launch_speed": 93.0,
+    "launch_angle": 30.0,
+    "game_date": "2024-08-09",
+    "game_pk": 745308,
+    "batter": "Gio Urshela",
+    "batter_id": 570482,
+    "pitcher": "Robbie Ray",
+    "stand": "R",
+    "p_throws": "L",
+    "pitch_type": "Four-Seam Fastball",
+    "pitch_speed": 92.7,
+    "trajectory": "fly_ball",
+    "hc_x": 170.0,
+    "hc_y": 74.15,
+    "spray_angle": 19.8,
+    "direction": "oppo",
+    "borderline": false,
+    "description": "Gio Urshela flies out to right fielder Mike Yastrzemski.",
+    "inning": "Top 4",
+    "raw_file": "raw_clips/ccdf9c89-2fee-4b88-9ff0-0f2f25542f10.mp4",
+    "contact_raw": 3.46,
+    "contact_strength": 149,
+    "contact_shift_frames": 3,
+    "exclude": true,
+    "exclude_reason": "ball reaches the mitt as the swing is only starting: not the batted-ball pitch"
   },
   {
     "play_id": "833f09e9-a096-4bd0-9486-5cc4adeef815",

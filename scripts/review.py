@@ -9,6 +9,12 @@ it is verified, because a wrong contact time could freeze after the ball is hit.
   python scripts/review.py ok ID [ID ...]          contact time is right, camera is the CF view
   python scripts/review.py contact ID SECONDS      contact is actually at SECONDS in the game clip (then verified)
   python scripts/review.py bad ID "reason"         exclude (also blocks it from being re-fetched)
+  python scripts/review.py strips [ID ...]         frame-by-frame strips around contact → review/strips/
+  python scripts/review.py frame-ok ID [ID ...]    strip checked: recorded contact is the true contact frame
+  python scripts/review.py shift ID FRAMES         strip checked: true contact is FRAMES away (e.g. -2 = 2 earlier)
+
+The game freezes 2 frames before contact, so it only uses clips whose contact frame
+was checked on a strip (contact_frame_checked), not just on a review sheet.
 
 IDs can be any unique prefix of the play_id.
 """
@@ -42,6 +48,36 @@ def find(plays, prefix):
 
 def unreviewed(plays):
     return [p for p in plays if p.get('clip_file') and not p.get('contact_verified') and not p.get('exclude')]
+
+
+STRIP_OFFSETS = list(range(-8, 4))     # frames around the recorded contact
+
+
+def strips(plays, prefixes):
+    """One image per clip: the 12 frames from 8 before to 3 after the recorded contact,
+    zoomed on the batter, from the processed clip players actually see."""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from PIL import ImageDraw
+    from process_clips import frame
+    out_dir = os.path.join(REVIEW, 'strips')
+    os.makedirs(out_dir, exist_ok=True)
+    todo = [p for p in plays if p.get('clip_file') and not p.get('exclude')
+            and (not prefixes or any(p['play_id'].startswith(x) for x in prefixes))]
+    W, H = 400, 300
+    for n, p in enumerate(todo, 1):
+        sheet = Image.new('RGB', (W * 6, (H + 18) * 2 + 24))
+        g = ImageDraw.Draw(sheet)
+        g.text((6, 6), f"#{n:03d} {p['play_id'][:8]}  {p['batter']} ({p['stand']})", fill=(255, 255, 0))
+        for i, off in enumerate(STRIP_OFFSETS):
+            img = frame(os.path.join(ROOT, 'anticipation', p['clip_file']), p['contact_time'] + off / 60,
+                        # righties stand on the far (right) side of the plate in the center-field view
+                        crop='480:360:560:30' if p['stand'] == 'R' else '480:360:360:30').resize((W, H))
+            x, y = (i % 6) * W, 24 + (i // 6) * (H + 18)
+            sheet.paste(img, (x, y + 18))
+            g.text((x + 6, y + 3), f"{off:+d}f" + ('  <- recorded contact' if off == 0 else ''), fill=(255, 255, 0))
+        name = os.path.join(out_dir, f"{n:03d}_{p['play_id'][:8]}.jpg")
+        sheet.save(name, quality=85)
+    print(f"{len(todo)} strips → review/strips/")
 
 
 def main(argv):
@@ -84,6 +120,20 @@ def main(argv):
         save(plays)
         print(f"{p['batter']}: contact {t:.3f}s — rerun process_clips.py --force --only {p['play_id']} "
               "to refresh its sheet")
+    elif cmd == 'strips':
+        strips(plays, args)
+    elif cmd == 'frame-ok':
+        for prefix in args:
+            find(plays, prefix)['contact_frame_checked'] = True
+        save(plays)
+    elif cmd == 'shift':
+        p = find(plays, args[0])
+        k = int(args[1])
+        p['contact_time'] = round(p['contact_time'] + k / 60, 3)
+        p['contact_raw'] = round(p['contact_raw'] + k / 60, 3)
+        p['contact_frame_checked'] = True
+        save(plays)
+        print(f"{p['batter']}: contact moved {k:+d} frames → {p['contact_time']:.3f}s")
     elif cmd == 'bad':
         p = find(plays, args[0])
         p['exclude'] = True

@@ -26,7 +26,11 @@
     #lead-chart .axis  { fill: var(--muted); font-size: 11px; font-family: Georgia, serif; }
     #lead-chart .chance { stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 4 4; }
     #lead-chart .chance-label { fill: var(--muted); font-size: 11px; font-style: italic; font-family: Georgia, serif; }
-    #lead-chart .baseline { stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 1 4; stroke-linecap: round; }
+    #lead-chart .scout { fill: none; stroke: var(--muted); stroke-width: 2; }
+    .legend { display: flex; gap: 1.25rem; font-size: 0.8rem; color: var(--muted); margin-bottom: 0.4rem; }
+    .legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
+    .legend .lg-dot { fill: var(--accent); }
+    .legend .lg-scout { fill: none; stroke: var(--muted); stroke-width: 2; }
     #lead-chart .ci   { stroke: var(--accent); stroke-width: 2; stroke-linecap: round; }
     #lead-chart .dot  { fill: var(--accent); stroke: var(--bg); stroke-width: 2; }
     #lead-chart .val  { fill: var(--cream); font-size: 12px; font-family: Georgia, serif; }
@@ -62,11 +66,6 @@
   <script src="stats.js"></script>
   <script>
   (() => {
-    const LEADS = [
-      { key: 'release', label: 'At release', note: 'pitch just thrown — control' },
-      { key: 'flight',  label: 'Mid-flight', note: 'ball halfway to the plate' },
-      { key: 'swing',   label: 'Mid-swing',  note: 'bat coming through' },
-    ];
     const EXP = { none: 'Never / casual', youth: 'Youth or high school', college: 'College, pro or coaching' };
     const FRAME = 1 / 60;
     const PLANNED_SESSIONS = 60;   // fixed in advance — see scripts/analyze.py
@@ -88,8 +87,8 @@
     }
 
     function render(rows, plays, base) {
-      // Same quality gates as scripts/analyze.py: no late freezes, first views only
-      // early = how far before the intended freeze the shown frame was: never late, at most 3 frames early
+      // Same quality gates as scripts/analyze.py: the frame shown is never late and at most
+      // 3 frames early; first views only
       const early = r => (r.contact_time - r.lead_s) - r.frozen_at;
       const keep = rows.filter(r => early(r) >= -0.5 * FRAME && early(r) <= 3 * FRAME && !r.repeat);
       const el = document.getElementById('content');
@@ -104,9 +103,24 @@
       const verdict = all.p < 0.05
         ? `Above chance in a simple pooled test (${Stats.fmtP(all.p)}).${interim ? ' Interim — the study isn’t finished.' : ''}`
         : `Not yet distinguishable from chance (pooled test, ${Stats.fmtP(all.p)}).`;
-      const best = base && base.strategies.reduce((a, b) => (b.acc > a.acc ? b : a));
 
-      const byLead = LEADS.map(l => ({ ...l, ...summarize(keep.filter(r => r.lead === l.key)) }));
+      // The scouting report: best strategy that never watches the clip
+      let best = null, scout = null;
+      if (base) {
+        best = base.strategies.reduce((a, b) => (b.acc > a.acc ? b : a));
+        scout = Object.fromEntries(base.per_clip.map(c => [c.play_id, c[`${best.key}/${best.rule}`]]));
+      }
+      const scored = scout ? keep.filter(r => scout[r.play_id]) : [];
+      const reportRight = scored.filter(r => scout[r.play_id] === r.direction);
+      const reportWrong = scored.filter(r => scout[r.play_id] !== r.direction);
+      const groups = [
+        { label: 'All clips', note: 'every first-look trial', ...summarize(keep),
+          scout: scored.length ? reportRight.length / scored.length : null },
+        ...(scout ? [
+          { label: 'Report right', note: 'clips the scouting report calls correctly', ...summarize(reportRight), scout: 1 },
+          { label: 'Report wrong', note: 'clips where hitter tendencies + pitch location point the wrong way', ...summarize(reportWrong), scout: 0 },
+        ] : []),
+      ];
       const byExp = Object.entries(EXP).map(([k, label]) => ({ label, ...summarize(keep.filter(r => r.experience === k)) }));
 
       const clipMap = Object.fromEntries(plays.map(p => [p.play_id, p]));
@@ -126,36 +140,38 @@
         </div>
 
         <h2 class="section">What we’re testing</h2>
+        <p class="note" style="margin-top:0">Every clip freezes two frames (1/30 of a second) before the bat meets the ball.</p>
         <ol class="hyp">
           <li><b>People beat chance.</b> Accuracy above 33%.</li>
-          <li><b>They read the pitch as it happens.</b> Accuracy is higher frozen mid-swing than at release, when only
-            the batter, count and fielders are visible. By mid-flight you can see where the pitch is going, so this
-            gain can come from the pitch, the swing, or both.</li>
-          <li><b>It’s the swing, not just the scouting report.</b> Mid-swing accuracy beats the best strategy that knows
-            the hitter’s tendencies <i>and</i> the pitch location but never watches the swing${best ? ` (${pct(best.acc)} on these clips)` : ''}.
-            That’s the real bar.</li>
+          <li><b>It’s the swing, not the scouting report.</b> On clips where the hitter’s tendencies and the pitch location
+            point the wrong way, people still beat 33%. Someone going on those alone would score <i>below</i> 33% there,
+            so this is the clearest sign they’re reading the swing.</li>
         </ol>
         <p class="note">Fixed before collecting data, along with the sample size, so the result can’t be cherry-picked.
           The official verdict comes from <code>scripts/analyze.py</code>, which uses a mixed model across players and
           clips, so one heavy player or a few easy clips can’t carry it. Numbers on this page are simpler summaries.</p>
 
-        <h2 class="section">Accuracy by when the clip froze</h2>
+        <h2 class="section">People vs the scouting report</h2>
+        <div class="legend">
+          <span><svg width="14" height="14"><circle cx="7" cy="7" r="5" class="lg-dot"/></svg> People (95% interval)</span>
+          <span><svg width="14" height="14"><circle cx="7" cy="7" r="5" class="lg-scout"/></svg> Scouting report, same clips</span>
+        </div>
         <div class="chart-wrap"><svg id="lead-chart" viewBox="0 0 640 280" role="img"
-          aria-label="Accuracy by freeze point with 95% intervals; see table below"></svg>
+          aria-label="Accuracy for all clips and split by whether the scouting report is right; see table below"></svg>
           <div class="tip hidden" id="tip"></div></div>
-        <p class="note">Dots are accuracy, whiskers the 95% interval. “At release” is the control: the swing hasn’t started,
-          so only the batter, count, fielders and pitcher are visible. A rise toward mid-swing means people read the pitch
-          and swing as they happen; clearing the dotted line means more than the scouting report.</p>
-        ${table(['Froze', 'Correct', 'Accuracy', '95% interval', 'vs chance'],
-          byLead.map(r => [r.label, `${r.k}/${r.n}`, r.n ? pct(r.acc) : '—', r.n ? `${pct(r.ci[0])}–${pct(r.ci[1])}` : '—', pcell(r)]))}
+        <p class="note">The scouting report knows each hitter’s 2024 tendencies and the pitch location but never sees the
+          swing. Where it’s wrong it scores zero by definition, so the right-hand dot clearing the dashed 33% line is the
+          clearest evidence of reading the swing.</p>
+        ${table(['Clips', 'Correct', 'Accuracy', '95% interval', 'vs chance'],
+          groups.map(r => [r.label, `${r.k}/${r.n}`, r.n ? pct(r.acc) : '—', r.n ? `${pct(r.ci[0])}–${pct(r.ci[1])}` : '—', pcell(r)]))}
 
         ${base ? `<h2 class="section">Scoring without watching</h2>
         ${table(['Strategy', 'Correct', 'Accuracy'],
           base.strategies.map(st => [st.label, `${st.k}/${st.n}`, pct(st.acc)]))}
         <p class="note">How well someone would do on these ${base.n_clips} clips using only what’s known before the pitch:
           each hitter’s 2024 spray tendencies on similar batted balls, the pitch location, or both. Inside pitches get
-          pulled and hitters have habits, so a lot is predictable before the swing. That is the bar for “reading the
-          swing”, not 33%. Each strategy is scored on just ${base.n_clips} clips, so treat these as ±${Math.round(98 / Math.sqrt(base.n_clips))} points.</p>` : ''}
+          pulled and hitters have habits, so a lot is predictable before the swing. Each strategy is scored on just
+          ${base.n_clips} clips, so treat these as ±${Math.round(98 / Math.sqrt(base.n_clips))} points.</p>` : ''}
 
         <h2 class="section">By playing experience</h2>
         ${table(['Experience', 'Correct', 'Accuracy', '95% interval', 'vs chance'],
@@ -166,9 +182,10 @@
           byClip.map(c => [esc(c.play.batter || '?'), c.play.direction || '', `${c.k}/${c.n}`, pct(c.acc), pcell(c)]))
           : '<p class="note">Clips appear here once they have at least 5 first-look trials.</p>'}
         <p class="note">Per-clip p-values aren’t corrected for testing many clips; <code>scripts/analyze.py</code> applies
-          Benjamini–Hochberg. Trials are excluded if the frame shown was at all late (it could show contact) or more than 3 frames early, or if the player had seen the clip before.</p>
+          Benjamini–Hochberg. Trials are excluded if the frame shown was at all late (it could show contact) or more than
+          3 frames early, or if the player had seen the clip before.</p>
       `;
-      drawChart(byLead, best);
+      drawChart(groups);
     }
 
     function pcell(r) {
@@ -181,7 +198,7 @@
         <tbody>${rows.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
     }
 
-    function drawChart(data, best) {
+    function drawChart(data) {
       const svg = document.getElementById('lead-chart');
       const W = 640, H = 280, m = { l: 44, r: 20, t: 16, b: 44 };
       const y = v => m.t + (1 - v) * (H - m.t - m.b);
@@ -191,17 +208,14 @@
         <text class="axis" x="${m.l - 8}" y="${y(t) + 4}" text-anchor="end">${t * 100}%</text>`).join('');
       s += `<line class="chance" x1="${m.l}" x2="${W - m.r}" y1="${y(1 / 3)}" y2="${y(1 / 3)}"/>
         <text class="chance-label" x="${W - m.r}" y="${y(1 / 3) + 14}" text-anchor="end">chance 33%</text>`;
-      if (best && Math.abs(best.acc - 1 / 3) > 0.02) {
-        s += `<line class="baseline" x1="${m.l}" x2="${W - m.r}" y1="${y(best.acc)}" y2="${y(best.acc)}"/>
-          <text class="chance-label" x="${m.l + 6}" y="${y(best.acc) - 6}">without watching the swing ${pct(best.acc)}</text>`;
-      }
       data.forEach((d, i) => {
         s += `<text class="cat" x="${x(i)}" y="${H - m.b + 20}">${d.label}</text>`;
+        if (d.scout != null) s += `<circle class="scout" cx="${x(i) - 22}" cy="${y(d.scout)}" r="6"/>`;
         if (!d.n) return;
         s += `<line class="ci" x1="${x(i)}" x2="${x(i)}" y1="${y(d.ci[0])}" y2="${y(d.ci[1])}"/>
           <circle class="dot" cx="${x(i)}" cy="${y(d.acc)}" r="6"/>
           <text class="val" x="${x(i) + 12}" y="${y(d.acc) + 4}">${pct(d.acc)}</text>
-          <rect class="hit" data-i="${i}" x="${x(i) - 40}" y="${m.t}" width="80" height="${H - m.t - m.b}"/>`;
+          <rect class="hit" data-i="${i}" x="${x(i) - 50}" y="${m.t}" width="100" height="${H - m.t - m.b}"/>`;
       });
       svg.innerHTML = s;
 
@@ -209,11 +223,11 @@
       svg.querySelectorAll('.hit').forEach(r => {
         r.addEventListener('mouseenter', () => {
           const d = data[+r.dataset.i];
-          tip.innerHTML = `<b>${d.label}</b> — ${d.note}<br>${d.k}/${d.n} correct · ${pct(d.acc)}<br>
-            95% interval ${pct(d.ci[0])}–${pct(d.ci[1])} · ${Stats.fmtP(d.p)}`;
+          tip.innerHTML = `<b>${d.label}</b> — ${d.note}<br>People: ${d.k}/${d.n} correct · ${pct(d.acc)}
+            (95% ${pct(d.ci[0])}–${pct(d.ci[1])})${d.scout != null ? `<br>Scouting report: ${pct(d.scout)}` : ''}`;
           const box = svg.getBoundingClientRect(), scale = box.width / W;
           tip.style.left = `${x(+r.dataset.i) * scale}px`;
-          tip.style.top = `${y(d.ci[1]) * scale}px`;
+          tip.style.top = `${y(Math.max(d.ci[1], d.scout ?? 0)) * scale}px`;
           tip.classList.remove('hidden');
         });
         r.addEventListener('mouseleave', () => tip.classList.add('hidden'));

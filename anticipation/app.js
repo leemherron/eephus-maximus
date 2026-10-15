@@ -15,16 +15,12 @@
   const DIRS   = ['pull', 'center', 'oppo'];
   const LABELS = { pull: 'Pull', center: 'Center', oppo: 'Oppo' };
 
-  // Freeze points, in seconds before bat-ball contact. "release" is the control:
-  // the pitch has barely left the hand, so it shows what a viewer can call from
-  // the batter, count, fielders and pitcher alone. Any gain at "flight" and
-  // "swing" comes from reading the pitch and the swing.
-  // Keep in sync with LEADS in scripts/process_clips.py.
-  // Whole frames at 60fps (24, 12, 6), so the freeze lands exactly on a frame. Mid-swing is 6 frames
-  // (0.1s) rather than fewer: broadcast audio can lag the picture a frame or two, so contact times
-  // found from the crack of the bat may run late; 6 frames keeps a margin against showing contact.
-  const LEADS = { release: 24 / 60, flight: 12 / 60, swing: 6 / 60 };
-  const LEAD_LABELS = { release: 'at release', flight: 'mid-flight', swing: 'mid-swing' };
+  // Every clip freezes 2 frames (at 60fps) before bat meets ball: the swing is all but
+  // finished, the ball hasn't been hit. Contact frames are set by eye, frame by frame
+  // (scripts/review.py), because at 2 frames an error of 2 frames would show contact.
+  // Keep in sync with FREEZE_FRAMES in scripts/process_clips.py and scripts/analyze.py.
+  const FREEZE_FRAMES = 2;
+  const LEAD_NAME = 'pre2';               // logged with each trial
   const PER_DIRECTION = 6;                 // 18 trials per session
   const FRAME = 1 / 60;                    // processed clips are constant 60fps
 
@@ -45,7 +41,7 @@
 
   // ── state ──────────────────────────────────────────────────────────────────
   let allPlays = [];
-  let trials = [];       // [{play, lead}]
+  let trials = [];       // [{play, repeat}]
   let index = 0;
   let score = 0;
   let history = [];
@@ -74,9 +70,9 @@
   fetch('data.json')
     .then(r => r.ok ? r.json() : Promise.reject())
     .then(data => {
-      // Only clips whose contact time was confirmed by eye — a wrong contact
-      // time could freeze after the ball is hit and leak the answer.
-      allPlays = data.filter(p => p.clip_file && p.contact_verified && p.contact_time != null && !p.exclude);
+      // Only clips whose contact frame was checked frame by frame — freezing 2 frames
+      // before contact, an error of 2 frames would show the ball being hit.
+      allPlays = data.filter(p => p.clip_file && p.contact_frame_checked && p.contact_time != null && !p.exclude);
       if (allPlays.length === 0) throw new Error('no clips');
       if (!store.get('rts.exp', null)) $('intake').classList.remove('hidden');
       show('start');
@@ -91,8 +87,7 @@
     });
 
   // ── session ────────────────────────────────────────────────────────────────
-  // Equal clips per direction, and within each direction an equal split of
-  // freeze points, so direction and freeze point are never confounded.
+  // Equal clips per direction, so blind guessing scores exactly 1/3.
   // Clips this player has already seen are used last.
   function buildSession() {
     const seen = new Set(store.get('rts.seen', []));
@@ -100,12 +95,9 @@
       shuffle(allPlays.filter(p => p.direction === d))
         .sort((a, b) => seen.has(a.play_id) - seen.has(b.play_id))]));
     const n = Math.min(PER_DIRECTION, ...DIRS.map(d => byDir[d].length));
-    const leadNames = Object.keys(LEADS);
     const out = [];
     for (const d of DIRS) {
-      const leads = shuffle(Array.from({ length: n }, (_, i) => leadNames[i % leadNames.length]));
-      byDir[d].slice(0, n).forEach((play, i) =>
-        out.push({ play, lead: leads[i], repeat: seen.has(play.play_id) }));
+      byDir[d].slice(0, n).forEach(play => out.push({ play, repeat: seen.has(play.play_id) }));
     }
     return shuffle(out);
   }
@@ -201,15 +193,15 @@
     video.pause();
     frozenAt = video.currentTime;
     freezeClock = performance.now();
-    $('freeze-tag').textContent = `Frozen ${LEAD_LABELS[trials[index].lead]}`;
+    $('freeze-tag').textContent = 'Frozen just before contact';
     $('freeze-tag').classList.remove('hidden');
     $('prompt').textContent = 'Where will it go?';
     setButtonsEnabled(true);
   }
 
   function startFreezeMonitor() {
-    const { play, lead } = trials[index];
-    const target = play.contact_time - LEADS[lead];
+    const { play } = trials[index];
+    const target = play.contact_time - FREEZE_FRAMES * FRAME;
     const useVFC = 'requestVideoFrameCallback' in video;
 
     const tick = (_now, meta) => {
@@ -237,13 +229,13 @@
   function guess(chosen) {
     if (guessed || !frozen) return;
     guessed = true;
-    const { play, lead, repeat } = trials[index];
+    const { play, repeat } = trials[index];
     const correct = play.direction;
     const isRight = chosen === correct;
     if (isRight) score++;
-    history.push({ play, lead, chosen, isRight });
+    history.push({ play, chosen, isRight });
     logTrial({
-      play_id: play.play_id, lead, lead_s: +LEADS[lead].toFixed(4), guess: chosen, direction: correct,
+      play_id: play.play_id, lead: LEAD_NAME, lead_s: +(FREEZE_FRAMES * FRAME).toFixed(4), guess: chosen, direction: correct,
       correct: isRight, rt_ms: Math.round(performance.now() - freezeClock),
       frozen_at: +frozenAt.toFixed(3), contact_time: play.contact_time, repeat,
     });
@@ -404,12 +396,11 @@
         (fooled.length ? ` On the ${fooled.length} it got wrong, you got ${youOnFooled}.` : '');
     }
 
-    // Accuracy by freeze point is the point of the experiment
-    $('breakdown-table').innerHTML = Object.keys(LEADS).map(l => {
-      const rows = history.filter(h => h.lead === l);
+    $('breakdown-table').innerHTML = DIRS.map(d => {
+      const rows = history.filter(h => h.play.direction === d);
       const hits = rows.filter(h => h.isRight).length;
       return `<div class="breakdown-row">
-        <span class="dir">Frozen ${LEAD_LABELS[l]}</span>
+        <span class="dir">Went ${LABELS[d].toLowerCase()}</span>
         <span class="hits">${rows.length ? `${hits}/${rows.length}` : '—'}</span>
       </div>`;
     }).join('');
@@ -417,8 +408,7 @@
     $('history-list').innerHTML = history.map(h => `
       <div class="history-row ${h.isRight ? 'ok' : 'miss'}">
         <span>${h.isRight ? '✓' : '✗'} ${h.play.batter}</span>
-        <span class="muted">${h.isRight ? LABELS[h.chosen] : `${LABELS[h.chosen]} → ${LABELS[h.play.direction]}`}
-          · ${LEAD_LABELS[h.lead]}</span>
+        <span class="muted">${h.isRight ? LABELS[h.chosen] : `${LABELS[h.chosen]} → ${LABELS[h.play.direction]}`}</span>
       </div>`).join('');
 
     show('complete');
